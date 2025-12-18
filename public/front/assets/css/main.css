@@ -849,7 +849,6 @@
 .matches-slider-section {
   background-color: var(--color-off-white);
   padding: var(--spacing-xlarge) 0;
-  border-bottom: 1px solid var(--color-border);
 }
 
 .matches-slider-container {
@@ -1007,6 +1006,93 @@
 .status-upcoming {
   background-color: var(--color-primary-light);
   color: var(--color-white);
+}
+
+/* Reklam Banner Bölümü */
+.ad-banner-section {
+  background-color: var(--color-off-white);
+  padding:0  0 var(--spacing-xlarge) 0;
+}
+
+.ad-banner-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.ad-banner-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ad-banner-link {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.ad-banner-link:hover {
+  opacity: 0.9;
+}
+
+.ad-banner-content {
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  position: relative;
+}
+
+.ad-banner-label {
+  position: absolute;
+  top: var(--spacing-small);
+  right: var(--spacing-small);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  padding: 4px var(--spacing-small);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: var(--color-white);
+  border-radius: var(--border-radius-small);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  z-index: 10;
+}
+
+.ad-banner-label i {
+  font-size: 10px;
+}
+
+.ad-banner-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Reklam Banner Responsive */
+@media (max-width: 768px) {
+  .ad-banner-section {
+    padding: var(--spacing-large) 0;
+  }
+
+  .ad-banner-container {
+    padding: 0 var(--spacing-medium);
+  }
+}
+
+@media (max-width: 480px) {
+  .ad-banner-section {
+    padding: var(--spacing-medium) 0;
+  }
+
+  .ad-banner-label {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
 }
 
 @keyframes pulse {
