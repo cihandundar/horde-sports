@@ -22,6 +22,12 @@
     /* Border & UI */
     --color-border: #e5e5e5;
     --color-shadow: rgba(0, 0, 0, 0.15);
+    --border-radius: 8px;
+    --border-radius-small: 4px;
+    --spacing-small: 8px;
+    --spacing-medium: 16px;
+    --spacing-large: 24px;
+    --spacing-xlarge: 40px;
   }
 
 
@@ -74,11 +80,56 @@
   align-items: center;
 }
 
+/* Header Auth Linkler */
+.header-auth-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-medium);
+}
+
+.header-auth-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  padding: 10px var(--spacing-medium);
+  border-radius: var(--border-radius-small);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.header-login-link {
+  color: var(--color-text-primary);
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+}
+
+.header-login-link:hover {
+  background-color: var(--color-off-white);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.header-register-link {
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.header-register-link:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.header-auth-link i {
+  font-size: 14px;
+}
+
 /* Footer Bölümü */
 .footer {
   background-color: var(--color-secondary);
   color: var(--color-text-on-primary);
-  margin-top: 60px;
 }
 
 .footer-container {
@@ -284,4 +335,207 @@
 .footer-separator {
   color: var(--color-text-muted);
   font-size: 14px;
+}
+
+/* Auth (Login/Register) Sayfaları */
+.auth-page {
+  min-height: calc(100vh - 160px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xlarge) var(--spacing-medium);
+  background-color: var(--color-off-white);
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 480px;
+}
+
+.auth-card {
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px var(--color-shadow);
+  padding: var(--spacing-xlarge);
+}
+
+/* Auth Başlık Bölümü */
+.auth-card .title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-bottom: var(--spacing-small);
+}
+
+.auth-subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-bottom: var(--spacing-xlarge);
+}
+
+/* Auth Form Bölümü */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-large);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small);
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+}
+
+.form-label i {
+  font-size: 14px;
+  color: var(--color-primary);
+}
+
+.form-input {
+  padding: 14px var(--spacing-medium);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-small);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  background-color: var(--color-white);
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(107, 31, 31, 0.1);
+}
+
+.form-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.form-error {
+  font-size: 12px;
+  color: #dc3545;
+  margin-top: -4px;
+}
+
+/* Form Seçenekleri */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  cursor: pointer;
+}
+
+.checkbox-input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}
+
+.checkbox-text {
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+
+.forgot-link {
+  font-size: 14px;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+/* Auth Butonu */
+.auth-button {
+  padding: 14px var(--spacing-medium);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--border-radius-small);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-small);
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.auth-button i {
+  font-size: 16px;
+}
+
+/* Auth Ayırıcı */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: var(--spacing-xlarge) 0;
+  text-align: center;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+.auth-divider span {
+  padding: 0 var(--spacing-medium);
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* Auth Footer */
+.auth-footer {
+  text-align: center;
+  padding-top: var(--spacing-large);
+}
+
+.auth-footer-text {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-small);
+}
+
+.auth-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.auth-link:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
 }
