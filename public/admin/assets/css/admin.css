@@ -59,7 +59,7 @@ body {
     position: relative;
 }
 
-/* Sidebar overlay - Mobilde sidebar açıkken arka planı karart */
+/* Sidebar overlay - Sidebar açıkken arka planı karart */
 .sidebar-overlay {
     position: fixed;
     top: 0;
@@ -67,47 +67,44 @@ body {
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
+    z-index: 1000;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     pointer-events: none;
 }
 
+/* Sidebar açıkken overlay aktif - içeriğin üstünde, sidebar'ın altında */
 .sidebar-overlay.active {
     opacity: 1;
     visibility: visible;
     pointer-events: all;
 }
 
-/* Menu Sidebar - Mobile-first: Mobilde varsayılan kapalı (sadece ikonlar), desktop'ta açık */
+/* Menu Sidebar - Varsayılan olarak gizli, toggle ile açılır (absolute davranış) */
 .menu-sidebar {
     background-color: var(--color-secondary);
     color: var(--color-text-on-primary);
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
-    width: 80px;
-    z-index: 1000;
+    width: 250px;
+    z-index: 1001;
     overflow-y: auto;
     overflow-x: hidden;
-    transition: width 0.3s ease, transform 0.3s ease;
+    transition: transform 0.3s ease;
+    transform: translateX(-100%);
+    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Sidebar açıkken görünür */
+.menu-sidebar.active {
     transform: translateX(0);
 }
 
-/* Sidebar açıkken genişlik artar (desktop ve açık mobil) */
-.menu-sidebar.active,
-.menu-sidebar:not(.collapsed) {
-    width: 250px;
-}
-
-/* Sidebar kapalıyken sadece ikonlar görünür */
-.menu-sidebar.collapsed {
-    width: 80px;
-}
 
 .sidebar-header {
     padding: var(--spacing-large);
@@ -250,23 +247,15 @@ body {
     justify-content: center;
 }
 
-/* Admin Main Wrapper - Mobile-first: Sidebar fixed olduğu için margin-left ile yer açılır */
+/* Admin Main Wrapper - Sidebar her zaman absolute/fixed olduğu için içerik tam genişlikte */
 .admin-main-wrapper {
     display: flex;
     flex-direction: column;
-    margin-left: 80px;
-    transition: margin-left 0.3s ease;
-    width: calc(100% - 80px);
+    width: 100%;
+    margin-left: 0;
 }
 
-/* Sidebar açıkken (desktop veya aktif mobil) main wrapper daha fazla margin alır */
-.menu-sidebar.active ~ .admin-main-wrapper,
-.menu-sidebar:not(.collapsed) ~ .admin-main-wrapper {
-    margin-left: 250px;
-    width: calc(100% - 250px);
-}
-
-/* Admin Header - Mobile-first: Sol tarafta hamburger, sağda kullanıcı bilgisi */
+/* Admin Header - Sol tarafta toggle, sağda kullanıcı bilgisi */
 .admin-header {
     background-color: var(--color-white);
     border-bottom: 1px solid var(--color-border);
@@ -281,9 +270,11 @@ body {
     z-index: 998;
 }
 
-/* Hamburger Menu Toggle Button */
+/* Sidebar Toggle Button - Header'da sol tarafta */
 .sidebar-toggle {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: none;
     border: none;
     color: var(--color-text-primary);
@@ -292,6 +283,8 @@ body {
     padding: var(--spacing-small);
     border-radius: var(--border-radius-small);
     transition: background-color 0.3s ease;
+    width: 40px;
+    height: 40px;
 }
 
 .sidebar-toggle:hover {
@@ -302,6 +295,7 @@ body {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
 }
+
 
 .header-right {
     display: flex;
@@ -779,66 +773,19 @@ body {
     }
 }
 
-/* Desktop - Sidebar varsayılan olarak açık */
+/* Desktop - Sidebar toggle her zaman görünür, sidebar açıldığında absolute davranır */
 @media (min-width: 1024px) {
-    .menu-sidebar {
-        width: 250px;
-    }
-    
-    .menu-sidebar.collapsed {
-        width: 80px;
-    }
-    
-    .admin-main-wrapper {
-        margin-left: 250px;
-        width: calc(100% - 250px);
-    }
-    
-    .menu-sidebar.collapsed ~ .admin-main-wrapper {
-        margin-left: 80px;
-        width: calc(100% - 80px);
-    }
-    
-    /* Desktop'ta hamburger butonu gizlenir */
     .sidebar-toggle {
-        display: none;
+        display: flex;
     }
 }
 
-/* Mobil - Sidebar varsayılan olarak kapalı (sadece ikonlar) */
+/* Mobil - Sidebar toggle her zaman görünür, sidebar açıldığında absolute davranır */
 @media (max-width: 1023px) {
-    /* Hamburger butonu görünür */
     .sidebar-toggle {
-        display: block;
+        display: flex;
     }
     
-    /* Mobilde sidebar varsayılan olarak kapalı (collapsed) */
-    .menu-sidebar {
-        width: 80px;
-        transform: translateX(0);
-    }
-    
-    /* Mobilde sidebar açıkken (active) tam genişlik */
-    .menu-sidebar.active {
-        width: 250px;
-        transform: translateX(0);
-    }
-    
-    /* Mobilde sidebar overlay gösterilir */
-    .menu-sidebar.active ~ .sidebar-overlay {
-        display: block;
-    }
-    
-    /* Mobilde main wrapper sidebar genişliğine göre ayarlanır */
-    .admin-main-wrapper {
-        margin-left: 80px;
-        width: calc(100% - 80px);
-    }
-    
-    .menu-sidebar.active ~ .admin-main-wrapper {
-        margin-left: 250px;
-        width: calc(100% - 250px);
-    }
     
     /* Mobilde stats grid tek sütun */
     .stats-grid {

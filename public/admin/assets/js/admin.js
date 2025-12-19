@@ -91,64 +91,43 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuSidebar = document.querySelector('.menu-sidebar');
     const sidebarOverlay = document.querySelector('.sidebar-overlay');
     
-    // Sidebar başlangıç durumunu ayarla (desktop'ta açık, mobilde kapalı)
-    function initSidebarState() {
-        if (window.innerWidth >= 1024) {
-            // Desktop: Varsayılan olarak açık (active class'ı eklenmez, CSS'te zaten açık)
-            menuSidebar.classList.remove('active', 'collapsed');
-        } else {
-            // Mobil: Varsayılan olarak kapalı (sadece ikonlar - collapsed)
-            menuSidebar.classList.add('collapsed');
-            menuSidebar.classList.remove('active');
-        }
-    }
-    
-    // İlk yüklemede sidebar durumunu ayarla
-    initSidebarState();
+    // Sidebar varsayılan olarak kapalı (gizli)
+    // Her zaman kapalı başlar, toggle ile açılır
     
     if (sidebarToggle && menuSidebar) {
-        // Hamburger butonuna tıklandığında sidebar'ı aç/kapat
+        // Toggle butonuna tıklandığında sidebar'ı aç/kapat
         sidebarToggle.addEventListener('click', function(e) {
             e.stopPropagation();
             menuSidebar.classList.toggle('active');
-            menuSidebar.classList.remove('collapsed');
             
-            // Overlay'i aç/kapat (mobilde)
-            if (sidebarOverlay && window.innerWidth < 1024) {
+            // Sidebar açılıyorsa overlay göster, kapanıyorsa gizle
+            if (sidebarOverlay) {
                 if (menuSidebar.classList.contains('active')) {
                     sidebarOverlay.classList.add('active');
                 } else {
                     sidebarOverlay.classList.remove('active');
-                    menuSidebar.classList.add('collapsed');
                 }
             }
         });
         
-        // Overlay'e tıklandığında sidebar'ı kapat (mobilde)
+        // Overlay'e tıklandığında sidebar'ı kapat
         if (sidebarOverlay) {
             sidebarOverlay.addEventListener('click', function() {
                 menuSidebar.classList.remove('active');
-                menuSidebar.classList.add('collapsed');
                 sidebarOverlay.classList.remove('active');
             });
         }
         
-        // Window resize'da desktop/mobil geçişi kontrol et
-        function handleResize() {
-            if (window.innerWidth >= 1024) {
-                // Desktop'a geçildiğinde
-                menuSidebar.classList.remove('active', 'collapsed');
-                if (sidebarOverlay) {
-                    sidebarOverlay.classList.remove('active');
-                }
-            } else {
-                // Mobil'e geçildiğinde
-                if (!menuSidebar.classList.contains('active')) {
-                    menuSidebar.classList.add('collapsed');
+        // Sidebar dışına tıklandığında sidebar'ı kapat (sadece açıkken)
+        document.addEventListener('click', function(e) {
+            if (menuSidebar.classList.contains('active')) {
+                if (!menuSidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                    menuSidebar.classList.remove('active');
+                    if (sidebarOverlay) {
+                        sidebarOverlay.classList.remove('active');
+                    }
                 }
             }
-        }
-        
-        window.addEventListener('resize', handleResize);
+        });
     }
 });
