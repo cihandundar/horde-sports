@@ -35,6 +35,29 @@
             </div>
         </nav>
         <div class="header-right">
+            <!-- Arama Bölümü -->
+            <div class="header-search">
+                <button class="search-toggle" type="button" aria-label="Ara">
+                    <i class="fas fa-search"></i>
+                </button>
+                <div class="search-overlay">
+                    <div class="search-panel">
+                        <div class="search-container">
+                            <form class="search-form" action="#" method="GET">
+                                <div class="search-input-wrapper">
+                                    <input type="text" class="search-input" placeholder="Ara..." name="q" autocomplete="off" reqired>
+                                    <button type="submit" class="search-submit-btn" aria-label="Ara">
+                                        <i class="fas fa-search search-icon"></i>
+                                    </button>
+                                </div>
+                                <button type="button" class="search-close" aria-label="Kapat">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="header-user-dropdown desktop-only">
                 <button class="user-dropdown-toggle" type="button" aria-label="Kullanıcı menüsü">
                     <i class="fas fa-user"></i>

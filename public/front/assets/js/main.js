@@ -1,3 +1,62 @@
+// Arama Açma/Kapama İşlevi
+document.addEventListener('DOMContentLoaded', function() {
+    const searchToggle = document.querySelector('.search-toggle');
+    const searchContainer = document.querySelector('.header-search');
+    const searchOverlay = document.querySelector('.search-overlay');
+    const searchInput = document.querySelector('.search-input');
+    const searchClose = document.querySelector('.search-close');
+
+    if (searchToggle && searchContainer && searchOverlay) {
+        // Arama ikonuna tıklanınca arama overlay'ini aç
+        searchToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            searchContainer.classList.add('active');
+            // Input'a focus ver
+            setTimeout(function() {
+                if (searchInput) {
+                    searchInput.focus();
+                }
+            }, 100);
+        });
+
+        // Kapat butonuna tıklanınca arama overlay'ini kapat
+        if (searchClose) {
+            searchClose.addEventListener('click', function() {
+                searchContainer.classList.remove('active');
+            });
+        }
+
+        // Overlay'e tıklanınca (ama panel'e değil) arama overlay'ini kapat
+        searchOverlay.addEventListener('click', function(e) {
+            const searchPanel = document.querySelector('.search-panel');
+            if (e.target === searchOverlay && !searchPanel.contains(e.target)) {
+                searchContainer.classList.remove('active');
+            }
+        });
+
+        // ESC tuşuna basınca arama overlay'ini kapat
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && searchContainer.classList.contains('active')) {
+                searchContainer.classList.remove('active');
+            }
+        });
+
+        // Form submit edildiğinde arama işlemi
+        const searchForm = document.querySelector('.search-form');
+        if (searchForm) {
+            searchForm.addEventListener('submit', function(e) {
+                const searchValue = searchInput.value.trim();
+                // Eğer arama değeri boşsa form submit edilmesin
+                if (searchValue === '') {
+                    e.preventDefault();
+                    return false;
+                }
+                // Form submit edilecek, normal form davranışı devam edecek
+            });
+        }
+    }
+});
+
 // User Dropdown Açma/Kapama İşlevi
 document.addEventListener('DOMContentLoaded', function() {
     const dropdownToggle = document.querySelector('.user-dropdown-toggle');
