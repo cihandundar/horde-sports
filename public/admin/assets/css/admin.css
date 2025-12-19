@@ -321,10 +321,57 @@ body {
     padding: var(--spacing-xlarge);
 }
 
+/* Activity List */
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-medium);
+}
+
+.activity-item {
+    padding: var(--spacing-medium);
+    background-color: var(--color-light-gray);
+    border-radius: var(--border-radius-small);
+    border-left: 3px solid var(--color-primary);
+}
+
+.activity-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.activity-meta {
+    display: flex;
+    gap: var(--spacing-medium);
+    font-size: 12px;
+    color: var(--color-text-muted);
+    flex-wrap: wrap;
+}
+
+.activity-category {
+    padding: 2px 8px;
+    background-color: var(--color-primary);
+    color: var(--color-text-on-primary);
+    border-radius: var(--border-radius-small);
+    font-size: 11px;
+}
+
+.activity-author::before {
+    content: "• ";
+    margin-right: 4px;
+}
+
+.activity-date::before {
+    content: "• ";
+    margin-right: 4px;
+}
+
 /* Quick Actions */
 .quick-actions {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: var(--spacing-medium);
 }
 
