@@ -6,6 +6,15 @@
 --- genelde GRİD template-column rows kullan grid-column span lara böl ÇOK SIKIŞIRSAN FLEX KULLAN YAPILARI BÖLERKEN
 Görselleri unplashtan al
 
+## 🎨 CSS LAYOUT KURALLARI
+
+### Grid Kullanımı ve Sayfa Bölme
+- ✅ **12 kolonlu grid sistemi kullan** - Sayfa bölmeleri için `grid-template-columns: repeat(12, 1fr)` kullan
+- ✅ **grid-column span ile böl** - Örnek: `grid-column: span 2` (2 kolon kaplar), `grid-column: span 10` (10 kolon kaplar)
+- ✅ **Grid ile sayfa yapısını oluştur** - Sidebar, main content gibi bölümleri grid-column span ile ayır
+- ✅ **Çok sıkışırsan flex kullan** - Grid yeterli olmadığında flexbox kullanılabilir
+- ✅ **Grid yapısını koru** - Mevcut grid yapısını bozmadan çalış
+
 ## 📝 HTML ETİKET KURALLARI
 
 ### Başlık Etiketleri (H1-H6)
@@ -30,6 +39,8 @@ Görselleri unplashtan al
 - ✅ **CSS root değişkenlerini kullan** - Renkler, border, shadow gibi tekrar eden değerler için CSS `:root` değişkenleri kullan
 - ✅ **Tekrar eden değerleri root'a ekle** - Çok tekrar edecek CSS değerleri (renkler, border-radius, shadow, spacing vb.) mutlaka root'a eklenmeli
 - ✅ **Sadece px kullan** - CSS'te rem, em, vh, vw gibi birimler kullanma, sadece **px (piksel)** kullan
+- ✅ **12 kolonlu grid sistemi kullan** - Sayfa bölmeleri için `grid-template-columns: repeat(12, 1fr)` kullan
+- ✅ **grid-column span ile böl** - Örnek: Sidebar `span 2`, Main content `span 10`
 
 ### 3. Yorum Satırları
 - ✅ **Tüm yorumlar Türkçe olmalı** - Uygulanan her değişiklik yorum satırlarında Türkçe olarak açıklanmalı
@@ -114,6 +125,7 @@ Görselleri unplashtan al
 10. ✅ FontAwesome ikonları kullan
 11. ✅ Her sayfada sadece bir H1 kullan (`.title` class'ı ile)
 12. ✅ H2-H6 etiketleri kullanma, bunun yerine `.section-title` class'ı kullan
+13. ✅ 12 kolonlu grid sistemi kullan ve grid-column span ile sayfa böl
 
 ### ❌ Asla Yapılmayacaklar
 1. ❌ Frontend framework kullanma (React, Vue, Angular, Next.js)

@@ -56,7 +56,12 @@ class AuthController extends Controller
             // Session yenileme (güvenlik için)
             $request->session()->regenerate();
 
-            // Ana sayfaya yönlendir
+            // Admin ise dashboard'a, değilse ana sayfaya yönlendir
+            if (Auth::user()->isAdmin()) {
+                return redirect()->route('admin.dashboard')->with('success', 'Admin paneline hoş geldiniz!');
+            }
+
+            // Normal kullanıcıları ana sayfaya yönlendir
             return redirect()->route('home')->with('success', 'Giriş başarılı! Hoş geldiniz.');
         }
 
