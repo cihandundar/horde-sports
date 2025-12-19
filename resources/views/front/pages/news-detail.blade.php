@@ -46,7 +46,7 @@
     <!-- İlgili Haberler -->
     @if($relatedNews->count() > 0)
     <section class="related-news-section">
-        <h2 class="section-title">İlgili Haberler</h2>
+        <div class="section-title">İlgili Haberler</div>
         <div class="related-news-grid">
             @foreach($relatedNews as $item)
             <article class="related-news-card">
@@ -66,13 +66,13 @@
                         <i class="fas fa-tag"></i>
                         {{ $item->category->name }}
                     </div>
-                    <h3 class="related-news-title">
+                    <div class="related-news-title">
                         @if($item->slug)
                             <a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a>
                         @else
                             {{ $item->title }}
                         @endif
-                    </h3>
+                    </div>
                     <p class="related-news-excerpt">{{ Str::limit(strip_tags($item->content), 100) }}</p>
                     <div class="related-news-meta">
                         <span class="related-news-author">

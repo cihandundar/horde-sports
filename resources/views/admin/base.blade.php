@@ -10,6 +10,9 @@
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Sidebar Overlay - Mobilde sidebar açıkken arka planı karartmak için -->
+    <div class="sidebar-overlay"></div>
+    
     <div class="admin-layout">
         @include('admin.partials.menu-sidebar')
         

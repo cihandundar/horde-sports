@@ -22,12 +22,17 @@
     /* Border & UI */
     --color-border: #e5e5e5;
     --color-shadow: rgba(0, 0, 0, 0.15);
+    --color-shadow-hover: rgba(0, 0, 0, 0.25);
     --border-radius: 8px;
     --border-radius-small: 4px;
+    --spacing-xs: 4px;
     --spacing-small: 8px;
     --spacing-medium: 16px;
     --spacing-large: 24px;
     --spacing-xlarge: 40px;
+  
+    /* Additional Colors */
+    --color-light-gray: #e0e0e0;
   }
 
 
@@ -1440,10 +1445,15 @@
 }
 
 /* Blog Grid */
+/* Blog Grid - 12 kolonlu grid sistemi */
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   gap: var(--spacing-large);
+}
+
+.blog-card {
+  grid-column: span 4; /* Desktop: 3 sütun (12/4=3) */
 }
 
 /* Blog Card */
@@ -1597,9 +1607,8 @@
 
 /* Blog Section Responsive */
 @media (max-width: 1024px) {
-  .blog-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-medium);
+  .blog-card {
+    grid-column: span 6; /* Tablet: 2 sütun (12/6=2) */
   }
 
   .blog-image-wrapper {
@@ -1624,9 +1633,8 @@
     font-size: 24px;
   }
 
-  .blog-grid {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-large);
+  .blog-card {
+    grid-column: span 12; /* Mobil: 1 sütun (12/12=1) */
   }
 
   .blog-image-wrapper {
@@ -1688,14 +1696,16 @@
   padding: var(--spacing-xlarge) var(--spacing-large);
 }
 
+/* News Grid - 12 kolonlu grid sistemi */
 .news-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(12, 1fr);
   gap: var(--spacing-large);
   margin-top: var(--spacing-xlarge);
 }
 
 .news-card {
+  grid-column: span 4; /* Desktop: 3 sütun (12/4=3) */
   background-color: var(--color-white);
   border-radius: var(--border-radius);
   overflow: hidden;
@@ -1767,15 +1777,16 @@
   font-size: 12px;
 }
 
-/* Yazarlar Grid */
+/* Yazarlar Grid - 12 kolonlu grid sistemi */
 .authors-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(12, 1fr);
   gap: var(--spacing-large);
   margin-top: var(--spacing-xlarge);
 }
 
 .author-card {
+  grid-column: span 3; /* Desktop: 4 sütun (12/3=4) */
   background-color: var(--color-white);
   border-radius: var(--border-radius);
   padding: var(--spacing-large);
@@ -2032,13 +2043,15 @@
   margin-bottom: var(--spacing-large);
 }
 
+/* Related News Grid - 12 kolonlu grid sistemi */
 .related-news-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(12, 1fr);
   gap: var(--spacing-large);
 }
 
 .related-news-card {
+  grid-column: span 4; /* Desktop: 3 sütun (12/4=3) */
   background-color: var(--color-white);
   border-radius: var(--border-radius);
   overflow: hidden;
@@ -2275,10 +2288,23 @@
 }
 
 /* Responsive */
+/* News Grid ve Authors Grid Responsive - 12 kolonlu grid sistemi */
+@media (max-width: 1024px) {
+  .news-card,
+  .related-news-card {
+    grid-column: span 6; /* Tablet: 2 sütun (12/6=2) */
+  }
+  
+  .author-card {
+    grid-column: span 4; /* Tablet: 3 sütun (12/4=3) */
+  }
+}
+
 @media (max-width: 768px) {
-  .news-grid,
-  .authors-grid {
-    grid-template-columns: 1fr;
+  .news-card,
+  .author-card,
+  .related-news-card {
+    grid-column: span 12; /* Mobil: 1 sütun (12/12=1) */
   }
   
   .category-page,
@@ -2307,9 +2333,7 @@
     gap: var(--spacing-small);
   }
 
-  .related-news-grid {
-    grid-template-columns: 1fr;
-  }
+  /* related-news-grid zaten yukarıda span 12 olarak ayarlandı */
 
   .author-detail-header {
     grid-template-columns: 1fr;
@@ -2319,6 +2343,224 @@
   .author-detail-photo,
   .author-detail-photo-placeholder {
     margin: 0 auto;
+  }
+}
+
+/* 404 Error Page - 12 kolonlu grid sistemi */
+.error-page {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xlarge) var(--spacing-medium);
+  background-color: var(--color-off-white);
+}
+
+.error-container {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--spacing-large);
+}
+
+/* 404 Kodu ve İkon Wrapper */
+.error-code-wrapper {
+  grid-column: span 12;
+  position: relative;
+  margin-bottom: var(--spacing-medium);
+}
+
+.error-code {
+  font-size: 120px;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+  margin-bottom: var(--spacing-medium);
+}
+
+.error-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 60px;
+  color: var(--color-white);
+  opacity: 0.3;
+}
+
+/* Hata Başlığı */
+.error-page .title {
+  grid-column: span 12;
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-medium);
+}
+
+/* Hata Açıklaması */
+.error-description {
+  grid-column: span 12;
+  margin-bottom: var(--spacing-xlarge);
+}
+
+.error-description p {
+  font-size: 18px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-small);
+}
+
+/* Hata Butonları */
+.error-actions {
+  grid-column: span 12;
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-medium);
+  margin-bottom: var(--spacing-xlarge);
+  flex-wrap: wrap;
+}
+
+.error-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  padding: 14px 32px;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.error-btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+.error-btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--color-shadow-hover);
+}
+
+.error-btn-secondary {
+  background-color: var(--color-white);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.error-btn-secondary:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--color-shadow-hover);
+}
+
+/* Popüler Linkler */
+.error-links {
+  grid-column: span 12;
+  margin-top: var(--spacing-large);
+}
+
+.error-links-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-large);
+}
+
+.error-links-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--spacing-medium);
+  justify-content: center;
+}
+
+.error-link-item {
+  grid-column: span 4; /* Desktop: 3 sütun (12/4=3) */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-small);
+  padding: var(--spacing-large);
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  color: var(--color-text-primary);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px var(--color-shadow);
+  border: 1px solid var(--color-border);
+}
+
+.error-link-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px var(--color-shadow-hover);
+  border-color: var(--color-primary);
+}
+
+.error-link-item i {
+  font-size: 32px;
+  color: var(--color-primary);
+}
+
+.error-link-item span {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* 404 Error Page Responsive */
+@media (max-width: 768px) {
+  .error-code {
+    font-size: 80px;
+  }
+
+  .error-icon {
+    font-size: 40px;
+  }
+
+  .error-page .title {
+    font-size: 28px;
+  }
+
+  .error-description p {
+    font-size: 16px;
+  }
+
+  .error-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .error-btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .error-links-grid {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .error-link-item {
+    grid-column: span 12; /* Mobil: 1 sütun (12/12=1) */
+  }
+}
+
+@media (max-width: 480px) {
+  .error-code {
+    font-size: 60px;
+  }
+
+  .error-icon {
+    font-size: 30px;
+  }
+
+  .error-page .title {
+    font-size: 24px;
   }
 }
 

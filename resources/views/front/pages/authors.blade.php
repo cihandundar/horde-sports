@@ -25,7 +25,7 @@ Yazarlar - Horde Sports
                 </div>
             @endif
             <div class="author-info">
-                <h2 class="author-name">{{ $author->name }}</h2>
+                <div class="author-name">{{ $author->name }}</div>
                 @if($author->bio)
                     <p class="author-bio">{{ Str::limit(strip_tags($author->bio), 100) }}</p>
                 @endif

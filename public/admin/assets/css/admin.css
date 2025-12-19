@@ -51,29 +51,69 @@ body {
     color: var(--color-text-primary);
 }
 
-/* Admin Layout - Grid yapısı: sidebar + main wrapper */
+/* Admin Layout - Mobile-first yaklaşımı */
 .admin-layout {
-    display: grid;
-    grid-template-columns: repeat(12,1fr);
+    display: block;
     min-height: 100vh;
     width: 100%;
+    position: relative;
 }
 
-/* Menu Sidebar - Sol tarafta menü */
+/* Sidebar overlay - Mobilde sidebar açıkken arka planı karart */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+/* Menu Sidebar - Mobile-first: Mobilde varsayılan kapalı (sadece ikonlar), desktop'ta açık */
 .menu-sidebar {
     background-color: var(--color-secondary);
     color: var(--color-text-on-primary);
     display: flex;
     flex-direction: column;
     height: 100%;
-    grid-column: span 2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80px;
     z-index: 1000;
     overflow-y: auto;
+    overflow-x: hidden;
+    transition: width 0.3s ease, transform 0.3s ease;
+    transform: translateX(0);
+}
+
+/* Sidebar açıkken genişlik artar (desktop ve açık mobil) */
+.menu-sidebar.active,
+.menu-sidebar:not(.collapsed) {
+    width: 250px;
+}
+
+/* Sidebar kapalıyken sadece ikonlar görünür */
+.menu-sidebar.collapsed {
+    width: 80px;
 }
 
 .sidebar-header {
     padding: var(--spacing-large);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .sidebar-logo {
@@ -81,6 +121,17 @@ body {
     font-weight: 700;
     color: var(--color-text-on-primary);
     margin-bottom: var(--spacing-small);
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Sidebar kapalıyken logo ve subtitle gizlenir */
+.menu-sidebar.collapsed .sidebar-logo,
+.menu-sidebar.collapsed .sidebar-subtitle {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
 }
 
 .sidebar-subtitle {
@@ -88,6 +139,7 @@ body {
     color: rgba(255, 255, 255, 0.7);
     text-transform: uppercase;
     letter-spacing: 1px;
+    transition: opacity 0.3s ease;
 }
 
 .sidebar-nav {
@@ -112,6 +164,8 @@ body {
     text-decoration: none;
     transition: all 0.3s ease;
     border-left: 3px solid transparent;
+    white-space: nowrap;
+    position: relative;
 }
 
 .nav-link:hover {
@@ -126,9 +180,30 @@ body {
 }
 
 .nav-link i {
-    width: 20px;
+    width: 24px;
+    min-width: 24px;
     margin-right: var(--spacing-medium);
     text-align: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.nav-link span {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Sidebar kapalıyken metin gizlenir, sadece ikonlar görünür */
+.menu-sidebar.collapsed .nav-link span {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+/* Sidebar kapalıyken nav-link justify center olur (ikonlar ortada) */
+.menu-sidebar.collapsed .nav-link {
+    justify-content: center;
+    padding: var(--spacing-medium);
 }
 
 .sidebar-footer {
@@ -144,6 +219,7 @@ body {
     text-decoration: none;
     border-radius: var(--border-radius-small);
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 .sidebar-link:hover {
@@ -153,25 +229,78 @@ body {
 
 .sidebar-link i {
     margin-right: var(--spacing-medium);
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
 }
 
-/* Admin Main Wrapper - Sidebar'dan sonraki alan */
+.sidebar-link span {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Sidebar kapalıyken metin gizlenir */
+.menu-sidebar.collapsed .sidebar-link span {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+.menu-sidebar.collapsed .sidebar-link {
+    justify-content: center;
+}
+
+/* Admin Main Wrapper - Mobile-first: Sidebar fixed olduğu için margin-left ile yer açılır */
 .admin-main-wrapper {
-    grid-column: span 10;
     display: flex;
     flex-direction: column;
+    margin-left: 80px;
+    transition: margin-left 0.3s ease;
+    width: calc(100% - 80px);
 }
 
-/* Admin Header - Şerit şeklinde, sadece sağda kullanıcı bilgisi ve çıkış butonu */
+/* Sidebar açıkken (desktop veya aktif mobil) main wrapper daha fazla margin alır */
+.menu-sidebar.active ~ .admin-main-wrapper,
+.menu-sidebar:not(.collapsed) ~ .admin-main-wrapper {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+}
+
+/* Admin Header - Mobile-first: Sol tarafta hamburger, sağda kullanıcı bilgisi */
 .admin-header {
     background-color: var(--color-white);
     border-bottom: 1px solid var(--color-border);
     padding: var(--spacing-medium) var(--spacing-large);
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 4px var(--color-shadow);
     width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 998;
+}
+
+/* Hamburger Menu Toggle Button */
+.sidebar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+    font-size: 24px;
+    cursor: pointer;
+    padding: var(--spacing-small);
+    border-radius: var(--border-radius-small);
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+    background-color: var(--color-light-gray);
+}
+
+.sidebar-toggle:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
 }
 
 .header-right {
@@ -637,8 +766,10 @@ body {
     justify-content: center;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
+/* Responsive Design - Mobile-first yaklaşımı */
+
+/* Tablet ve küçük desktop */
+@media (min-width: 769px) and (max-width: 1200px) {
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -648,30 +779,97 @@ body {
     }
 }
 
-@media (max-width: 768px) {
-    .admin-layout {
-        grid-template-columns: 1fr;
-    }
-    
+/* Desktop - Sidebar varsayılan olarak açık */
+@media (min-width: 1024px) {
     .menu-sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
+        width: 250px;
     }
     
-    .menu-sidebar.active {
+    .menu-sidebar.collapsed {
+        width: 80px;
+    }
+    
+    .admin-main-wrapper {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
+    
+    .menu-sidebar.collapsed ~ .admin-main-wrapper {
+        margin-left: 80px;
+        width: calc(100% - 80px);
+    }
+    
+    /* Desktop'ta hamburger butonu gizlenir */
+    .sidebar-toggle {
+        display: none;
+    }
+}
+
+/* Mobil - Sidebar varsayılan olarak kapalı (sadece ikonlar) */
+@media (max-width: 1023px) {
+    /* Hamburger butonu görünür */
+    .sidebar-toggle {
+        display: block;
+    }
+    
+    /* Mobilde sidebar varsayılan olarak kapalı (collapsed) */
+    .menu-sidebar {
+        width: 80px;
         transform: translateX(0);
     }
     
+    /* Mobilde sidebar açıkken (active) tam genişlik */
+    .menu-sidebar.active {
+        width: 250px;
+        transform: translateX(0);
+    }
+    
+    /* Mobilde sidebar overlay gösterilir */
+    .menu-sidebar.active ~ .sidebar-overlay {
+        display: block;
+    }
+    
+    /* Mobilde main wrapper sidebar genişliğine göre ayarlanır */
+    .admin-main-wrapper {
+        margin-left: 80px;
+        width: calc(100% - 80px);
+    }
+    
+    .menu-sidebar.active ~ .admin-main-wrapper {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
+    
+    /* Mobilde stats grid tek sütun */
     .stats-grid {
         grid-template-columns: 1fr;
     }
     
+    /* Mobilde dashboard sections tek sütun */
     .dashboard-sections {
         grid-template-columns: 1fr;
     }
     
+    /* Mobilde quick actions tek sütun */
     .quick-actions {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Küçük mobil cihazlar */
+@media (max-width: 768px) {
+    .admin-content {
+        padding: var(--spacing-medium);
+    }
+    
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-medium);
+    }
+    
+    .user-info {
+        align-items: flex-start;
     }
 }
 

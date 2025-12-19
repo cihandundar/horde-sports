@@ -1,4 +1,7 @@
 <header class="admin-header">
+    <button class="sidebar-toggle" type="button" aria-label="Menüyü Aç/Kapat">
+        <i class="fas fa-bars"></i>
+    </button>
     <div class="header-right">
         <div class="user-menu">
             <div class="user-info">

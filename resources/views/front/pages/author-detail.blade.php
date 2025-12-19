@@ -38,7 +38,7 @@
 
     <!-- Yazarın Haberleri -->
     <section class="author-news-section">
-        <h2 class="section-title">{{ $author->name }}'in Haberleri</h2>
+        <div class="section-title">{{ $author->name }}'in Haberleri</div>
         
         @if($news->count() > 0)
         <div class="news-grid">
@@ -64,13 +64,13 @@
                             {{ $item->category->name }}
                         @endif
                     </div>
-                    <h2 class="news-title">
+                    <div class="news-title">
                         @if($item->slug)
                             <a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a>
                         @else
                             {{ $item->title }}
                         @endif
-                    </h2>
+                    </div>
                     <p class="news-excerpt">{{ Str::limit(strip_tags($item->content), 150) }}</p>
                     <div class="news-meta">
                         <span class="news-date">

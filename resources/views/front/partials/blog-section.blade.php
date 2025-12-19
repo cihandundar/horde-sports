@@ -1,7 +1,7 @@
 <section class="blog-section">
     <div class="blog-container">
         <div class="blog-header">
-            <h2 class="section-title">Son Haberler ve Analizler</h2>
+            <div class="section-title">Son Haberler ve Analizler</div>
             <a href="#" class="view-all-link">
                 <span>Tümünü Gör</span>
                 <i class="fas fa-arrow-right"></i>
@@ -30,7 +30,7 @@
                                 Spor Editörü
                             </span>
                         </div>
-                        <h3 class="blog-title">Süper Lig'de Heyecan Dorukta: Derbi Maçı Öncesi Analiz</h3>
+                        <div class="blog-title">Süper Lig'de Heyecan Dorukta: Derbi Maçı Öncesi Analiz</div>
                         <p class="blog-excerpt">Bu hafta sonu oynanacak büyük derbi maçı öncesi takımların form durumu ve oyuncu kadroları hakkında detaylı analiz...</p>
                         <div class="blog-footer">
                             <span class="read-more">Devamını Oku <i class="fas fa-arrow-right"></i></span>
@@ -60,7 +60,7 @@
                                 Basketbol Analisti
                             </span>
                         </div>
-                        <h3 class="blog-title">Basketbol Süper Ligi'nde Yeni Sezon Başladı</h3>
+                        <div class="blog-title">Basketbol Süper Ligi'nde Yeni Sezon Başladı</div>
                         <p class="blog-excerpt">Yeni sezonda takımların transfer hamleleri ve şampiyonluk yarışındaki konumları hakkında güncel bilgiler...</p>
                         <div class="blog-footer">
                             <span class="read-more">Devamını Oku <i class="fas fa-arrow-right"></i></span>
@@ -90,7 +90,7 @@
                                 Tenis Muhabiri
                             </span>
                         </div>
-                        <h3 class="blog-title">Grand Slam Turnuvalarına Hazırlık Süreci Başladı</h3>
+                        <div class="blog-title">Grand Slam Turnuvalarına Hazırlık Süreci Başladı</div>
                         <p class="blog-excerpt">Dünya tenisinin en prestijli turnuvalarına hazırlanan sporcuların antrenman programları ve hedefleri...</p>
                         <div class="blog-footer">
                             <span class="read-more">Devamını Oku <i class="fas fa-arrow-right"></i></span>
@@ -120,7 +120,7 @@
                                 Voleybol Editörü
                             </span>
                         </div>
-                        <h3 class="blog-title">Milli Takım Kampı Başladı: Olimpiyat Hazırlıkları</h3>
+                        <div class="blog-title">Milli Takım Kampı Başladı: Olimpiyat Hazırlıkları</div>
                         <p class="blog-excerpt">Olimpiyat oyunlarına hazırlanan milli voleybol takımımızın kamp süreci ve hedefleri hakkında detaylar...</p>
                         <div class="blog-footer">
                             <span class="read-more">Devamını Oku <i class="fas fa-arrow-right"></i></span>
@@ -150,7 +150,7 @@
                                 Atletizm Muhabiri
                             </span>
                         </div>
-                        <h3 class="blog-title">Yeni Rekor Denemeleri: Atletizm Dünyasında Gündem</h3>
+                        <div class="blog-title">Yeni Rekor Denemeleri: Atletizm Dünyasında Gündem</div>
                         <p class="blog-excerpt">Bu sezon atletizm dünyasında kırılan rekorlar ve yaklaşan büyük yarışmalar hakkında güncel haberler...</p>
                         <div class="blog-footer">
                             <span class="read-more">Devamını Oku <i class="fas fa-arrow-right"></i></span>
@@ -180,7 +180,7 @@
                                 Yüzme Analisti
                             </span>
                         </div>
-                        <h3 class="blog-title">Yüzme Şampiyonası'nda Türk Sporcuların Başarısı</h3>
+                        <div class="blog-title">Yüzme Şampiyonası'nda Türk Sporcuların Başarısı</div>
                         <p class="blog-excerpt">Uluslararası yüzme şampiyonasında ülkemizi temsil eden sporcularımızın başarı hikayeleri ve performansları...</p>
                         <div class="blog-footer">
                             <span class="read-more">Devamını Oku <i class="fas fa-arrow-right"></i></span>

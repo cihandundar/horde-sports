@@ -24,13 +24,13 @@
                 </div>
             @endif
             <div class="news-content">
-                <h2 class="news-title">
+                <div class="news-title">
                     @if($item->slug)
                         <a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a>
                     @else
                         {{ $item->title }}
                     @endif
-                </h2>
+                </div>
                 <p class="news-excerpt">{{ Str::limit(strip_tags($item->content), 150) }}</p>
                 <div class="news-meta">
                     <span class="news-author">

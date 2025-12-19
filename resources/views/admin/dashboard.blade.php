@@ -16,7 +16,7 @@ Dashboard
                 <i class="fas fa-users"></i>
             </div>
             <div class="stat-content">
-                <h3 class="stat-value">{{ $totalUsers }}</h3>
+                <div class="stat-value">{{ $totalUsers }}</div>
                 <p class="stat-label">Toplam Kullanıcı</p>
             </div>
         </div>
@@ -26,7 +26,7 @@ Dashboard
                 <i class="fas fa-futbol"></i>
             </div>
             <div class="stat-content">
-                <h3 class="stat-value">{{ $totalMatches }}</h3>
+                <div class="stat-value">{{ $totalMatches }}</div>
                 <p class="stat-label">Toplam Maç</p>
             </div>
         </div>
@@ -36,7 +36,7 @@ Dashboard
                 <i class="fas fa-newspaper"></i>
             </div>
             <div class="stat-content">
-                <h3 class="stat-value">{{ $totalNews }}</h3>
+                <div class="stat-value">{{ $totalNews }}</div>
                 <p class="stat-label">Toplam Haber</p>
             </div>
         </div>
@@ -54,12 +54,12 @@ Dashboard
     
     <div class="dashboard-sections">
         <div class="dashboard-section">
-            <h2 class="section-title">Son Haberler</h2>
+            <div class="section-title">Son Haberler</div>
             <div class="activity-list">
                 @forelse($recentNews as $item)
                 <div class="activity-item">
                     <div class="activity-content">
-                        <h4 class="activity-title">{{ $item->title }}</h4>
+                        <div class="activity-title">{{ $item->title }}</div>
                         <p class="activity-meta">
                             <span class="activity-category">{{ $item->category->name }}</span>
                             <span class="activity-author">{{ $item->author->name }}</span>
@@ -74,7 +74,7 @@ Dashboard
         </div>
         
         <div class="dashboard-section">
-            <h2 class="section-title">Hızlı İşlemler</h2>
+            <div class="section-title">Hızlı İşlemler</div>
             <div class="quick-actions">
                 <a href="#" class="action-btn">
                     <i class="fas fa-plus"></i>
