@@ -11,11 +11,10 @@ use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\AuthorController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\NewsController;
+use App\Http\Controllers\Frontend\HomeController;
 
 // Ana sayfa route'u
-Route::get('/', function () {
-    return view('front.pages.home');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Giriş sayfası route'u (GET)
 Route::get('/login', function () {
