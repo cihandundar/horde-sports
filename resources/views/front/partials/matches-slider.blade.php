@@ -24,11 +24,13 @@
                     </div>
                     <div class="match-teams">
                         <div class="team">
+                            <i class="fas fa-futbol team-ball-logo"></i>
                             <span class="team-name">Galatasaray</span>
                             <span class="team-score">2</span>
                         </div>
                         <div class="match-vs">VS</div>
                         <div class="team">
+                            <i class="fas fa-futbol team-ball-logo"></i>
                             <span class="team-name">Fenerbahçe</span>
                             <span class="team-score">1</span>
                         </div>
@@ -48,11 +50,13 @@
                     </div>
                     <div class="match-teams">
                         <div class="team">
+                            <i class="fas fa-futbol team-ball-logo"></i>
                             <span class="team-name">Beşiktaş</span>
                             <span class="team-score">3</span>
                         </div>
                         <div class="match-vs">VS</div>
                         <div class="team">
+                            <i class="fas fa-futbol team-ball-logo"></i>
                             <span class="team-name">Trabzonspor</span>
                             <span class="team-score">0</span>
                         </div>
@@ -72,11 +76,13 @@
                     </div>
                     <div class="match-teams">
                         <div class="team">
+                            <i class="fas fa-futbol team-ball-logo"></i>
                             <span class="team-name">Başakşehir</span>
                             <span class="team-score">-</span>
                         </div>
                         <div class="match-vs">VS</div>
                         <div class="team">
+                            <i class="fas fa-futbol team-ball-logo"></i>
                             <span class="team-name">Konyaspor</span>
                             <span class="team-score">-</span>
                         </div>
@@ -96,11 +102,13 @@
                     </div>
                     <div class="match-teams">
                         <div class="team">
+                            <i class="fas fa-futbol team-ball-logo"></i>
                             <span class="team-name">Sivasspor</span>
                             <span class="team-score">1</span>
                         </div>
                         <div class="match-vs">VS</div>
                         <div class="team">
+                            <i class="fas fa-futbol team-ball-logo"></i>
                             <span class="team-name">Alanyaspor</span>
                             <span class="team-score">1</span>
                         </div>
@@ -120,11 +128,13 @@
                     </div>
                     <div class="match-teams">
                         <div class="team">
+                            <i class="fas fa-futbol team-ball-logo"></i>
                             <span class="team-name">Adana Demirspor</span>
                             <span class="team-score">-</span>
                         </div>
                         <div class="match-vs">VS</div>
                         <div class="team">
+                            <i class="fas fa-futbol team-ball-logo"></i>
                             <span class="team-name">Gaziantep FK</span>
                             <span class="team-score">-</span>
                         </div>

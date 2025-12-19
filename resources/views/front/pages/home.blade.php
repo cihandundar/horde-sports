@@ -1,10 +1,12 @@
 @extends('front.base')
 
 @section('content')
-<div class="home-page">
+
     @include('front.partials.matches-slider')
     
     @include('front.partials.ad-banner')
-</div>
+    
+    @include('front.partials.blog-section')
+
 @endsection
 

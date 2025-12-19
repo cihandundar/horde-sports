@@ -4,6 +4,7 @@
 **HER İŞLEM ÖNCESİ BU rules.md DOSYASINI OKUYARAK HAREKET ET**
 
 --- genelde GRİD template-column rows kullan grid-column span lara böl ÇOK SIKIŞIRSAN FLEX KULLAN YAPILARI BÖLERKEN
+Görselleri unplashtan al
 
 ## 📝 HTML ETİKET KURALLARI
 
