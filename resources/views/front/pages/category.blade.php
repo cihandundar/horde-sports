@@ -6,6 +6,7 @@
 
 @section('content')
 <div class="category-page">
+    @include('front.partials.breadcrumb')
     <h1 class="title">{{ $category->name }}</h1>
     
     <div class="news-grid">
@@ -13,11 +14,15 @@
         <article class="news-card">
             @if($item->image)
                 <div class="news-image-wrapper">
-                    <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="news-image">
+                    <a href="{{ route('news.show', $item->slug) }}">
+                        <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="news-image">
+                    </a>
                 </div>
             @endif
             <div class="news-content">
-                <h2 class="news-title">{{ $item->title }}</h2>
+                <h2 class="news-title">
+                    <a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a>
+                </h2>
                 <p class="news-excerpt">{{ Str::limit(strip_tags($item->content), 150) }}</p>
                 <div class="news-meta">
                     <span class="news-author">

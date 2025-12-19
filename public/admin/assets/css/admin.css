@@ -65,7 +65,7 @@ body {
     color: var(--color-text-on-primary);
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
     grid-column: span 2;
     z-index: 1000;
     overflow-y: auto;

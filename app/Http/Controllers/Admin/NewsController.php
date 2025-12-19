@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class NewsController extends Controller
 {
@@ -48,6 +49,19 @@ class NewsController extends Controller
             $validated['image'] = $request->file('image')->store('news', 'public');
         }
 
+        // Slug oluştur - başlıktan otomatik slug oluştur
+        $baseSlug = Str::slug($validated['title']);
+        $slug = $baseSlug;
+        $counter = 1;
+        
+        // Aynı slug varsa sonuna sayı ekle (unique olması için)
+        while (News::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+        
+        $validated['slug'] = $slug;
+
         News::create($validated);
 
         return redirect()->route('admin.news.index')
@@ -83,6 +97,21 @@ class NewsController extends Controller
                 Storage::disk('public')->delete($news->image);
             }
             $validated['image'] = $request->file('image')->store('news', 'public');
+        }
+
+        // Başlık değiştiyse slug'ı güncelle
+        if ($request->title !== $news->title) {
+            $baseSlug = Str::slug($validated['title']);
+            $slug = $baseSlug;
+            $counter = 1;
+            
+            // Aynı slug varsa sonuna sayı ekle (mevcut haber hariç)
+            while (News::where('slug', $slug)->where('id', '!=', $news->id)->exists()) {
+                $slug = $baseSlug . '-' . $counter;
+                $counter++;
+            }
+            
+            $validated['slug'] = $slug;
         }
 
         $news->update($validated);

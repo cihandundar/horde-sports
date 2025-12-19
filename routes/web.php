@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\AuthorController;
 use App\Http\Controllers\Frontend\BlogController;
+use App\Http\Controllers\Frontend\NewsController;
 
 // Ana sayfa route'u
 Route::get('/', function () {
@@ -38,6 +39,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/kategori/{slug}', [CategoryController::class, 'show'])->name('category.show');
 Route::get('/yazarlar', [AuthorController::class, 'index'])->name('authors.index');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/haber/{slug}', [NewsController::class, 'show'])->name('news.show');
 
 // Admin route'ları (admin middleware ile korumalı)
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {

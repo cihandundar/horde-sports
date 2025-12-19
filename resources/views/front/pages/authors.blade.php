@@ -6,6 +6,7 @@ Yazarlar - Horde Sports
 
 @section('content')
 <div class="authors-page">
+    @include('front.partials.breadcrumb')
     <h1 class="title">Yazarlar</h1>
     
     <div class="authors-grid">
