@@ -7,20 +7,19 @@
         </div>
         <nav class="header-nav">
             <ul class="header-menu">
+                @php
+                    $categories = \App\Models\Category::all();
+                @endphp
+                @foreach($categories as $category)
                 <li class="menu-item">
-                    <a href="#" class="menu-link">Futbol</a>
+                    <a href="{{ route('category.show', $category->slug) }}" class="menu-link">{{ $category->name }}</a>
+                </li>
+                @endforeach
+                <li class="menu-item">
+                    <a href="{{ route('authors.index') }}" class="menu-link">Yazarlar</a>
                 </li>
                 <li class="menu-item">
-                    <a href="#" class="menu-link">Basketbol</a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">Voleybol</a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">Yazarlar</a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">Blog</a>
+                    <a href="{{ route('blog.index') }}" class="menu-link">Blog</a>
                 </li>
             </ul>
             <div class="mobile-menu-auth">

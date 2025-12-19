@@ -1679,3 +1679,180 @@
   }
 }
 
+/* Kategori, Blog ve Yazarlar Sayfaları */
+.category-page,
+.blog-page,
+.authors-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-xlarge) var(--spacing-large);
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-large);
+  margin-top: var(--spacing-xlarge);
+}
+
+.news-card {
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 4px var(--color-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px var(--color-shadow-hover);
+}
+
+.news-image-wrapper {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.news-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.news-content {
+  padding: var(--spacing-large);
+}
+
+.news-category {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-small);
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border-radius: var(--border-radius-small);
+  font-size: 12px;
+  margin-bottom: var(--spacing-medium);
+}
+
+.news-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-small);
+}
+
+.news-excerpt {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-medium);
+}
+
+.news-meta {
+  display: flex;
+  gap: var(--spacing-large);
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.news-author,
+.news-date {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.news-author i,
+.news-date i {
+  font-size: 12px;
+}
+
+/* Yazarlar Grid */
+.authors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--spacing-large);
+  margin-top: var(--spacing-xlarge);
+}
+
+.author-card {
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-large);
+  box-shadow: 0 2px 4px var(--color-shadow);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.author-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px var(--color-shadow-hover);
+}
+
+.author-photo-wrapper {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto var(--spacing-medium);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.author-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.author-photo-placeholder {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto var(--spacing-medium);
+  border-radius: 50%;
+  background-color: var(--color-light-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 48px;
+}
+
+.author-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-small);
+}
+
+.author-bio {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--spacing-xxlarge);
+  color: var(--color-text-muted);
+}
+
+.pagination-wrapper {
+  margin-top: var(--spacing-xlarge);
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .news-grid,
+  .authors-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .category-page,
+  .blog-page,
+  .authors-page {
+    padding: var(--spacing-large) var(--spacing-medium);
+  }
+}
+

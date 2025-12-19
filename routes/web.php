@@ -3,9 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\AuthorController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\AuthorController as AdminAuthorController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Frontend\CategoryController;
+use App\Http\Controllers\Frontend\AuthorController;
+use App\Http\Controllers\Frontend\BlogController;
 
 // Ana sayfa route'u
 Route::get('/', function () {
@@ -31,12 +34,17 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 // Çıkış işlemi route'u
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Frontend route'ları
+Route::get('/kategori/{slug}', [CategoryController::class, 'show'])->name('category.show');
+Route::get('/yazarlar', [AuthorController::class, 'index'])->name('authors.index');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+
 // Admin route'ları (admin middleware ile korumalı)
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     
     // Yazar CRUD route'ları
-    Route::resource('authors', AuthorController::class)->names([
+    Route::resource('authors', AdminAuthorController::class)->names([
         'index' => 'admin.authors.index',
         'create' => 'admin.authors.create',
         'store' => 'admin.authors.store',
@@ -46,7 +54,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     ]);
     
     // Kategori CRUD route'ları
-    Route::resource('categories', CategoryController::class)->names([
+    Route::resource('categories', AdminCategoryController::class)->names([
         'index' => 'admin.categories.index',
         'create' => 'admin.categories.create',
         'store' => 'admin.categories.store',
@@ -56,7 +64,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     ]);
     
     // Haber CRUD route'ları
-    Route::resource('news', NewsController::class)->names([
+    Route::resource('news', AdminNewsController::class)->names([
         'index' => 'admin.news.index',
         'create' => 'admin.news.create',
         'store' => 'admin.news.store',
