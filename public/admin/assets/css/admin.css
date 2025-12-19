@@ -674,3 +674,97 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* Quill Rich Text Editor Stilleri */
+/* Editor container stilleri */
+#content-editor,
+#bio-editor {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-small);
+}
+
+/* Quill toolbar stilleri */
+.ql-toolbar {
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-light-gray);
+    padding: var(--spacing-small);
+}
+
+/* Quill editor içerik alanı stilleri */
+.ql-container {
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+}
+
+/* Quill editor içerik alanı focus durumu */
+.ql-container.ql-snow {
+    border: none;
+}
+
+.ql-editor {
+    min-height: 250px;
+    padding: var(--spacing-medium);
+    color: var(--color-text-primary);
+}
+
+.ql-editor.ql-blank::before {
+    color: var(--color-text-muted);
+    font-style: normal;
+}
+
+/* Quill toolbar buton stilleri */
+.ql-toolbar .ql-stroke {
+    stroke: var(--color-text-primary);
+}
+
+.ql-toolbar .ql-fill {
+    fill: var(--color-text-primary);
+}
+
+.ql-toolbar button:hover,
+.ql-toolbar button.ql-active {
+    color: var(--color-primary);
+}
+
+.ql-toolbar button:hover .ql-stroke,
+.ql-toolbar button.ql-active .ql-stroke {
+    stroke: var(--color-primary);
+}
+
+.ql-toolbar button:hover .ql-fill,
+.ql-toolbar button.ql-active .ql-fill {
+    fill: var(--color-primary);
+}
+
+/* Quill editor içerik stilleri */
+.ql-editor p,
+.ql-editor ol,
+.ql-editor ul {
+    margin-bottom: var(--spacing-small);
+}
+
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3 {
+    margin-top: var(--spacing-medium);
+    margin-bottom: var(--spacing-small);
+    font-weight: 600;
+}
+
+.ql-editor a {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+.ql-editor img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-small);
+    margin: var(--spacing-medium) 0;
+}
