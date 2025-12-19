@@ -81,7 +81,7 @@ body {
     pointer-events: all;
 }
 
-/* Menu Sidebar - Varsayılan olarak gizli, toggle ile açılır (absolute davranış) */
+/* Menu Sidebar - Desktop'ta normal davranış, mobilde toggle ile açılır */
 .menu-sidebar {
     background-color: var(--color-secondary);
     color: var(--color-text-on-primary);
@@ -96,13 +96,7 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     transition: transform 0.3s ease;
-    transform: translateX(-100%);
-    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.3);
-}
-
-/* Sidebar açıkken görünür */
-.menu-sidebar.active {
-    transform: translateX(0);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -247,21 +241,22 @@ body {
     justify-content: center;
 }
 
-/* Admin Main Wrapper - Sidebar her zaman absolute/fixed olduğu için içerik tam genişlikte */
+/* Admin Main Wrapper - Desktop'ta sidebar genişliği kadar margin, mobilde tam genişlik */
 .admin-main-wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-left: 0;
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
 }
 
-/* Admin Header - Sol tarafta toggle, sağda kullanıcı bilgisi */
+/* Admin Header - Sol tarafta toggle (sadece mobilde), sağda kullanıcı bilgisi */
 .admin-header {
     background-color: var(--color-white);
     border-bottom: 1px solid var(--color-border);
     padding: var(--spacing-medium) var(--spacing-large);
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     box-shadow: 0 2px 4px var(--color-shadow);
     width: 100%;
@@ -270,9 +265,9 @@ body {
     z-index: 998;
 }
 
-/* Sidebar Toggle Button - Header'da sol tarafta */
+/* Sidebar Toggle Button - Header'da sol tarafta (sadece mobilde görünür) */
 .sidebar-toggle {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     background: none;
@@ -285,6 +280,7 @@ body {
     transition: background-color 0.3s ease;
     width: 40px;
     height: 40px;
+    margin-right: auto;
 }
 
 .sidebar-toggle:hover {
@@ -750,7 +746,8 @@ body {
     background-color: #c82333;
 }
 
-.delete-form {
+.delete-form,
+.inline-form {
     display: inline;
 }
 
@@ -760,30 +757,164 @@ body {
     justify-content: center;
 }
 
+/* Role Badge Stilleri */
+.role-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: var(--border-radius-small);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.role-admin {
+    background-color: var(--color-primary);
+    color: var(--color-text-on-primary);
+}
+
+.role-user {
+    background-color: var(--color-gray);
+    color: var(--color-text-primary);
+}
+
+/* User Action Butonları */
+.btn-action {
+    padding: var(--spacing-xs) var(--spacing-small);
+    border: none;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+}
+
+.btn-admin {
+    background-color: #28a745;
+    color: var(--color-text-on-primary);
+}
+
+.btn-admin:hover {
+    background-color: #218838;
+}
+
+.btn-remove-admin {
+    background-color: #ffc107;
+    color: var(--color-text-primary);
+}
+
+.btn-remove-admin:hover {
+    background-color: #e0a800;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: var(--color-text-on-primary);
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Flash Messages (Alert) Stilleri */
+.alert {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-medium);
+    padding: var(--spacing-medium) var(--spacing-large);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-large);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-success i {
+    color: #28a745;
+    font-size: 18px;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-error i {
+    color: #dc3545;
+    font-size: 18px;
+}
+
 /* Responsive Design - Mobile-first yaklaşımı */
 
 /* Tablet ve küçük desktop */
-@media (min-width: 769px) and (max-width: 1200px) {
+/* Tablet - 768px ile 1199px arası */
+@media (min-width: 768px) and (max-width: 1199px) {
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .form-row {
         grid-template-columns: 1fr;
     }
 }
 
-/* Desktop - Sidebar toggle her zaman görünür, sidebar açıldığında absolute davranır */
-@media (min-width: 1024px) {
+/* Desktop - 992px ve üzeri: Sidebar her zaman görünür, normal davranış */
+@media (min-width: 992px) {
+    .menu-sidebar {
+        transform: translateX(0);
+        position: fixed;
+    }
+    
+    .admin-main-wrapper {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
+    
     .sidebar-toggle {
-        display: flex;
+        display: none;
+    }
+    
+    .sidebar-overlay.active {
+        display: none;
     }
 }
 
-/* Mobil - Sidebar toggle her zaman görünür, sidebar açıldığında absolute davranır */
-@media (max-width: 1023px) {
+/* Mobil/Tablet - 991px ve altı: Sidebar toggle ile açılır, absolute davranış */
+@media (max-width: 991px) {
+    /* Mobilde sidebar varsayılan olarak gizli */
+    .menu-sidebar {
+        transform: translateX(-100%);
+    }
+    
+    /* Mobilde sidebar açıkken görünür - içeriğin üstüne gelir */
+    .menu-sidebar.active {
+        transform: translateX(0);
+        box-shadow: 2px 0 16px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Mobilde içerik tam genişlikte */
+    .admin-main-wrapper {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    /* Mobilde toggle butonu görünür */
     .sidebar-toggle {
         display: flex;
+    }
+    
+    /* Mobilde header'da toggle için space-between */
+    .admin-header {
+        justify-content: space-between;
     }
     
     

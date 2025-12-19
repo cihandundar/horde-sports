@@ -91,36 +91,59 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuSidebar = document.querySelector('.menu-sidebar');
     const sidebarOverlay = document.querySelector('.sidebar-overlay');
     
-    // Sidebar varsayılan olarak kapalı (gizli)
-    // Her zaman kapalı başlar, toggle ile açılır
+    // Sidebar başlangıç durumunu ayarla
+    function initSidebarState() {
+        if (window.innerWidth >= 992) {
+            // Desktop (992px+): Sidebar her zaman görünür
+            menuSidebar.classList.remove('active');
+            if (sidebarOverlay) {
+                sidebarOverlay.classList.remove('active');
+            }
+        } else {
+            // Mobil (991px-): Sidebar gizli
+            menuSidebar.classList.remove('active');
+            if (sidebarOverlay) {
+                sidebarOverlay.classList.remove('active');
+            }
+        }
+    }
+    
+    // İlk yüklemede sidebar durumunu ayarla
+    initSidebarState();
     
     if (sidebarToggle && menuSidebar) {
-        // Toggle butonuna tıklandığında sidebar'ı aç/kapat
+        // Toggle butonuna tıklandığında sidebar'ı aç/kapat (sadece mobilde çalışır)
         sidebarToggle.addEventListener('click', function(e) {
             e.stopPropagation();
-            menuSidebar.classList.toggle('active');
             
-            // Sidebar açılıyorsa overlay göster, kapanıyorsa gizle
-            if (sidebarOverlay) {
-                if (menuSidebar.classList.contains('active')) {
-                    sidebarOverlay.classList.add('active');
-                } else {
-                    sidebarOverlay.classList.remove('active');
+            // Sadece mobilde çalış
+            if (window.innerWidth < 992) {
+                menuSidebar.classList.toggle('active');
+                
+                // Sidebar açılıyorsa overlay göster, kapanıyorsa gizle
+                if (sidebarOverlay) {
+                    if (menuSidebar.classList.contains('active')) {
+                        sidebarOverlay.classList.add('active');
+                    } else {
+                        sidebarOverlay.classList.remove('active');
+                    }
                 }
             }
         });
         
-        // Overlay'e tıklandığında sidebar'ı kapat
+        // Overlay'e tıklandığında sidebar'ı kapat (sadece mobilde)
         if (sidebarOverlay) {
             sidebarOverlay.addEventListener('click', function() {
-                menuSidebar.classList.remove('active');
-                sidebarOverlay.classList.remove('active');
+                if (window.innerWidth < 992) {
+                    menuSidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                }
             });
         }
         
-        // Sidebar dışına tıklandığında sidebar'ı kapat (sadece açıkken)
+        // Sidebar dışına tıklandığında sidebar'ı kapat (sadece mobilde ve açıkken)
         document.addEventListener('click', function(e) {
-            if (menuSidebar.classList.contains('active')) {
+            if (window.innerWidth < 992 && menuSidebar.classList.contains('active')) {
                 if (!menuSidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
                     menuSidebar.classList.remove('active');
                     if (sidebarOverlay) {
@@ -129,5 +152,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
+        
+        // Window resize'da desktop/mobil geçişi kontrol et
+        function handleResize() {
+            if (window.innerWidth >= 992) {
+                // Desktop'a geçildiğinde sidebar'ı açık yap
+                menuSidebar.classList.remove('active');
+                if (sidebarOverlay) {
+                    sidebarOverlay.classList.remove('active');
+                }
+            } else {
+                // Mobil'e geçildiğinde sidebar'ı kapalı yap
+                menuSidebar.classList.remove('active');
+                if (sidebarOverlay) {
+                    sidebarOverlay.classList.remove('active');
+                }
+            }
+        }
+        
+        window.addEventListener('resize', handleResize);
     }
 });
