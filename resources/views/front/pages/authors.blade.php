@@ -12,6 +12,9 @@ Yazarlar - Horde Sports
     <div class="authors-grid">
         @forelse($authors as $author)
         <div class="author-card">
+            @if($author->slug)
+                <a href="{{ route('author.show', $author->slug) }}" class="author-card-link">
+            @endif
             @if($author->photo)
                 <div class="author-photo-wrapper">
                     <img src="{{ asset('storage/' . $author->photo) }}" alt="{{ $author->name }}" class="author-photo">
@@ -24,9 +27,12 @@ Yazarlar - Horde Sports
             <div class="author-info">
                 <h2 class="author-name">{{ $author->name }}</h2>
                 @if($author->bio)
-                    <p class="author-bio">{{ Str::limit($author->bio, 100) }}</p>
+                    <p class="author-bio">{{ Str::limit(strip_tags($author->bio), 100) }}</p>
                 @endif
             </div>
+            @if($author->slug)
+                </a>
+            @endif
         </div>
         @empty
         <div class="empty-state">

@@ -38,6 +38,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Frontend route'ları
 Route::get('/kategori/{slug}', [CategoryController::class, 'show'])->name('category.show');
 Route::get('/yazarlar', [AuthorController::class, 'index'])->name('authors.index');
+Route::get('/yazar/{slug}', [AuthorController::class, 'show'])->name('author.show');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/haber/{slug}', [NewsController::class, 'show'])->name('news.show');
 

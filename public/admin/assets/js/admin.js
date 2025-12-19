@@ -33,8 +33,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const form = contentTextarea.closest('form');
         if (form) {
             form.addEventListener('submit', function(e) {
-                // Quill'in HTML içeriğini textarea'ya yaz
-                contentTextarea.value = quillContent.root.innerHTML;
+                // Quill'in HTML içeriğini al
+                const quillHtmlContent = quillContent.root.innerHTML;
+                
+                // Eğer içerik boşsa (sadece <p><br></p> veya boş), boş string yaz
+                const cleanContent = quillHtmlContent.trim();
+                if (cleanContent === '' || cleanContent === '<p><br></p>' || cleanContent === '<p></p>') {
+                    contentTextarea.value = '';
+                    // İçerik boşsa form submit'ini durdur ve hata göster
+                    e.preventDefault();
+                    alert('İçerik alanı boş bırakılamaz. Lütfen içerik girin.');
+                    return false;
+                }
+                
+                // İçeriği textarea'ya yaz
+                contentTextarea.value = quillHtmlContent;
             });
         }
     }

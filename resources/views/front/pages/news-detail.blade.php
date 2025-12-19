@@ -52,9 +52,13 @@
             <article class="related-news-card">
                 @if($item->image)
                 <div class="related-news-image-wrapper">
-                    <a href="{{ route('news.show', $item->slug) }}">
+                    @if($item->slug)
+                        <a href="{{ route('news.show', $item->slug) }}">
+                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="related-news-image">
+                        </a>
+                    @else
                         <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="related-news-image">
-                    </a>
+                    @endif
                 </div>
                 @endif
                 <div class="related-news-content">
@@ -63,7 +67,11 @@
                         {{ $item->category->name }}
                     </div>
                     <h3 class="related-news-title">
-                        <a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a>
+                        @if($item->slug)
+                            <a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a>
+                        @else
+                            {{ $item->title }}
+                        @endif
                     </h3>
                     <p class="related-news-excerpt">{{ Str::limit(strip_tags($item->content), 100) }}</p>
                     <div class="related-news-meta">

@@ -28,8 +28,8 @@ Haber Düzenle
             <label for="content" class="form-label">İçerik *</label>
             <!-- Quill Editor Container -->
             <div id="content-editor" style="min-height: 300px;"></div>
-            <!-- Gizli textarea - Form submit için -->
-            <textarea id="content" name="content" class="form-textarea" style="display: none;" required>{{ old('content', $news->content) }}</textarea>
+            <!-- Gizli textarea - Form submit için (required attribute kaldırıldı, JavaScript ile kontrol ediliyor) -->
+            <textarea id="content" name="content" class="form-textarea" style="display: none;">{{ old('content', $news->content) }}</textarea>
             @error('content')
                 <span class="form-error">{{ $message }}</span>
             @enderror

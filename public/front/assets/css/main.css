@@ -1854,38 +1854,57 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-small);
   margin-bottom: var(--spacing-large);
+  padding: var(--spacing-medium) var(--spacing-large);
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px var(--color-shadow);
   font-size: 14px;
-  color: var(--color-text-muted);
 }
 
 .breadcrumb-item {
   color: var(--color-primary);
   text-decoration: none;
-  transition: color 0.3s ease;
+  padding: var(--spacing-xs) var(--spacing-small);
+  border-radius: var(--border-radius-small);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  position: relative;
 }
 
-.breadcrumb-item:hover {
-  color: var(--color-primary-dark);
-  text-decoration: underline;
+.breadcrumb-item::before {
+  content: '\f015';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.breadcrumb-item:not(.active):not(:first-child)::before {
+  content: '';
 }
 
 .breadcrumb-item.active {
-  color: var(--color-text-muted);
+  color: var(--color-text-primary);
+  background-color: var(--color-light-gray);
   text-decoration: none;
   cursor: default;
   pointer-events: none;
+  font-weight: 600;
 }
 
-.breadcrumb-item.active:hover {
-  color: var(--color-text-muted);
-  text-decoration: none;
+.breadcrumb-item.active::before {
+  content: '';
 }
 
 .breadcrumb-separator {
   color: var(--color-text-muted);
-  margin: 0 var(--spacing-xs);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-xs);
 }
 
 /* Haber Detay İçeriği */
@@ -2136,6 +2155,125 @@
   text-decoration: underline;
 }
 
+/* Yazar Detay Sayfası Stilleri */
+.author-detail-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-xlarge) var(--spacing-large);
+}
+
+.author-detail {
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xlarge);
+  box-shadow: 0 2px 4px var(--color-shadow);
+  margin-bottom: var(--spacing-xlarge);
+}
+
+.author-detail-header {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--spacing-xlarge);
+  align-items: start;
+}
+
+.author-detail-photo {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.author-detail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.author-detail-photo-placeholder {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: var(--color-light-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 80px;
+}
+
+.author-detail-info {
+  flex: 1;
+}
+
+.author-detail .title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-large);
+  line-height: 1.3;
+}
+
+.author-detail-bio {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--color-text-primary);
+}
+
+.author-detail-bio p {
+  margin-bottom: var(--spacing-medium);
+}
+
+.author-detail-bio a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.author-detail-bio a:hover {
+  color: var(--color-primary-dark);
+}
+
+.author-news-section {
+  margin-top: var(--spacing-xlarge);
+}
+
+.author-news-section .section-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-large);
+}
+
+/* Yazar Kartlarında Link Stilleri */
+.author-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.author-card-link:hover {
+  transform: translateY(-4px);
+}
+
+.author-card-link .author-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.author-card-link:hover .author-card {
+  box-shadow: 0 4px 8px var(--color-shadow-hover);
+}
+
+.author-card-link .author-name {
+  color: var(--color-text-primary);
+  transition: color 0.3s ease;
+}
+
+.author-card-link:hover .author-name {
+  color: var(--color-primary);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .news-grid,
@@ -2149,15 +2287,18 @@
     padding: var(--spacing-large) var(--spacing-medium);
   }
 
-  .news-detail-page {
+  .news-detail-page,
+  .author-detail-page {
     padding: var(--spacing-large) var(--spacing-medium);
   }
 
-  .news-detail {
+  .news-detail,
+  .author-detail {
     padding: var(--spacing-large);
   }
 
-  .news-detail .title {
+  .news-detail .title,
+  .author-detail .title {
     font-size: 24px;
   }
 
@@ -2168,6 +2309,16 @@
 
   .related-news-grid {
     grid-template-columns: 1fr;
+  }
+
+  .author-detail-header {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .author-detail-photo,
+  .author-detail-photo-placeholder {
+    margin: 0 auto;
   }
 }
 

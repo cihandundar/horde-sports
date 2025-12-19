@@ -16,4 +16,22 @@ class AuthorController extends Controller
         $authors = Author::latest()->paginate(12);
         return view('front.pages.authors', compact('authors'));
     }
+
+    /**
+     * Yazar detay sayfası - Slug ile yazar göster
+     */
+    public function show($slug)
+    {
+        // Slug ile yazarı bul, haberleriyle birlikte
+        $author = Author::where('slug', $slug)
+            ->firstOrFail();
+        
+        // Yazarın haberleri
+        $news = $author->news()
+            ->with(['category'])
+            ->latest()
+            ->paginate(12);
+        
+        return view('front.pages.author-detail', compact('author', 'news'));
+    }
 }

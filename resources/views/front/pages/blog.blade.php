@@ -14,18 +14,30 @@ Blog - Horde Sports
         <article class="news-card">
             @if($item->image)
                 <div class="news-image-wrapper">
-                    <a href="{{ route('news.show', $item->slug) }}">
+                    @if($item->slug)
+                        <a href="{{ route('news.show', $item->slug) }}">
+                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="news-image">
+                        </a>
+                    @else
                         <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="news-image">
-                    </a>
+                    @endif
                 </div>
             @endif
             <div class="news-content">
                 <div class="news-category">
                     <i class="fas fa-tag"></i>
-                    <a href="{{ route('category.show', $item->category->slug) }}">{{ $item->category->name }}</a>
+                    @if($item->category && $item->category->slug)
+                        <a href="{{ route('category.show', $item->category->slug) }}">{{ $item->category->name }}</a>
+                    @else
+                        {{ $item->category->name }}
+                    @endif
                 </div>
                 <h2 class="news-title">
-                    <a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a>
+                    @if($item->slug)
+                        <a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a>
+                    @else
+                        {{ $item->title }}
+                    @endif
                 </h2>
                 <p class="news-excerpt">{{ Str::limit(strip_tags($item->content), 150) }}</p>
                 <div class="news-meta">

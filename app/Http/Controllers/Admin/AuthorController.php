@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AuthorController extends Controller
 {
@@ -42,6 +43,19 @@ class AuthorController extends Controller
             $validated['photo'] = $request->file('photo')->store('authors', 'public');
         }
 
+        // Slug oluştur - isimden otomatik slug oluştur
+        $baseSlug = Str::slug($validated['name']);
+        $slug = $baseSlug;
+        $counter = 1;
+        
+        // Aynı slug varsa sonuna sayı ekle (unique olması için)
+        while (Author::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+        
+        $validated['slug'] = $slug;
+
         Author::create($validated);
 
         return redirect()->route('admin.authors.index')
@@ -73,6 +87,21 @@ class AuthorController extends Controller
                 Storage::disk('public')->delete($author->photo);
             }
             $validated['photo'] = $request->file('photo')->store('authors', 'public');
+        }
+
+        // İsim değiştiyse slug'ı güncelle
+        if ($request->name !== $author->name) {
+            $baseSlug = Str::slug($validated['name']);
+            $slug = $baseSlug;
+            $counter = 1;
+            
+            // Aynı slug varsa sonuna sayı ekle (mevcut yazar hariç)
+            while (Author::where('slug', $slug)->where('id', '!=', $author->id)->exists()) {
+                $slug = $baseSlug . '-' . $counter;
+                $counter++;
+            }
+            
+            $validated['slug'] = $slug;
         }
 
         $author->update($validated);
