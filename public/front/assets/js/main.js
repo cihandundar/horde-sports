@@ -46,13 +46,57 @@ document.addEventListener('DOMContentLoaded', function() {
         if (searchForm) {
             searchForm.addEventListener('submit', function(e) {
                 const searchValue = searchInput.value.trim();
-                // Eğer arama değeri boşsa form submit edilmesin
+                
+                // Arama değeri boşsa veya çok kısa ise
                 if (searchValue === '') {
                     e.preventDefault();
+                    showSearchError('Lütfen arama terimi girin');
                     return false;
                 }
-                // Form submit edilecek, normal form davranışı devam edecek
+                
+                if (searchValue.length < 2) {
+                    e.preventDefault();
+                    showSearchError('Arama terimi en az 2 karakter olmalıdır');
+                    return false;
+                }
+                
+                // Hataları temizle
+                clearSearchError();
             });
+            
+            // Real-time validation
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const value = this.value.trim();
+                    if (value.length > 0 && value.length < 2) {
+                        showSearchError('Arama terimi en az 2 karakter olmalıdır');
+                    } else {
+                        clearSearchError();
+                    }
+                });
+            }
+        }
+        
+        // Arama hatası göster
+        function showSearchError(message) {
+            clearSearchError();
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'search-error';
+            errorDiv.style.cssText = 'color: #dc3545; font-size: 14px; margin-top: 12px; padding: 10px 16px; background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; text-align: center;';
+            errorDiv.textContent = message;
+            
+            const searchForm = document.querySelector('.search-form');
+            if (searchForm) {
+                searchForm.parentNode.insertBefore(errorDiv, searchForm.nextSibling);
+            }
+        }
+        
+        // Arama hatasını temizle
+        function clearSearchError() {
+            const errorDiv = document.querySelector('.search-error');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
         }
     }
 });
@@ -154,6 +198,273 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
             },
         });
+    }
+});
+
+// Form Validation Functions
+document.addEventListener('DOMContentLoaded', function() {
+    // Email format validation helper
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    
+    // Show error message
+    function showFieldError(input, message) {
+        // Remove existing error
+        clearFieldError(input);
+        
+        // Add error class to input
+        input.classList.add('is-invalid');
+        
+        // Create error element
+        const errorDiv = document.createElement('span');
+        errorDiv.className = 'form-error';
+        errorDiv.textContent = message;
+        
+        // Insert after input
+        input.parentNode.appendChild(errorDiv);
+    }
+    
+    // Clear error message
+    function clearFieldError(input) {
+        input.classList.remove('is-invalid');
+        const errorDiv = input.parentNode.querySelector('.form-error');
+        if (errorDiv) {
+            errorDiv.remove();
+        }
+    }
+    
+    // Login Form Validation
+    const loginForm = document.querySelector('.auth-form[action*="login"]');
+    if (loginForm) {
+        const emailInput = loginForm.querySelector('#email');
+        const passwordInput = loginForm.querySelector('#password');
+        
+        loginForm.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            // Email validation
+            if (emailInput) {
+                const emailValue = emailInput.value.trim();
+                if (!emailValue) {
+                    showFieldError(emailInput, 'E-posta adresi gereklidir');
+                    isValid = false;
+                } else if (!isValidEmail(emailValue)) {
+                    showFieldError(emailInput, 'Geçerli bir e-posta adresi girin');
+                    isValid = false;
+                } else {
+                    clearFieldError(emailInput);
+                }
+            }
+            
+            // Password validation
+            if (passwordInput) {
+                const passwordValue = passwordInput.value;
+                if (!passwordValue) {
+                    showFieldError(passwordInput, 'Şifre gereklidir');
+                    isValid = false;
+                } else if (passwordValue.length < 6) {
+                    showFieldError(passwordInput, 'Şifre en az 6 karakter olmalıdır');
+                    isValid = false;
+                } else {
+                    clearFieldError(passwordInput);
+                }
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // Real-time validation for email
+        if (emailInput) {
+            emailInput.addEventListener('blur', function() {
+                const value = this.value.trim();
+                if (value && !isValidEmail(value)) {
+                    showFieldError(this, 'Geçerli bir e-posta adresi girin');
+                } else if (value) {
+                    clearFieldError(this);
+                }
+            });
+            
+            emailInput.addEventListener('input', function() {
+                if (this.classList.contains('is-invalid')) {
+                    const value = this.value.trim();
+                    if (value && isValidEmail(value)) {
+                        clearFieldError(this);
+                    }
+                }
+            });
+        }
+        
+        // Real-time validation for password
+        if (passwordInput) {
+            passwordInput.addEventListener('blur', function() {
+                const value = this.value;
+                if (value && value.length < 6) {
+                    showFieldError(this, 'Şifre en az 6 karakter olmalıdır');
+                } else if (value) {
+                    clearFieldError(this);
+                }
+            });
+        }
+    }
+    
+    // Register Form Validation
+    const registerForm = document.querySelector('.auth-form[action*="register"]');
+    if (registerForm) {
+        const nameInput = registerForm.querySelector('#name');
+        const emailInput = registerForm.querySelector('#email');
+        const passwordInput = registerForm.querySelector('#password');
+        const passwordConfirmInput = registerForm.querySelector('#password_confirmation');
+        const termsCheckbox = registerForm.querySelector('input[name="terms"]');
+        
+        registerForm.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            // Name validation
+            if (nameInput) {
+                const nameValue = nameInput.value.trim();
+                if (!nameValue) {
+                    showFieldError(nameInput, 'Ad soyad gereklidir');
+                    isValid = false;
+                } else if (nameValue.length < 3) {
+                    showFieldError(nameInput, 'Ad soyad en az 3 karakter olmalıdır');
+                    isValid = false;
+                } else if (!/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/.test(nameValue)) {
+                    showFieldError(nameInput, 'Ad soyad sadece harf ve boşluk içerebilir');
+                    isValid = false;
+                } else {
+                    clearFieldError(nameInput);
+                }
+            }
+            
+            // Email validation
+            if (emailInput) {
+                const emailValue = emailInput.value.trim();
+                if (!emailValue) {
+                    showFieldError(emailInput, 'E-posta adresi gereklidir');
+                    isValid = false;
+                } else if (!isValidEmail(emailValue)) {
+                    showFieldError(emailInput, 'Geçerli bir e-posta adresi girin');
+                    isValid = false;
+                } else {
+                    clearFieldError(emailInput);
+                }
+            }
+            
+            // Password validation
+            if (passwordInput) {
+                const passwordValue = passwordInput.value;
+                if (!passwordValue) {
+                    showFieldError(passwordInput, 'Şifre gereklidir');
+                    isValid = false;
+                } else if (passwordValue.length < 8) {
+                    showFieldError(passwordInput, 'Şifre en az 8 karakter olmalıdır');
+                    isValid = false;
+                } else {
+                    clearFieldError(passwordInput);
+                }
+            }
+            
+            // Password confirmation validation
+            if (passwordConfirmInput && passwordInput) {
+                const passwordValue = passwordInput.value;
+                const confirmValue = passwordConfirmInput.value;
+                if (!confirmValue) {
+                    showFieldError(passwordConfirmInput, 'Şifre tekrar gereklidir');
+                    isValid = false;
+                } else if (passwordValue !== confirmValue) {
+                    showFieldError(passwordConfirmInput, 'Şifreler eşleşmiyor');
+                    isValid = false;
+                } else {
+                    clearFieldError(passwordConfirmInput);
+                }
+            }
+            
+            // Terms checkbox validation
+            if (termsCheckbox && !termsCheckbox.checked) {
+                const termsLabel = termsCheckbox.closest('.checkbox-label');
+                if (termsLabel) {
+                    termsLabel.style.color = '#dc3545';
+                    termsLabel.style.fontWeight = '600';
+                    
+                    // Reset after 3 seconds
+                    setTimeout(function() {
+                        termsLabel.style.color = '';
+                        termsLabel.style.fontWeight = '';
+                    }, 3000);
+                }
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // Real-time validation for name
+        if (nameInput) {
+            nameInput.addEventListener('blur', function() {
+                const value = this.value.trim();
+                if (value && value.length < 3) {
+                    showFieldError(this, 'Ad soyad en az 3 karakter olmalıdır');
+                } else if (value && !/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/.test(value)) {
+                    showFieldError(this, 'Ad soyad sadece harf ve boşluk içerebilir');
+                } else if (value) {
+                    clearFieldError(this);
+                }
+            });
+        }
+        
+        // Real-time validation for email
+        if (emailInput) {
+            emailInput.addEventListener('blur', function() {
+                const value = this.value.trim();
+                if (value && !isValidEmail(value)) {
+                    showFieldError(this, 'Geçerli bir e-posta adresi girin');
+                } else if (value) {
+                    clearFieldError(this);
+                }
+            });
+        }
+        
+        // Real-time validation for password
+        if (passwordInput) {
+            passwordInput.addEventListener('input', function() {
+                const value = this.value;
+                if (value && value.length < 8) {
+                    showFieldError(this, 'Şifre en az 8 karakter olmalıdır');
+                } else if (value) {
+                    clearFieldError(this);
+                }
+                
+                // Check password confirmation if it has value
+                if (passwordConfirmInput && passwordConfirmInput.value) {
+                    if (value !== passwordConfirmInput.value) {
+                        showFieldError(passwordConfirmInput, 'Şifreler eşleşmiyor');
+                    } else {
+                        clearFieldError(passwordConfirmInput);
+                    }
+                }
+            });
+        }
+        
+        // Real-time validation for password confirmation
+        if (passwordConfirmInput && passwordInput) {
+            passwordConfirmInput.addEventListener('blur', function() {
+                const value = this.value;
+                const passwordValue = passwordInput.value;
+                if (value && value !== passwordValue) {
+                    showFieldError(this, 'Şifreler eşleşmiyor');
+                } else if (value) {
+                    clearFieldError(this);
+                }
+            });
+        }
     }
 });
 
