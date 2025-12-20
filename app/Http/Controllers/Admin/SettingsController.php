@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\UpdatePasswordRequest;
+use App\Http\Requests\Admin\UpdateProfileRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 
 class SettingsController extends Controller
 {
@@ -22,14 +22,12 @@ class SettingsController extends Controller
     /**
      * Profil bilgilerini güncelle
      */
-    public function updateProfile(Request $request)
+    public function updateProfile(UpdateProfileRequest $request)
     {
         $user = Auth::user();
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
-        ]);
+        // Form validasyonu Form Request tarafından yapılıyor
+        $validated = $request->validated();
 
         $user->update($validated);
 
@@ -40,23 +38,21 @@ class SettingsController extends Controller
     /**
      * Şifre değiştir
      */
-    public function updatePassword(Request $request)
+    public function updatePassword(UpdatePasswordRequest $request)
     {
-        $request->validate([
-            'current_password' => ['required', 'string'],
-            'password' => ['required', 'string', 'confirmed', Password::defaults()],
-        ]);
+        // Form validasyonu Form Request tarafından yapılıyor
+        $validated = $request->validated();
 
         $user = Auth::user();
 
         // Mevcut şifreyi kontrol et
-        if (!Hash::check($request->current_password, $user->password)) {
+        if (!Hash::check($validated['current_password'], $user->password)) {
             return back()->withErrors(['current_password' => 'Mevcut şifre yanlış.']);
         }
 
         // Yeni şifreyi güncelle
         $user->update([
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($validated['password']),
         ]);
 
         return redirect()->route('admin.settings.index')

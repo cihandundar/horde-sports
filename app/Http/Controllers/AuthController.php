@@ -2,26 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
     /**
      * Kullanıcı kayıt işlemi
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        // Form validasyonu
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Password::defaults()],
-            'terms' => ['required', 'accepted'],
-        ]);
+        // Form validasyonu Form Request tarafından yapılıyor
+        $validated = $request->validated();
 
         // Yeni kullanıcı oluştur
         $user = User::create([
@@ -40,13 +36,10 @@ class AuthController extends Controller
     /**
      * Kullanıcı giriş işlemi
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        // Form validasyonu
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        // Form validasyonu Form Request tarafından yapılıyor
+        $credentials = $request->only(['email', 'password']);
 
         // "Beni hatırla" checkbox kontrolü
         $remember = $request->has('remember');

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreAuthorRequest;
+use App\Http\Requests\Admin\UpdateAuthorRequest;
 use App\Models\Author;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -30,13 +31,10 @@ class AuthorController extends Controller
     /**
      * Yeni yazar kaydet
      */
-    public function store(Request $request)
+    public function store(StoreAuthorRequest $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'bio' => ['nullable', 'string'],
-            'photo' => ['nullable', 'image', 'max:2048'],
-        ]);
+        // Form validasyonu Form Request tarafından yapılıyor
+        $validated = $request->validated();
 
         // Fotoğraf yükleme
         if ($request->hasFile('photo')) {
@@ -73,13 +71,10 @@ class AuthorController extends Controller
     /**
      * Yazar güncelle
      */
-    public function update(Request $request, Author $author)
+    public function update(UpdateAuthorRequest $request, Author $author)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'bio' => ['nullable', 'string'],
-            'photo' => ['nullable', 'image', 'max:2048'],
-        ]);
+        // Form validasyonu Form Request tarafından yapılıyor
+        $validated = $request->validated();
 
         // Yeni fotoğraf yüklendiyse eski fotoğrafı sil
         if ($request->hasFile('photo')) {

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreGameRequest;
+use App\Http\Requests\Admin\UpdateGameRequest;
 use App\Models\Game;
-use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
@@ -31,17 +32,10 @@ class GameController extends Controller
     /**
      * Yeni maç kaydet
      */
-    public function store(Request $request)
+    public function store(StoreGameRequest $request)
     {
-        $validated = $request->validate([
-            'home_team' => ['required', 'string', 'max:255'],
-            'away_team' => ['required', 'string', 'max:255'],
-            'match_date' => ['required', 'date'],
-            'match_time' => ['nullable', 'date_format:H:i'],
-            'home_score' => ['nullable', 'integer', 'min:0'],
-            'away_score' => ['nullable', 'integer', 'min:0'],
-            'status' => ['required', 'in:upcoming,live,finished'],
-        ]);
+        // Form validasyonu Form Request tarafından yapılıyor
+        $validated = $request->validated();
 
         Game::create($validated);
 
@@ -60,17 +54,10 @@ class GameController extends Controller
     /**
      * Maç güncelle
      */
-    public function update(Request $request, Game $game)
+    public function update(UpdateGameRequest $request, Game $game)
     {
-        $validated = $request->validate([
-            'home_team' => ['required', 'string', 'max:255'],
-            'away_team' => ['required', 'string', 'max:255'],
-            'match_date' => ['required', 'date'],
-            'match_time' => ['nullable', 'date_format:H:i'],
-            'home_score' => ['nullable', 'integer', 'min:0'],
-            'away_score' => ['nullable', 'integer', 'min:0'],
-            'status' => ['required', 'in:upcoming,live,finished'],
-        ]);
+        // Form validasyonu Form Request tarafından yapılıyor
+        $validated = $request->validated();
 
         $game->update($validated);
 

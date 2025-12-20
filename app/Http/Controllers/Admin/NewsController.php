@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreNewsRequest;
+use App\Http\Requests\Admin\UpdateNewsRequest;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\News;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -34,15 +35,10 @@ class NewsController extends Controller
     /**
      * Yeni haber kaydet
      */
-    public function store(Request $request)
+    public function store(StoreNewsRequest $request)
     {
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string'],
-            'image' => ['nullable', 'image', 'max:2048'],
-            'author_id' => ['required', 'exists:authors,id'],
-            'category_id' => ['required', 'exists:categories,id'],
-        ]);
+        // Form validasyonu Form Request tarafından yapılıyor
+        $validated = $request->validated();
 
         // Görsel yükleme
         if ($request->hasFile('image')) {
@@ -81,15 +77,10 @@ class NewsController extends Controller
     /**
      * Haber güncelle
      */
-    public function update(Request $request, News $news)
+    public function update(UpdateNewsRequest $request, News $news)
     {
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string'],
-            'image' => ['nullable', 'image', 'max:2048'],
-            'author_id' => ['required', 'exists:authors,id'],
-            'category_id' => ['required', 'exists:categories,id'],
-        ]);
+        // Form validasyonu Form Request tarafından yapılıyor
+        $validated = $request->validated();
 
         // Yeni görsel yüklendiyse eski görseli sil
         if ($request->hasFile('image')) {
