@@ -27,7 +27,11 @@
                                         <i class="fas fa-futbol team-ball-logo"></i>
                                         <span class="team-name">{{ $game->home_team }}</span>
                                         <span class="team-score">
-                                            {{ $game->status === 'finished' ? $game->home_score : '-' }}
+                                            @if(in_array($game->status, ['live', 'finished']) && $game->home_score !== null)
+                                                {{ $game->home_score }}
+                                            @else
+                                                -
+                                            @endif
                                         </span>
                                     </div>
                                     <div class="match-vs">VS</div>
@@ -35,7 +39,11 @@
                                         <i class="fas fa-futbol team-ball-logo"></i>
                                         <span class="team-name">{{ $game->away_team }}</span>
                                         <span class="team-score">
-                                            {{ $game->status === 'finished' ? $game->away_score : '-' }}
+                                            @if(in_array($game->status, ['live', 'finished']) && $game->away_score !== null)
+                                                {{ $game->away_score }}
+                                            @else
+                                                -
+                                            @endif
                                         </span>
                                     </div>
                                 </div>

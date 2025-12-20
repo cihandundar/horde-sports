@@ -1044,3 +1044,39 @@ body {
     border-radius: var(--border-radius-small);
     margin: var(--spacing-medium) 0;
 }
+
+/* Status Badge Stilleri - Maç durumları için */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: var(--border-radius-small);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.status-finished {
+    background-color: var(--color-gray);
+    color: var(--color-text-muted);
+}
+
+.status-live {
+    background-color: #dc3545;
+    color: var(--color-white);
+    animation: pulse 2s infinite;
+}
+
+.status-upcoming {
+    background-color: var(--color-primary-light);
+    color: var(--color-white);
+}
+
+/* Pulse animasyonu - Canlı maçlar için */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}

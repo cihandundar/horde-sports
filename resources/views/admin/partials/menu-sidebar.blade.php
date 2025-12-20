@@ -21,7 +21,7 @@
             </li>
             
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('admin.games.index') }}" class="nav-link {{ request()->routeIs('admin.games.*') ? 'active' : '' }}">
                     <i class="fas fa-futbol"></i>
                     <span>Maçlar</span>
                 </a>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AuthorController as AdminAuthorController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\GameController as AdminGameController;
 use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\AuthorController;
 use App\Http\Controllers\Frontend\BlogController;
@@ -80,5 +81,15 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         'edit' => 'admin.news.edit',
         'update' => 'admin.news.update',
         'destroy' => 'admin.news.destroy',
+    ]);
+    
+    // Maç CRUD route'ları
+    Route::resource('games', AdminGameController::class)->names([
+        'index' => 'admin.games.index',
+        'create' => 'admin.games.create',
+        'store' => 'admin.games.store',
+        'edit' => 'admin.games.edit',
+        'update' => 'admin.games.update',
+        'destroy' => 'admin.games.destroy',
     ]);
 });

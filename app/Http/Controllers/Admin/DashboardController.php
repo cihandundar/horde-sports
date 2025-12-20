@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\News;
 use App\Models\Author;
+use App\Models\Game;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -19,7 +20,7 @@ class DashboardController extends Controller
         $totalUsers = User::count();
         $totalNews = News::count();
         $totalAuthors = Author::count();
-        $totalMatches = 0; // Maç sistemi henüz yok
+        $totalMatches = Game::count();
         
         // Son haberler
         $recentNews = News::with(['author', 'category'])

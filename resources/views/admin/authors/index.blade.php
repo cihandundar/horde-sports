@@ -41,7 +41,7 @@ Yazarlar
                         @endif
                     </td>
                     <td>{{ $author->name }}</td>
-                    <td>{{ Str::limit($author->bio ?? 'Biyografi yok', 50) }}</td>
+                    <td>{{ Str::limit(strip_tags($author->bio ?? 'Biyografi yok'), 50) }}</td>
                     <td>
                         <div class="action-buttons">
                             <a href="{{ route('admin.authors.edit', $author) }}" class="btn-edit">
