@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\GameController as AdminGameController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\AuthorController;
 use App\Http\Controllers\Frontend\BlogController;
@@ -92,4 +93,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         'update' => 'admin.games.update',
         'destroy' => 'admin.games.destroy',
     ]);
+    
+    // Ayarlar route'ları
+    Route::get('/settings', [SettingsController::class, 'index'])->name('admin.settings.index');
+    Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])->name('admin.settings.update-profile');
+    Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('admin.settings.update-password');
 });

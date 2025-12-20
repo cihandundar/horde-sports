@@ -1080,3 +1080,130 @@ body {
         opacity: 0.7;
     }
 }
+
+/* Settings Page Styles */
+.settings-page {
+    padding: var(--spacing-large);
+}
+
+.settings-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.settings-section {
+    margin-bottom: var(--spacing-xlarge);
+}
+
+.section-header {
+    margin-bottom: var(--spacing-large);
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-small);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small);
+}
+
+.section-title i {
+    color: var(--color-primary);
+}
+
+.section-description {
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+.settings-card {
+    background-color: var(--color-white);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xlarge);
+    box-shadow: 0 2px 4px var(--color-shadow);
+}
+
+.settings-form {
+    max-width: 600px;
+}
+
+.form-input.is-invalid {
+    border-color: #dc3545;
+}
+
+.error-message {
+    display: block;
+    margin-top: var(--spacing-xs);
+    color: #dc3545;
+    font-size: 12px;
+}
+
+.form-info {
+    padding: var(--spacing-small) 0;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: var(--border-radius-small);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.badge-secondary {
+    background-color: var(--color-gray);
+    color: var(--color-text-primary);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-large);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.info-label {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 16px;
+    color: var(--color-text-primary);
+    font-weight: 500;
+}
+
+/* Responsive - Settings Page */
+@media (max-width: 768px) {
+    .settings-page {
+        padding: var(--spacing-medium);
+    }
+    
+    .settings-card {
+        padding: var(--spacing-large);
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .settings-form {
+        max-width: 100%;
+    }
+}

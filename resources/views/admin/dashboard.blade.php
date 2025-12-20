@@ -76,7 +76,7 @@ Dashboard
         <div class="dashboard-section">
             <div class="section-title">Hızlı İşlemler</div>
             <div class="quick-actions">
-                <a href="#" class="action-btn">
+                <a href="{{ route('admin.games.create') }}" class="action-btn">
                     <i class="fas fa-plus"></i>
                     <span>Yeni Maç Ekle</span>
                 </a>
