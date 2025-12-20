@@ -49,6 +49,13 @@
             </li>
             
             <li class="nav-item">
+                <a href="{{ route('admin.comments.index') }}" class="nav-link {{ request()->routeIs('admin.comments.*') ? 'active' : '' }}">
+                    <i class="fas fa-comments"></i>
+                    <span>Yorumlar</span>
+                </a>
+            </li>
+            
+            <li class="nav-item">
                 <a href="{{ route('admin.settings.index') }}" class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
                     <i class="fas fa-cog"></i>
                     <span>Ayarlar</span>
@@ -58,7 +65,7 @@
     </nav>
     
     <div class="sidebar-footer">
-        <a href="{{ route('home') }}" class="sidebar-link" target="_blank">
+        <a href="{{ route('home') }}" class="sidebar-link" target="_blank" rel="noopener noreferrer">
             <i class="fas fa-external-link-alt"></i>
             <span>Siteye Git</span>
         </a>

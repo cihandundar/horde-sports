@@ -18,6 +18,12 @@ class NewsController extends Controller
             ->with(['author', 'category'])
             ->firstOrFail();
         
+        // Onaylanmış yorumları getir (kullanıcı bilgileriyle birlikte)
+        $comments = $news->approvedComments()
+            ->with('user')
+            ->latest()
+            ->get();
+        
         // İlgili haberler - Aynı kategorideki diğer haberler
         $relatedNews = News::where('category_id', $news->category_id)
             ->where('id', '!=', $news->id)
@@ -26,6 +32,6 @@ class NewsController extends Controller
             ->limit(4)
             ->get();
         
-        return view('front.pages.news-detail', compact('news', 'relatedNews'));
+        return view('front.pages.news-detail', compact('news', 'relatedNews', 'comments'));
     }
 }

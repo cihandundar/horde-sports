@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\GameController as AdminGameController;
+use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\AuthorController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\SearchController;
+use App\Http\Controllers\Frontend\CommentController;
 
 // Ana sayfa route'u
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -45,6 +47,7 @@ Route::get('/yazarlar', [AuthorController::class, 'index'])->name('authors.index
 Route::get('/yazar/{slug}', [AuthorController::class, 'show'])->name('author.show');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/haber/{slug}', [NewsController::class, 'show'])->name('news.show');
+Route::post('/yorum', [CommentController::class, 'store'])->name('comment.store');
 
 // Admin route'ları (admin middleware ile korumalı)
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
@@ -95,6 +98,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         'update' => 'admin.games.update',
         'destroy' => 'admin.games.destroy',
     ]);
+    
+    // Yorum Yönetimi route'ları
+    Route::get('/comments', [AdminCommentController::class, 'index'])->name('admin.comments.index');
+    Route::post('/comments/{comment}/approve', [AdminCommentController::class, 'approve'])->name('admin.comments.approve');
+    Route::post('/comments/{comment}/reject', [AdminCommentController::class, 'reject'])->name('admin.comments.reject');
+    Route::delete('/comments/{comment}', [AdminCommentController::class, 'destroy'])->name('admin.comments.destroy');
     
     // Ayarlar route'ları
     Route::get('/settings', [SettingsController::class, 'index'])->name('admin.settings.index');

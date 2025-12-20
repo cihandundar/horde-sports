@@ -88,7 +88,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
-    min-height: 800px;
+    min-height: 100%;
     position: fixed;
     top: 0;
     left: 0;
@@ -563,6 +563,11 @@ body {
 
 .btn-secondary:hover {
     background-color: var(--color-dark-gray);
+}
+
+.btn-secondary.active {
+    background-color: var(--color-primary);
+    color: var(--color-text-on-primary);
 }
 
 .form-container {

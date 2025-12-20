@@ -43,6 +43,9 @@
         </div>
     </article>
 
+    <!-- Yorumlar Bölümü -->
+    @include('front.partials.comments-section', ['news' => $news, 'comments' => $comments ?? collect()])
+
     <!-- İlgili Haberler -->
     @if($relatedNews->count() > 0)
     <section class="related-news-section">
