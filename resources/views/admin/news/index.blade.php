@@ -26,6 +26,7 @@ Haberler
                     <th>Başlık</th>
                     <th>Yazar</th>
                     <th>Kategori</th>
+                    <th>Durum</th>
                     <th>İşlemler</th>
                 </tr>
             </thead>
@@ -45,7 +46,34 @@ Haberler
                     <td>{{ $item->author->name }}</td>
                     <td>{{ $item->category->name }}</td>
                     <td>
+                        @if($item->is_approved)
+                            <span class="status-badge status-approved">
+                                <i class="fas fa-check-circle"></i> Onaylandı
+                            </span>
+                        @else
+                            <span class="status-badge status-pending">
+                                <i class="fas fa-clock"></i> Onay Bekliyor
+                            </span>
+                        @endif
+                    </td>
+                    <td>
                         <div class="action-buttons">
+                            @auth
+                                @if(auth()->user()->isAdmin() && !$item->is_approved)
+                                    <form action="{{ route('admin.news.approve', $item) }}" method="POST" class="inline-form">
+                                        @csrf
+                                        <button type="submit" class="btn-approve" title="Onayla">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('admin.news.reject', $item) }}" method="POST" class="inline-form">
+                                        @csrf
+                                        <button type="submit" class="btn-reject" title="Reddet">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                            @endauth
                             <a href="{{ route('admin.news.edit', $item) }}" class="btn-edit">
                                 <i class="fas fa-edit"></i>
                             </a>
@@ -61,7 +89,7 @@ Haberler
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="empty-state">Henüz haber eklenmemiş.</td>
+                    <td colspan="6" class="empty-state">Henüz haber eklenmemiş.</td>
                 </tr>
                 @endforelse
             </tbody>

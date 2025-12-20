@@ -43,6 +43,8 @@
     font-family: 'Montserrat', sans-serif;
   }
 
+
+
 /* Header Bölümü */
 .header {
   background-color: var(--color-white);
@@ -407,11 +409,28 @@
   border-bottom: 1px solid var(--color-border);
 }
 
-.dropdown-user-info i {
-  font-size: 20px;
-  color: var(--color-primary);
-  width: 24px;
-  text-align: center;
+.dropdown-user-initials {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.dropdown-user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
 }
 
 .dropdown-user-name {
@@ -421,6 +440,18 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.dropdown-user-role {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-transform: capitalize;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: var(--color-border);
+  margin: 4px 0;
 }
 
 /* Logout form ve buton */
@@ -565,6 +596,14 @@
   flex-shrink: 0;
 }
 
+.mobile-user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
 .mobile-user-name {
   font-size: 15px;
   font-weight: 600;
@@ -572,6 +611,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.mobile-user-role {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-transform: capitalize;
 }
 
 .mobile-logout-form {
@@ -761,6 +806,7 @@
 .footer {
   background-color: var(--color-secondary);
   color: var(--color-text-on-primary);
+  padding-bottom: 60px;
 }
 
 .footer-container {
@@ -2977,6 +3023,117 @@
 
   .comment-item {
     padding: var(--spacing-medium);
+  }
+}
+
+/* Admin Bar - Giriş yapmış kullanıcılar için alt bar - Profesyonel ve ince tasarım */
+.admin-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, rgba(43, 43, 43, 0.98) 0%, rgba(26, 26, 26, 0.98) 100%);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(107, 31, 31, 0.3);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  padding: 6px 0;
+}
+
+.admin-bar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-medium);
+}
+
+.admin-bar-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.admin-bar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--color-white);
+  background-color: rgba(107, 31, 31, 0.8);
+  border: 1px solid rgba(107, 31, 31, 0.4);
+  letter-spacing: 0.3px;
+}
+
+.admin-bar-btn:hover {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(107, 31, 31, 0.3);
+}
+
+.admin-bar-btn:active {
+  transform: translateY(0);
+}
+
+.admin-bar-btn i {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.admin-bar-btn-edit {
+  background-color: rgba(40, 167, 69, 0.8);
+  border-color: rgba(40, 167, 69, 0.4);
+}
+
+.admin-bar-btn-edit:hover {
+  background-color: #28a745;
+  border-color: #28a745;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+
+.admin-bar-btn-dashboard {
+  background-color: rgba(107, 31, 31, 0.8);
+  border-color: rgba(107, 31, 31, 0.4);
+}
+
+.admin-bar-btn-dashboard:hover {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(107, 31, 31, 0.3);
+}
+
+/* Admin Bar Responsive */
+@media (max-width: 768px) {
+  .admin-bar {
+    padding: 5px 0;
+  }
+
+  .admin-bar-container {
+    padding: 0 var(--spacing-small);
+  }
+
+  .admin-bar-content {
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .admin-bar-btn {
+    padding: 5px 10px;
+    font-size: 11px;
+    gap: 4px;
+  }
+
+  .admin-bar-btn span {
+    display: none;
+  }
+
+  .admin-bar-btn i {
+    font-size: 13px;
   }
 }
 

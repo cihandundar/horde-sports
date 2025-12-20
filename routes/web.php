@@ -49,7 +49,7 @@ Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/haber/{slug}', [NewsController::class, 'show'])->name('news.show');
 Route::post('/yorum', [CommentController::class, 'store'])->name('comment.store');
 
-// Admin route'ları (admin middleware ile korumalı)
+// Admin route'ları (auth middleware ile korumalı - tüm giriş yapmış kullanıcılar erişebilir)
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     
@@ -88,6 +88,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         'update' => 'admin.news.update',
         'destroy' => 'admin.news.destroy',
     ]);
+    
+    // Haber onaylama/reddetme route'ları
+    Route::post('/news/{news}/approve', [AdminNewsController::class, 'approve'])->name('admin.news.approve');
+    Route::post('/news/{news}/reject', [AdminNewsController::class, 'reject'])->name('admin.news.reject');
     
     // Maç CRUD route'ları
     Route::resource('games', AdminGameController::class)->names([

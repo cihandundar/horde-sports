@@ -26,8 +26,9 @@ class AuthorController extends Controller
         $author = Author::where('slug', $slug)
             ->firstOrFail();
         
-        // Yazarın haberleri
+        // Yazarın haberleri - Sadece onaylanmış haberler
         $news = $author->news()
+            ->where('is_approved', true)
             ->with(['category'])
             ->latest()
             ->paginate(12);

@@ -15,7 +15,17 @@ class News extends Model
         'image',
         'author_id',
         'category_id',
+        'user_id',
+        'is_approved',
     ];
+
+    /**
+     * Haberi ekleyen kullanıcı
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /**
      * Haberin yazarı
@@ -47,5 +57,13 @@ class News extends Model
     public function approvedComments(): HasMany
     {
         return $this->hasMany(Comment::class)->where('is_approved', true);
+    }
+
+    /**
+     * Haberin onaylanıp onaylanmadığını kontrol et
+     */
+    public function isApproved(): bool
+    {
+        return $this->is_approved === true;
     }
 }

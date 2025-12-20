@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\UpdateNewsRequest;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\News;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -15,10 +16,18 @@ class NewsController extends Controller
 {
     /**
      * Haber listesi
+     * Admin ise tüm haberleri, kullanıcı ise sadece kendi haberlerini göster
      */
     public function index()
     {
-        $news = News::with(['author', 'category'])->latest()->paginate(10);
+        $query = News::with(['author', 'category', 'user']);
+        
+        // Kullanıcı ise sadece kendi haberlerini göster
+        if (!Auth::user()->isAdmin()) {
+            $query->where('user_id', Auth::id());
+        }
+        
+        $news = $query->latest()->paginate(10);
         return view('admin.news.index', compact('news'));
     }
 
@@ -58,17 +67,35 @@ class NewsController extends Controller
         
         $validated['slug'] = $slug;
 
+        // Kullanıcı bilgilerini ekle
+        $validated['user_id'] = Auth::id();
+        
+        // Admin ise otomatik onayla, kullanıcı ise onay beklesin
+        $validated['is_approved'] = Auth::user()->isAdmin();
+
         News::create($validated);
 
+        // Mesajı kullanıcı rolüne göre ayarla
+        $message = Auth::user()->isAdmin() 
+            ? 'Haber başarıyla eklendi.' 
+            : 'Haber başarıyla eklendi. Admin onayından sonra yayınlanacaktır.';
+
         return redirect()->route('admin.news.index')
-            ->with('success', 'Haber başarıyla eklendi.');
+            ->with('success', $message);
     }
 
     /**
      * Haber düzenleme formu
+     * Kullanıcılar sadece kendi haberlerini düzenleyebilir
      */
     public function edit(News $news)
     {
+        // Kullanıcı ise sadece kendi haberlerini düzenleyebilir
+        if (!Auth::user()->isAdmin() && $news->user_id !== Auth::id()) {
+            return redirect()->route('admin.news.index')
+                ->with('error', 'Bu haberi düzenleme yetkiniz yok.');
+        }
+
         $authors = Author::all();
         $categories = Category::all();
         return view('admin.news.edit', compact('news', 'authors', 'categories'));
@@ -76,11 +103,23 @@ class NewsController extends Controller
 
     /**
      * Haber güncelle
+     * Kullanıcılar sadece kendi haberlerini güncelleyebilir
      */
     public function update(UpdateNewsRequest $request, News $news)
     {
+        // Kullanıcı ise sadece kendi haberlerini güncelleyebilir
+        if (!Auth::user()->isAdmin() && $news->user_id !== Auth::id()) {
+            return redirect()->route('admin.news.index')
+                ->with('error', 'Bu haberi güncelleme yetkiniz yok.');
+        }
+
         // Form validasyonu Form Request tarafından yapılıyor
         $validated = $request->validated();
+        
+        // Kullanıcı güncelleme yapıyorsa onay durumunu sıfırla (tekrar onay beklesin)
+        if (!Auth::user()->isAdmin() && $news->is_approved) {
+            $validated['is_approved'] = false;
+        }
 
         // Yeni görsel yüklendiyse eski görseli sil
         if ($request->hasFile('image')) {
@@ -107,8 +146,13 @@ class NewsController extends Controller
 
         $news->update($validated);
 
+        // Mesajı kullanıcı rolüne göre ayarla
+        $message = Auth::user()->isAdmin() 
+            ? 'Haber başarıyla güncellendi.' 
+            : 'Haber başarıyla güncellendi. Admin onayından sonra yayınlanacaktır.';
+
         return redirect()->route('admin.news.index')
-            ->with('success', 'Haber başarıyla güncellendi.');
+            ->with('success', $message);
     }
 
     /**
@@ -116,6 +160,12 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
+        // Kullanıcı ise sadece kendi haberlerini silebilir
+        if (!Auth::user()->isAdmin() && $news->user_id !== Auth::id()) {
+            return redirect()->route('admin.news.index')
+                ->with('error', 'Bu haberi silme yetkiniz yok.');
+        }
+
         // Görseli sil
         if ($news->image) {
             Storage::disk('public')->delete($news->image);
@@ -125,5 +175,39 @@ class NewsController extends Controller
 
         return redirect()->route('admin.news.index')
             ->with('success', 'Haber başarıyla silindi.');
+    }
+
+    /**
+     * Haberi onayla (Sadece admin)
+     */
+    public function approve(News $news)
+    {
+        // Sadece admin onaylayabilir
+        if (!Auth::user()->isAdmin()) {
+            return redirect()->route('admin.news.index')
+                ->with('error', 'Bu işlem için yetkiniz yok.');
+        }
+
+        $news->update(['is_approved' => true]);
+
+        return redirect()->route('admin.news.index')
+            ->with('success', 'Haber başarıyla onaylandı.');
+    }
+
+    /**
+     * Haberi reddet (Sadece admin)
+     */
+    public function reject(News $news)
+    {
+        // Sadece admin reddedebilir
+        if (!Auth::user()->isAdmin()) {
+            return redirect()->route('admin.news.index')
+                ->with('error', 'Bu işlem için yetkiniz yok.');
+        }
+
+        $news->update(['is_approved' => false]);
+
+        return redirect()->route('admin.news.index')
+            ->with('success', 'Haber reddedildi.');
     }
 }

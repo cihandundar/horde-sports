@@ -9,12 +9,13 @@ use Illuminate\Http\Request;
 class NewsController extends Controller
 {
     /**
-     * Haber detay sayfası - Slug ile haber göster
+     * Haber detay sayfası - Slug ile haber göster (Sadece onaylanmış haberler)
      */
     public function show($slug)
     {
-        // Slug ile haberi bul, yazar ve kategori bilgileriyle birlikte
+        // Slug ile haberi bul, yazar ve kategori bilgileriyle birlikte - Sadece onaylanmış haberler
         $news = News::where('slug', $slug)
+            ->where('is_approved', true)
             ->with(['author', 'category'])
             ->firstOrFail();
         
@@ -24,9 +25,10 @@ class NewsController extends Controller
             ->latest()
             ->get();
         
-        // İlgili haberler - Aynı kategorideki diğer haberler
+        // İlgili haberler - Aynı kategorideki diğer onaylanmış haberler
         $relatedNews = News::where('category_id', $news->category_id)
             ->where('id', '!=', $news->id)
+            ->where('is_approved', true)
             ->with(['author', 'category'])
             ->latest()
             ->limit(4)

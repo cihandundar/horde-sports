@@ -10,8 +10,9 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminMiddleware
 {
     /**
-     * Admin kontrolü yapan middleware
-     * Sadece admin rolüne sahip kullanıcıların admin paneline erişmesine izin verir
+     * Admin paneli erişim kontrolü yapan middleware
+     * Giriş yapmış tüm kullanıcıların admin paneline erişmesine izin verir
+     * Admin işlemleri için controller seviyesinde kontrol yapılır
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
@@ -19,14 +20,10 @@ class AdminMiddleware
     {
         // Kullanıcı giriş yapmış mı kontrol et
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Admin paneline erişmek için giriş yapmalısınız.');
+            return redirect()->route('login')->with('error', 'Panele erişmek için giriş yapmalısınız.');
         }
 
-        // Kullanıcı admin mi kontrol et
-        if (!Auth::user()->isAdmin()) {
-            return redirect()->route('home')->with('error', 'Bu sayfaya erişim yetkiniz yok.');
-        }
-
+        // Giriş yapmış tüm kullanıcılar panele erişebilir
         return $next($request);
     }
 }

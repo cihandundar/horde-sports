@@ -20,8 +20,9 @@ class HomeController extends Controller
             ->limit(10)
             ->get();
 
-        // Son haberler (en fazla 6 adet - blog section için)
+        // Son haberler (en fazla 6 adet - blog section için) - Sadece onaylanmış haberler
         $news = News::with(['author', 'category'])
+            ->where('is_approved', true)
             ->latest()
             ->limit(6)
             ->get();

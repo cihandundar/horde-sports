@@ -825,6 +825,79 @@ body {
     background-color: #c82333;
 }
 
+/* Status Badge Stilleri - Haber Onay Durumu */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 4px 12px;
+    border-radius: var(--border-radius-small);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-approved {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-approved i {
+    color: #28a745;
+}
+
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.status-pending i {
+    color: #ffc107;
+}
+
+/* Onaylama/Reddetme Butonları */
+.btn-approve {
+    background-color: #28a745;
+    color: var(--color-text-on-primary);
+    padding: var(--spacing-xs) var(--spacing-small);
+    border: none;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+}
+
+.btn-approve:hover {
+    background-color: #218838;
+}
+
+.btn-reject {
+    background-color: #dc3545;
+    color: var(--color-text-on-primary);
+    padding: var(--spacing-xs) var(--spacing-small);
+    border: none;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+}
+
+.btn-reject:hover {
+    background-color: #c82333;
+}
+
 /* Flash Messages (Alert) Stilleri */
 .alert {
     display: flex;

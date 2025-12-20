@@ -10,12 +10,13 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     /**
-     * Kategoriye göre haberleri göster
+     * Kategoriye göre haberleri göster - Sadece onaylanmış haberler
      */
     public function show($slug)
     {
         $category = Category::where('slug', $slug)->firstOrFail();
         $news = News::where('category_id', $category->id)
+            ->where('is_approved', true)
             ->with(['author', 'category'])
             ->latest()
             ->paginate(12);

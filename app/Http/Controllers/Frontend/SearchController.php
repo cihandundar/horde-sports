@@ -19,8 +19,12 @@ class SearchController extends Controller
             return redirect()->route('home');
         }
         
-        $news = News::where('title', 'like', '%' . $query . '%')
-            ->orWhere('content', 'like', '%' . $query . '%')
+        // Sadece onaylanmış haberlerde arama yap
+        $news = News::where('is_approved', true)
+            ->where(function($q) use ($query) {
+                $q->where('title', 'like', '%' . $query . '%')
+                  ->orWhere('content', 'like', '%' . $query . '%');
+            })
             ->with(['author', 'category'])
             ->latest()
             ->paginate(12);

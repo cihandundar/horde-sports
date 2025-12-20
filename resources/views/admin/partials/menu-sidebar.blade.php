@@ -13,12 +13,17 @@
                 </a>
             </li>
             
-            <li class="nav-item">
-                <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                    <i class="fas fa-users"></i>
-                    <span>Kullanıcılar</span>
-                </a>
-            </li>
+            {{-- Kullanıcılar linki sadece admin kullanıcılar için görünür --}}
+            @auth
+                @if(auth()->user()->isAdmin())
+                <li class="nav-item">
+                    <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                        <i class="fas fa-users"></i>
+                        <span>Kullanıcılar</span>
+                    </a>
+                </li>
+                @endif
+            @endauth
             
             <li class="nav-item">
                 <a href="{{ route('admin.games.index') }}" class="nav-link {{ request()->routeIs('admin.games.*') ? 'active' : '' }}">
@@ -48,12 +53,17 @@
                 </a>
             </li>
             
-            <li class="nav-item">
-                <a href="{{ route('admin.comments.index') }}" class="nav-link {{ request()->routeIs('admin.comments.*') ? 'active' : '' }}">
-                    <i class="fas fa-comments"></i>
-                    <span>Yorumlar</span>
-                </a>
-            </li>
+            {{-- Yorumlar linki sadece admin kullanıcılar için görünür --}}
+            @auth
+                @if(auth()->user()->isAdmin())
+                <li class="nav-item">
+                    <a href="{{ route('admin.comments.index') }}" class="nav-link {{ request()->routeIs('admin.comments.*') ? 'active' : '' }}">
+                        <i class="fas fa-comments"></i>
+                        <span>Yorumlar</span>
+                    </a>
+                </li>
+                @endif
+            @endauth
             
             <li class="nav-item">
                 <a href="{{ route('admin.settings.index') }}" class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
