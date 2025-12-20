@@ -128,6 +128,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 dropdownContainer.classList.remove('active');
             });
         });
+
+        // Logout butonlarına tıklandığında dropdown'ı kapat
+        const logoutForms = dropdownMenu.querySelectorAll('.dropdown-logout-form');
+        logoutForms.forEach(function(form) {
+            form.addEventListener('submit', function() {
+                dropdownContainer.classList.remove('active');
+            });
+        });
     }
 });
 

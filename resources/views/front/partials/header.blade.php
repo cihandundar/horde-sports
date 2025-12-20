@@ -22,6 +22,24 @@
                     <a href="{{ route('blog.index') }}" class="menu-link">Blog</a>
                 </li>
             </ul>
+            @auth
+            @php
+                $mobileUserInitials = implode('', array_map(function($word) { return mb_strtoupper(mb_substr($word, 0, 1)); }, explode(' ', Auth::user()->name)));
+            @endphp
+            <div class="mobile-menu-auth">
+                <div class="mobile-user-info">
+                    <span class="mobile-user-initials">{{ $mobileUserInitials }}</span>
+                    <span class="mobile-user-name">{{ Auth::user()->name }}</span>
+                </div>
+                <form action="{{ route('logout') }}" method="POST" class="mobile-logout-form">
+                    @csrf
+                    <button type="submit" class="mobile-auth-link logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Çıkış Yap</span>
+                    </button>
+                </form>
+            </div>
+            @else
             <div class="mobile-menu-auth">
                 <a href="{{ route('login') }}" class="mobile-auth-link">
                     <i class="fas fa-sign-in-alt"></i>
@@ -32,6 +50,7 @@
                     <span>Kayıt Ol</span>
                 </a>
             </div>
+            @endauth
         </nav>
         <div class="header-right">
             <!-- Arama Bölümü -->
@@ -58,6 +77,27 @@
                 </div>
             </div>
             <div class="header-user-dropdown desktop-only">
+                @auth
+                @php
+                    $userInitials = implode('', array_map(function($word) { return mb_strtoupper(mb_substr($word, 0, 1)); }, explode(' ', Auth::user()->name)));
+                @endphp
+                <button class="user-dropdown-toggle" type="button" aria-label="Kullanıcı menüsü">
+                    <span class="user-initials">{{ $userInitials }}</span>
+                </button>
+                <div class="user-dropdown-menu">
+                    <div class="dropdown-user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="dropdown-user-name">{{ Auth::user()->name }}</span>
+                    </div>
+                    <form action="{{ route('logout') }}" method="POST" class="dropdown-logout-form">
+                        @csrf
+                        <button type="submit" class="dropdown-item logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Çıkış Yap</span>
+                        </button>
+                    </form>
+                </div>
+                @else
                 <button class="user-dropdown-toggle" type="button" aria-label="Kullanıcı menüsü">
                     <i class="fas fa-user"></i>
                 </button>
@@ -71,6 +111,7 @@
                         <span>Kayıt Ol</span>
                     </a>
                 </div>
+                @endauth
             </div>
             <button class="mobile-menu-toggle" type="button" aria-label="Menü">
                 <i class="fas fa-bars"></i>
