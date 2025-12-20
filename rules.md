@@ -151,3 +151,13 @@ Görselleri unplashtan al
 - ✅ Yorumlar Türkçe olsun
 - ✅ MySQL veritabanı kullan
 - ✅ @yield('content') ve @extends mantığını kullan
+
+---
+
+## ⚠️ KISA VADEDE YAPILMASI GEREKENLER (2-4 Hafta)
+
+6. ✅ **SEO optimizasyonu** (Meta tags, OG tags)
+7. ✅ **Form Request validation** (Kod kalitesi)
+8. ✅ **Error sayfaları** (Kullanıcı deneyimi)
+9. ✅ **Pagination styling** (UI iyileştirme)
+10. ✅ **Image lazy loading** (Performans)

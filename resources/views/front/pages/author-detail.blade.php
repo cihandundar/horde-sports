@@ -4,6 +4,26 @@
 {{ $author->name }} - Horde Sports
 @endsection
 
+@section('description')
+@if($author->bio)
+{{ Str::limit(strip_tags($author->bio), 160) }}
+@else
+{{ $author->name }}'in Horde Sports'taki tüm yazılarını ve analizlerini keşfedin.
+@endif
+@endsection
+
+@section('keywords')
+{{ $author->name }}, yazar, spor yazarı, {{ $author->name }} yazıları, Horde Sports
+@endsection
+
+@section('og-image')
+@if($author->photo)
+{{ asset('storage/' . $author->photo) }}
+@else
+{{ asset('front/assets/images/og-image.jpg') }}
+@endif
+@endsection
+
 @section('content')
 <div class="author-detail-page">
     <!-- Breadcrumb Navigasyon - Otomatik oluşturulur -->

@@ -1,7 +1,27 @@
 @extends('front.base')
 
 @section('title')
+@if($query)
+"{{ $query }}" Arama Sonuçları - Horde Sports
+@else
 Arama Sonuçları - Horde Sports
+@endif
+@endsection
+
+@section('description')
+@if($query)
+"{{ $query }}" için arama sonuçları. Horde Sports'ta spor haberlerini keşfedin.
+@else
+Horde Sports'ta arama yapın ve spor haberlerini keşfedin.
+@endif
+@endsection
+
+@section('keywords')
+@if($query)
+{{ $query }}, arama, spor haberleri
+@else
+arama, spor haberleri, Horde Sports
+@endif
 @endsection
 
 @section('content')

@@ -4,6 +4,26 @@
 {{ $news->title }} - Horde Sports
 @endsection
 
+@section('description')
+{{ Str::limit(strip_tags($news->content), 160) }}
+@endsection
+
+@section('keywords')
+{{ $news->category->name }}, {{ $news->author->name }}, spor, haber, {{ $news->title }}
+@endsection
+
+@section('og-image')
+@if($news->image)
+{{ asset('storage/' . $news->image) }}
+@else
+{{ asset('front/assets/images/og-image.jpg') }}
+@endif
+@endsection
+
+@section('og-type')
+article
+@endsection
+
 @section('content')
 <div class="news-detail-page">
     <!-- Breadcrumb Navigasyon - Otomatik oluşturulur -->

@@ -4,6 +4,14 @@
 Blog - Horde Sports
 @endsection
 
+@section('description')
+Horde Sports blog sayfasında tüm spor haberleri, analizler ve özel yazıları keşfedin.
+@endsection
+
+@section('keywords')
+blog, spor blog, spor haberleri, analiz, özel yazılar, Horde Sports
+@endsection
+
 @section('content')
 <div class="blog-page">
     @include('front.partials.breadcrumb')

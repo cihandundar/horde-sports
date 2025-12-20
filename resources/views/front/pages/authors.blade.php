@@ -4,6 +4,14 @@
 Yazarlar - Horde Sports
 @endsection
 
+@section('description')
+Horde Sports'un deneyimli yazarlarını keşfedin ve en iyi spor analizleri ve haberleri okuyun.
+@endsection
+
+@section('keywords')
+yazarlar, spor yazarları, spor analizleri, Horde Sports yazarları
+@endsection
+
 @section('content')
 <div class="authors-page">
     @include('front.partials.breadcrumb')

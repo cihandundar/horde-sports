@@ -4,6 +4,14 @@
 {{ $category->name }} - Horde Sports
 @endsection
 
+@section('description')
+{{ $category->name }} kategorisindeki en güncel spor haberleri ve analizleri Horde Sports'ta okuyun.
+@endsection
+
+@section('keywords')
+{{ $category->name }}, spor, haber, {{ $category->name }} haberleri, Horde Sports
+@endsection
+
 @section('content')
 <div class="category-page">
     @include('front.partials.breadcrumb')
