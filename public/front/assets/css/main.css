@@ -122,7 +122,7 @@
   left: 0;
   right: 0;
   width: 100%;
-  height: 50vh;
+  height: 500px;
   background-color: var(--color-white);
   transform: translateY(-100%);
   transition: transform 0.4s ease;
@@ -518,6 +518,12 @@
   }
 }
 
+@media (max-width: 768px) {
+  .search-panel {
+    height: 450px;
+  }
+}
+
 @media (max-width: 480px) {
   .header-container {
     padding: var(--spacing-small) var(--spacing-medium);
@@ -556,7 +562,7 @@
   }
 
   .search-panel {
-    height: 45vh;
+    height: 400px;
   }
 
   .search-container {
@@ -870,7 +876,7 @@
 
 /* Auth (Login/Register) Sayfaları */
 .auth-page {
-  min-height: calc(100vh - 160px);
+  min-height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2348,7 +2354,7 @@
 
 /* 404 Error Page - 12 kolonlu grid sistemi */
 .error-page {
-  min-height: 60vh;
+  min-height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;

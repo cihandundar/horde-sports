@@ -14,6 +14,7 @@ use App\Http\Controllers\Frontend\AuthorController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\SearchController;
 
 // Ana sayfa route'u
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -38,6 +39,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Frontend route'ları
+Route::get('/arama', [SearchController::class, 'search'])->name('search');
 Route::get('/kategori/{slug}', [CategoryController::class, 'show'])->name('category.show');
 Route::get('/yazarlar', [AuthorController::class, 'index'])->name('authors.index');
 Route::get('/yazar/{slug}', [AuthorController::class, 'show'])->name('author.show');

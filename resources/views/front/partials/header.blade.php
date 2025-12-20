@@ -42,9 +42,9 @@
                 <div class="search-overlay">
                     <div class="search-panel">
                         <div class="search-container">
-                            <form class="search-form" action="#" method="GET">
+                            <form class="search-form" action="{{ route('search') }}" method="GET">
                                 <div class="search-input-wrapper">
-                                    <input type="text" class="search-input" placeholder="Ara..." name="q" autocomplete="off" reqired>
+                                    <input type="text" class="search-input" placeholder="Ara..." name="q" autocomplete="off" required>
                                     <button type="submit" class="search-submit-btn" aria-label="Ara">
                                         <i class="fas fa-search search-icon"></i>
                                     </button>

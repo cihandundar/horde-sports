@@ -95,6 +95,14 @@
                         ];
                         break;
                         
+                    case 'search':
+                        $breadcrumbItems[] = [
+                            'title' => 'Arama Sonuçları',
+                            'url' => request()->fullUrl(),
+                            'active' => true
+                        ];
+                        break;
+                        
                     case 'authors.index':
                         $breadcrumbItems[] = [
                             'title' => 'Yazarlar',
