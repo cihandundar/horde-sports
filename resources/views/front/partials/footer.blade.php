@@ -4,7 +4,7 @@
         <div class="footer-top">
             <div class="footer-logo-section">
                 <a href="{{ url('/') }}" class="footer-logo-link">
-                    <img src="{{ asset('front/assets/images/logo.png') }}" alt="Horde Sports Logo" class="footer-logo-image">
+                    <img src="{{ asset('front/assets/images/footer-logo.png') }}" alt="Horde Sports Logo" class="footer-logo-image">
                 </a>
                 <p class="footer-description">Spor dünyasının nabzını tutan, en güncel haberler ve analizler.</p>
                 <div class="footer-social">

@@ -474,5 +474,70 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+
+    // Sosyal Medya Paylaşım - Link Kopyalama
+    const copyButton = document.querySelector('.social-share-copy');
+    if (copyButton) {
+        copyButton.addEventListener('click', function() {
+            const url = this.getAttribute('data-url');
+            
+            // Clipboard API kullanarak linki kopyala
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(function() {
+                    // Başarılı - buton stilini değiştir
+                    copyButton.classList.add('copied');
+                    const originalText = copyButton.querySelector('span').textContent;
+                    copyButton.querySelector('span').textContent = 'Kopyalandı!';
+                    copyButton.querySelector('i').className = 'fas fa-check';
+                    
+                    // 2 saniye sonra eski haline dön
+                    setTimeout(function() {
+                        copyButton.classList.remove('copied');
+                        copyButton.querySelector('span').textContent = originalText;
+                        copyButton.querySelector('i').className = 'fas fa-link';
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Link kopyalanamadı:', err);
+                    // Fallback: Eski yöntem
+                    fallbackCopyTextToClipboard(url, copyButton);
+                });
+            } else {
+                // Fallback: Eski tarayıcılar için
+                fallbackCopyTextToClipboard(url, copyButton);
+            }
+        });
+    }
+
+    // Fallback link kopyalama fonksiyonu (eski tarayıcılar için)
+    function fallbackCopyTextToClipboard(text, button) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                button.classList.add('copied');
+                const originalText = button.querySelector('span').textContent;
+                button.querySelector('span').textContent = 'Kopyalandı!';
+                button.querySelector('i').className = 'fas fa-check';
+                
+                setTimeout(function() {
+                    button.classList.remove('copied');
+                    button.querySelector('span').textContent = originalText;
+                    button.querySelector('i').className = 'fas fa-link';
+                }, 2000);
+            }
+        } catch (err) {
+            console.error('Link kopyalanamadı:', err);
+        }
+        
+        document.body.removeChild(textArea);
+    }
 });
 

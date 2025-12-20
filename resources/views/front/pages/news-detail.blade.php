@@ -61,6 +61,9 @@ article
         <div class="news-detail-content">
             {!! $news->content !!}
         </div>
+        
+        <!-- Sosyal Medya Paylaşım Butonları -->
+        @include('front.partials.social-share', ['news' => $news])
     </article>
 
     <!-- Yorumlar Bölümü -->
