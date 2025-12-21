@@ -65,8 +65,8 @@ class AuthorController extends Controller
      */
     public function edit(Author $author)
     {
-        // Yazarın etkinliklerini yükle
-        $activities = $author->activities()->latest()->get();
+        // Yazarın etkinliklerini order'a göre sıralı yükle
+        $activities = $author->activities()->orderBy('order')->get();
         return view('admin.authors.edit', compact('author', 'activities'));
     }
 

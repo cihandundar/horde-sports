@@ -46,6 +46,7 @@ Kategori Düzenle
             <table class="data-table">
                 <thead>
                     <tr>
+                        <th style="width: 40px;"></th>
                         <th>Resim</th>
                         <th>Başlık</th>
                         <th>Açıklama</th>
@@ -53,9 +54,12 @@ Kategori Düzenle
                         <th>İşlemler</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="category-activities-tbody" class="draggable-tbody" data-update-order-url="{{ route('admin.activities.update-order') }}" data-csrf-token="{{ csrf_token() }}">
                     @foreach($activities as $activity)
-                    <tr>
+                    <tr class="draggable-row" data-id="{{ $activity->id }}" draggable="true">
+                        <td class="drag-handle">
+                            <i class="fas fa-grip-vertical"></i>
+                        </td>
                         <td>
                             @if($activity->image)
                                 <img src="{{ asset('storage/' . $activity->image) }}" alt="{{ $activity->title }}" class="activity-thumb">

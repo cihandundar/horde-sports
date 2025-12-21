@@ -9,7 +9,7 @@ Etkinlikler
 @endsection
 
 @section('content')
-<div class="activities-page" data-update-order-url="{{ route('admin.activities.update-order') }}" data-csrf-token="{{ csrf_token() }}">
+<div class="activities-page">
     <div class="page-header">
         <h1 class="title">Etkinlikler</h1>
         <a href="{{ route('admin.activities.create') }}" class="btn-primary">
@@ -31,7 +31,7 @@ Etkinlikler
                     <th>İşlemler</th>
                 </tr>
             </thead>
-            <tbody id="activities-tbody" class="draggable-tbody">
+            <tbody id="activities-tbody" class="draggable-tbody" data-update-order-url="{{ route('admin.activities.update-order') }}" data-csrf-token="{{ csrf_token() }}">
                 @forelse($activities as $activity)
                 <tr class="draggable-row" data-id="{{ $activity->id }}" draggable="true">
                     <td class="drag-handle">

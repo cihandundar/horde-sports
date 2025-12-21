@@ -49,8 +49,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        // Kategorinin etkinliklerini yükle
-        $activities = $category->activities()->latest()->get();
+        // Kategorinin etkinliklerini order'a göre sıralı yükle
+        $activities = $category->activities()->orderBy('order')->get();
         return view('admin.categories.edit', compact('category', 'activities'));
     }
 

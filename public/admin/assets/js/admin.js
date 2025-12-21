@@ -272,20 +272,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Activities Drag and Drop - Etkinlik sıralaması için drag and drop işlevselliği
-    const activitiesTbody = document.getElementById('activities-tbody');
-    if (activitiesTbody) {
+    // Genel Drag and Drop Sistemi - Tüm draggable-tbody class'ına sahip tablolara uygulanır
+    // Sadece draggable-tbody class'ına sahip tbody elementlerine drag and drop özelliği ekler
+    const draggableTbodies = document.querySelectorAll('.draggable-tbody');
+    
+    draggableTbodies.forEach(function(tbody) {
         let draggedRow = null;
-        let draggedRowIndex = null;
 
         // Tüm draggable satırlara event listener ekle
-        const draggableRows = activitiesTbody.querySelectorAll('.draggable-row');
+        const draggableRows = tbody.querySelectorAll('.draggable-row');
         
-        draggableRows.forEach(function(row, index) {
+        draggableRows.forEach(function(row) {
             // Drag başladığında
             row.addEventListener('dragstart', function(e) {
                 draggedRow = this;
-                draggedRowIndex = index;
                 this.classList.add('dragging');
                 e.dataTransfer.effectAllowed = 'move';
                 e.dataTransfer.setData('text/html', this.innerHTML);
@@ -295,7 +295,8 @@ document.addEventListener('DOMContentLoaded', function() {
             row.addEventListener('dragend', function(e) {
                 this.classList.remove('dragging');
                 // Tüm satırlardan drag-over class'ını kaldır
-                draggableRows.forEach(function(r) {
+                const allRows = tbody.querySelectorAll('.draggable-row');
+                allRows.forEach(function(r) {
                     r.classList.remove('drag-over');
                 });
             });
@@ -323,7 +324,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (draggedRow && this !== draggedRow) {
                     // Satırları yer değiştir
-                    const tbody = activitiesTbody;
                     const rows = Array.from(tbody.querySelectorAll('.draggable-row'));
                     const draggedRowActualIndex = rows.indexOf(draggedRow);
                     const dropRowActualIndex = rows.indexOf(this);
@@ -338,25 +338,29 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     // Sıralamayı güncelle
-                    updateActivityOrder();
+                    updateOrder(tbody);
                 }
             });
         });
 
-        // Sıralamayı backend'e gönder
-        function updateActivityOrder() {
-            const rows = activitiesTbody.querySelectorAll('.draggable-row');
-            const activityIds = Array.from(rows).map(function(row) {
+        // Sıralamayı backend'e gönder - Genel fonksiyon
+        function updateOrder(tbodyElement) {
+            const rows = tbodyElement.querySelectorAll('.draggable-row');
+            const itemIds = Array.from(rows).map(function(row) {
                 return parseInt(row.getAttribute('data-id'));
             });
 
-            // CSRF token ve route URL'ini activities-page container'ından al
-            const activitiesPage = document.querySelector('.activities-page');
-            const updateOrderUrl = activitiesPage ? activitiesPage.getAttribute('data-update-order-url') : '';
-            const csrfToken = activitiesPage ? activitiesPage.getAttribute('data-csrf-token') : '';
+            // CSRF token ve route URL'ini tbody elementinin data attribute'larından al
+            const updateOrderUrl = tbodyElement.getAttribute('data-update-order-url');
+            const csrfToken = tbodyElement.getAttribute('data-csrf-token');
 
             if (!updateOrderUrl) {
-                console.error('Update order URL bulunamadı');
+                console.error('Update order URL bulunamadı. Tbody elementinde data-update-order-url attribute\'u olmalı.');
+                return;
+            }
+
+            if (!csrfToken) {
+                console.error('CSRF token bulunamadı. Tbody elementinde data-csrf-token attribute\'u olmalı.');
                 return;
             }
 
@@ -369,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    activity_ids: activityIds
+                    activity_ids: itemIds
                 })
             })
             .then(function(response) {
@@ -378,18 +382,19 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(function(data) {
                 if (data.success) {
                     // Sıra numaralarını güncelle (görsel geri bildirim için)
-                    const rows = activitiesTbody.querySelectorAll('.draggable-row');
+                    // Sıra sütunu genellikle sondan ikinci sütundur
                     rows.forEach(function(row, index) {
                         const orderCell = row.querySelector('td:nth-last-child(2)'); // Sıra sütunu
-                        if (orderCell) {
+                        if (orderCell && !isNaN(parseInt(orderCell.textContent.trim()))) {
+                            // Eğer sıra sütunu sayısal bir değer içeriyorsa güncelle
                             orderCell.textContent = index + 1;
                         }
                     });
                     
                     // Başarı mesajı göster (isteğe bağlı)
-                    console.log('Sıralama güncellendi');
+                    console.log('Sıralama başarıyla güncellendi');
                 } else {
-                    console.error('Sıralama güncellenirken hata oluştu');
+                    console.error('Sıralama güncellenirken hata oluştu:', data.message || 'Bilinmeyen hata');
                 }
             })
             .catch(function(error) {
@@ -397,5 +402,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Sıralama güncellenirken bir hata oluştu. Lütfen sayfayı yenileyin.');
             });
         }
-    }
+    });
 });
