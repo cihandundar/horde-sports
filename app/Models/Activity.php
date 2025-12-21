@@ -14,6 +14,7 @@ class Activity extends Model
         'title',
         'slug',
         'description',
+        'main_image',
         'images',
         'order',
         'activityable_id',

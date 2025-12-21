@@ -32,9 +32,21 @@ Yeni Etkinlik Ekle
         </div>
         
         <div class="form-group">
-            <label for="images" class="form-label">Resimler (Maksimum 5 adet)</label>
+            <label for="main_image" class="form-label">Ana Görsel</label>
+            <input type="file" id="main_image" name="main_image" class="form-input" accept="image/*">
+            <p class="form-hint">Etkinlik detay sayfasında gösterilecek ana görsel. Tek bir görsel seçiniz.</p>
+            @error('main_image')
+                <span class="form-error">{{ $message }}</span>
+            @enderror
+            
+            <!-- Ana görsel önizleme alanı -->
+            <div id="main-image-preview" class="main-image-preview-container"></div>
+        </div>
+        
+        <div class="form-group">
+            <label for="images" class="form-label">Galeri Görselleri (Maksimum 5 adet)</label>
             <input type="file" id="images" name="images[]" class="form-input" accept="image/*" multiple>
-            <p class="form-hint">Maksimum 5 resim seçebilirsiniz. Galeri görünümü için kullanılacaktır.</p>
+            <p class="form-hint">Galeri bölümünde gösterilecek görseller. Maksimum 5 resim seçebilirsiniz.</p>
             @error('images')
                 <span class="form-error">{{ $message }}</span>
             @enderror
@@ -42,7 +54,7 @@ Yeni Etkinlik Ekle
                 <span class="form-error">{{ $message }}</span>
             @enderror
             
-            <!-- Resim önizleme alanı -->
+            <!-- Galeri görselleri önizleme alanı -->
             <div id="images-preview" class="images-preview-container"></div>
         </div>
         

@@ -10,7 +10,13 @@ Yazar Düzenle
 
 @section('content')
 <div class="authors-page">
-    <h1 class="title">Yazar Düzenle</h1>
+    <div class="page-header-with-action">
+        <h1 class="title">Yazar Düzenle</h1>
+        <a href="{{ route('author.show', $author->slug) }}" target="_blank" class="btn-view-frontend">
+            <i class="fas fa-external-link-alt"></i>
+            <span>Ön Tarafta Görüntüle</span>
+        </a>
+    </div>
     
     <form action="{{ route('admin.authors.update', $author) }}" method="POST" enctype="multipart/form-data" class="form-container">
         @csrf

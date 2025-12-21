@@ -3645,6 +3645,20 @@ html {
   text-decoration: underline;
 }
 
+/* Activity Ana Görsel */
+.activity-main-image {
+  margin-bottom: var(--spacing-xlarge);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.activity-main-image .detail-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
 /* Activity İçeriği */
 .activity-detail-content {
   font-size: 16px;

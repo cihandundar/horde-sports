@@ -10,7 +10,13 @@ Haber Düzenle
 
 @section('content')
 <div class="news-page">
-    <h1 class="title">Haber Düzenle</h1>
+    <div class="page-header-with-action">
+        <h1 class="title">Haber Düzenle</h1>
+        <a href="{{ route('news.show', $news->slug) }}" target="_blank" class="btn-view-frontend">
+            <i class="fas fa-external-link-alt"></i>
+            <span>Ön Tarafta Görüntüle</span>
+        </a>
+    </div>
     
     <form action="{{ route('admin.news.update', $news) }}" method="POST" enctype="multipart/form-data" class="form-container">
         @csrf

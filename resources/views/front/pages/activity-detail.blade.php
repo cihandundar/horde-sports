@@ -17,7 +17,9 @@
 @endsection
 
 @section('og-image')
-@if($activity->images && count($activity->images) > 0)
+@if($activity->main_image)
+{{ asset('storage/' . $activity->main_image) }}
+@elseif($activity->images && count($activity->images) > 0)
 {{ asset('storage/' . $activity->images[0]) }}
 @else
 {{ asset('front/assets/images/og-image.jpg') }}
@@ -49,6 +51,13 @@
                 {{ $activity->created_at->format('d.m.Y H:i') }}
             </span>
         </div>
+
+        <!-- Ana Görsel -->
+        @if($activity->main_image)
+        <div class="activity-main-image">
+            <img src="{{ asset('storage/' . $activity->main_image) }}" alt="{{ $activity->title }}" class="detail-image">
+        </div>
+        @endif
 
         <!-- Etkinlik İçeriği -->
         @if($activity->description)

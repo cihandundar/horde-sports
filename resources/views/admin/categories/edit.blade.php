@@ -10,7 +10,13 @@ Kategori Düzenle
 
 @section('content')
 <div class="categories-page">
-    <h1 class="title">Kategori Düzenle</h1>
+    <div class="page-header-with-action">
+        <h1 class="title">Kategori Düzenle</h1>
+        <a href="{{ route('category.show', $category->slug) }}" target="_blank" class="btn-view-frontend">
+            <i class="fas fa-external-link-alt"></i>
+            <span>Ön Tarafta Görüntüle</span>
+        </a>
+    </div>
     
     <form action="{{ route('admin.categories.update', $category) }}" method="POST" class="form-container">
         @csrf

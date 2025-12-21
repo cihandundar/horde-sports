@@ -41,10 +41,11 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasyon - maksimum 5 resim
+        // Validasyon - ana görsel ve galeri görselleri ayrı
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'images' => 'nullable|array|max:5',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'order' => 'nullable|integer|min:0',
@@ -52,7 +53,13 @@ class ActivityController extends Controller
             'activityable_id' => 'required|integer',
         ]);
 
-        // Resim yükleme - birden fazla resim
+        // Ana görsel yükleme
+        $mainImage = null;
+        if ($request->hasFile('main_image')) {
+            $mainImage = $request->file('main_image')->store('activities', 'public');
+        }
+
+        // Galeri görselleri yükleme - birden fazla resim
         $images = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
@@ -88,6 +95,7 @@ class ActivityController extends Controller
             'title' => $validated['title'],
             'slug' => $slug,
             'description' => $validated['description'] ?? null,
+            'main_image' => $mainImage,
             'images' => !empty($images) ? $images : null,
             'order' => $validated['order'],
             'activityable_type' => $activityableType,
@@ -113,10 +121,11 @@ class ActivityController extends Controller
      */
     public function update(Request $request, Activity $activity)
     {
-        // Validasyon - maksimum 5 resim
+        // Validasyon - ana görsel ve galeri görselleri ayrı
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'images' => 'nullable|array|max:5',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'deleted_images' => 'nullable|array',
@@ -126,10 +135,20 @@ class ActivityController extends Controller
             'activityable_id' => 'required|integer',
         ]);
 
-        // Mevcut resimleri al
+        // Ana görsel yükleme/güncelleme
+        $mainImage = $activity->main_image;
+        if ($request->hasFile('main_image')) {
+            // Eski ana görseli sil
+            if ($mainImage) {
+                Storage::disk('public')->delete($mainImage);
+            }
+            $mainImage = $request->file('main_image')->store('activities', 'public');
+        }
+
+        // Mevcut galeri görsellerini al
         $currentImages = $activity->images ?? [];
         
-        // Silinecek resimleri işle
+        // Silinecek galeri görsellerini işle
         if ($request->has('deleted_images')) {
             foreach ($request->deleted_images as $deletedImage) {
                 // Storage'dan sil
@@ -142,7 +161,7 @@ class ActivityController extends Controller
             $currentImages = array_values($currentImages); // Index'leri düzenle
         }
 
-        // Yeni resimleri yükle
+        // Yeni galeri görsellerini yükle
         $newImages = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
@@ -150,7 +169,7 @@ class ActivityController extends Controller
             }
         }
 
-        // Mevcut ve yeni resimleri birleştir
+        // Mevcut ve yeni galeri görsellerini birleştir
         $allImages = array_merge($currentImages, $newImages);
         // Maksimum 5 resim kontrolü
         if (count($allImages) > 5) {
@@ -188,6 +207,7 @@ class ActivityController extends Controller
             'title' => $validated['title'],
             'slug' => $slug,
             'description' => $validated['description'] ?? null,
+            'main_image' => $mainImage,
             'images' => !empty($allImages) ? $allImages : null,
             'order' => $validated['order'],
             'activityable_type' => $activityableType,
@@ -203,7 +223,12 @@ class ActivityController extends Controller
      */
     public function destroy(Activity $activity)
     {
-        // Tüm resimleri sil
+        // Ana görseli sil
+        if ($activity->main_image) {
+            Storage::disk('public')->delete($activity->main_image);
+        }
+
+        // Galeri görsellerini sil
         if ($activity->images && is_array($activity->images)) {
             foreach ($activity->images as $image) {
                 Storage::disk('public')->delete($image);

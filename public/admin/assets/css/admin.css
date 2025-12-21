@@ -606,6 +606,38 @@ html {
     margin-bottom: var(--spacing-large);
 }
 
+/* Sayfa başlığı ve ön tarafta görüntüle butonu için wrapper */
+.page-header-with-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-large);
+    gap: var(--spacing-medium);
+}
+
+/* Ön tarafta görüntüle butonu */
+.btn-view-frontend {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small);
+    padding: var(--spacing-small) var(--spacing-medium);
+    background-color: #17a2b8;
+    color: var(--color-text-on-primary);
+    text-decoration: none;
+    border-radius: var(--border-radius-small);
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-view-frontend:hover {
+    background-color: #138496;
+}
+
+.btn-view-frontend i {
+    font-size: 12px;
+}
+
 .btn-primary {
     display: flex;
     align-items: center;
@@ -733,6 +765,28 @@ html {
     font-size: 12px;
     color: var(--color-text-muted);
     margin-top: var(--spacing-xs);
+}
+
+/* Ana görsel önizleme */
+.main-image-preview-container {
+    margin-top: var(--spacing-medium);
+}
+
+.main-image-preview-item {
+    display: inline-block;
+    margin-top: var(--spacing-small);
+}
+
+.main-image-preview {
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: var(--border-radius);
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+}
+
+.current-main-image {
+    margin-bottom: var(--spacing-medium);
 }
 
 /* Table Styles */
@@ -1658,4 +1712,18 @@ html {
 
 .activity-thumb-badge i {
     font-size: 10px;
+}
+
+/* Responsive - Ön tarafta görüntüle butonu için mobil stil */
+@media (max-width: 768px) {
+    .page-header-with-action {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-small);
+    }
+    
+    .btn-view-frontend {
+        width: 100%;
+        justify-content: center;
+    }
 }

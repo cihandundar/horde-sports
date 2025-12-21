@@ -404,6 +404,38 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Main Image Upload Preview - Ana görsel yükleme önizleme
+    const mainImageInput = document.getElementById('main_image');
+    const mainImagePreviewContainer = document.getElementById('main-image-preview');
+    
+    if (mainImageInput && mainImagePreviewContainer) {
+        mainImageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            
+            if (!file) {
+                mainImagePreviewContainer.innerHTML = '';
+                return;
+            }
+            
+            if (!file.type.startsWith('image/')) {
+                alert('Lütfen geçerli bir resim dosyası seçin.');
+                e.target.value = '';
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                mainImagePreviewContainer.innerHTML = `
+                    <div class="main-image-preview-item">
+                        <img src="${e.target.result}" alt="Ana Görsel Önizleme" class="main-image-preview">
+                        <p class="form-hint">Yeni ana görsel önizleme</p>
+                    </div>
+                `;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
     // Multi-Image Upload Preview - Çoklu resim yükleme önizleme ve yönetimi
     const imagesInput = document.getElementById('images');
     const imagesPreviewContainer = document.getElementById('images-preview');
