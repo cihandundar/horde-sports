@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\GameController as AdminGameController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\ActivityController as AdminActivityController;
 use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\AuthorController;
 use App\Http\Controllers\Frontend\BlogController;
@@ -113,4 +114,15 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('admin.settings.index');
     Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])->name('admin.settings.update-profile');
     Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('admin.settings.update-password');
+    
+    // Etkinlik CRUD route'ları
+    Route::resource('activities', AdminActivityController::class)->names([
+        'index' => 'admin.activities.index',
+        'create' => 'admin.activities.create',
+        'store' => 'admin.activities.store',
+        'edit' => 'admin.activities.edit',
+        'update' => 'admin.activities.update',
+        'destroy' => 'admin.activities.destroy',
+    ]);
+    Route::post('/activities/update-order', [AdminActivityController::class, 'updateOrder'])->name('admin.activities.update-order');
 });

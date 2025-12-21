@@ -172,4 +172,230 @@ document.addEventListener('DOMContentLoaded', function() {
         
         window.addEventListener('resize', handleResize);
     }
+
+    // Comment Delete Form - Yorum silme onayı
+    const commentDeleteForms = document.querySelectorAll('.comment-delete-form');
+    commentDeleteForms.forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            if (!confirm('Bu yorumu silmek istediğinize emin misiniz?')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    });
+
+    // Activity Form - Activityable Type ve ID Select Yönetimi
+    // Etkinlik ekleme/düzenleme formunda tip seçildiğinde ilgili listeyi yükler
+    const activityTypeSelect = document.getElementById('activityable_type');
+    const activityIdSelect = document.getElementById('activityable_id');
+    
+    if (activityTypeSelect && activityIdSelect) {
+        // Authors ve Categories verilerini data attribute'dan al
+        const authorsData = activityTypeSelect.getAttribute('data-authors');
+        const categoriesData = activityTypeSelect.getAttribute('data-categories');
+        const preselectedId = activityTypeSelect.getAttribute('data-preselected-id');
+        const currentId = activityTypeSelect.getAttribute('data-current-id');
+        
+        let authors = [];
+        let categories = [];
+        
+        if (authorsData) {
+            try {
+                // HTML entity decode yap (Blade'den gelen JSON'u parse et)
+                const decoded = authorsData.replace(/&quot;/g, '"');
+                authors = JSON.parse(decoded);
+            } catch (e) {
+                console.error('Authors data parse error:', e);
+            }
+        }
+        
+        if (categoriesData) {
+            try {
+                // HTML entity decode yap (Blade'den gelen JSON'u parse et)
+                const decoded = categoriesData.replace(/&quot;/g, '"');
+                categories = JSON.parse(decoded);
+            } catch (e) {
+                console.error('Categories data parse error:', e);
+            }
+        }
+        
+        // Activityable type değiştiğinde ilgili listeyi yükle
+        activityTypeSelect.addEventListener('change', function() {
+            const type = this.value;
+            
+            // Select'i temizle ve disabled'ı kaldır
+            activityIdSelect.innerHTML = '<option value="">Seçiniz...</option>';
+            activityIdSelect.disabled = false;
+            activityIdSelect.required = true;
+            
+            if (type === 'App\\Models\\Author' || type === 'App\Models\Author') {
+                authors.forEach(function(author) {
+                    const option = document.createElement('option');
+                    option.value = author.id;
+                    option.textContent = author.name;
+                    if (currentId && author.id == currentId) {
+                        option.selected = true;
+                    }
+                    activityIdSelect.appendChild(option);
+                });
+            } else if (type === 'App\\Models\\Category' || type === 'App\Models\Category') {
+                categories.forEach(function(category) {
+                    const option = document.createElement('option');
+                    option.value = category.id;
+                    option.textContent = category.name;
+                    if (currentId && category.id == currentId) {
+                        option.selected = true;
+                    }
+                    activityIdSelect.appendChild(option);
+                });
+            } else {
+                // Tip seçilmediyse disabled yap
+                activityIdSelect.disabled = true;
+                activityIdSelect.required = false;
+            }
+        });
+        
+        // Sayfa yüklendiğinde mevcut değerleri yükle
+        const currentType = activityTypeSelect.value;
+        if (currentType) {
+            activityTypeSelect.dispatchEvent(new Event('change'));
+            const idToSelect = preselectedId || currentId;
+            if (idToSelect && idToSelect !== 'null' && idToSelect !== '') {
+                setTimeout(function() {
+                    activityIdSelect.value = idToSelect;
+                }, 100);
+            }
+        } else {
+            // Tip seçilmemişse disabled yap
+            activityIdSelect.disabled = true;
+            activityIdSelect.required = false;
+        }
+    }
+
+    // Activities Drag and Drop - Etkinlik sıralaması için drag and drop işlevselliği
+    const activitiesTbody = document.getElementById('activities-tbody');
+    if (activitiesTbody) {
+        let draggedRow = null;
+        let draggedRowIndex = null;
+
+        // Tüm draggable satırlara event listener ekle
+        const draggableRows = activitiesTbody.querySelectorAll('.draggable-row');
+        
+        draggableRows.forEach(function(row, index) {
+            // Drag başladığında
+            row.addEventListener('dragstart', function(e) {
+                draggedRow = this;
+                draggedRowIndex = index;
+                this.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/html', this.innerHTML);
+            });
+
+            // Drag bittiğinde
+            row.addEventListener('dragend', function(e) {
+                this.classList.remove('dragging');
+                // Tüm satırlardan drag-over class'ını kaldır
+                draggableRows.forEach(function(r) {
+                    r.classList.remove('drag-over');
+                });
+            });
+
+            // Üzerine geldiğinde
+            row.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                
+                // Eğer farklı bir satırın üzerindeyse
+                if (this !== draggedRow) {
+                    this.classList.add('drag-over');
+                }
+            });
+
+            // Üzerinden ayrıldığında
+            row.addEventListener('dragleave', function(e) {
+                this.classList.remove('drag-over');
+            });
+
+            // Bırakıldığında
+            row.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+                
+                if (draggedRow && this !== draggedRow) {
+                    // Satırları yer değiştir
+                    const tbody = activitiesTbody;
+                    const rows = Array.from(tbody.querySelectorAll('.draggable-row'));
+                    const draggedRowActualIndex = rows.indexOf(draggedRow);
+                    const dropRowActualIndex = rows.indexOf(this);
+                    
+                    // Satırları DOM'da yer değiştir
+                    if (draggedRowActualIndex < dropRowActualIndex) {
+                        // Aşağı doğru taşı
+                        tbody.insertBefore(draggedRow, this.nextSibling);
+                    } else {
+                        // Yukarı doğru taşı
+                        tbody.insertBefore(draggedRow, this);
+                    }
+                    
+                    // Sıralamayı güncelle
+                    updateActivityOrder();
+                }
+            });
+        });
+
+        // Sıralamayı backend'e gönder
+        function updateActivityOrder() {
+            const rows = activitiesTbody.querySelectorAll('.draggable-row');
+            const activityIds = Array.from(rows).map(function(row) {
+                return parseInt(row.getAttribute('data-id'));
+            });
+
+            // CSRF token ve route URL'ini activities-page container'ından al
+            const activitiesPage = document.querySelector('.activities-page');
+            const updateOrderUrl = activitiesPage ? activitiesPage.getAttribute('data-update-order-url') : '';
+            const csrfToken = activitiesPage ? activitiesPage.getAttribute('data-csrf-token') : '';
+
+            if (!updateOrderUrl) {
+                console.error('Update order URL bulunamadı');
+                return;
+            }
+
+            // AJAX isteği gönder
+            fetch(updateOrderUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    activity_ids: activityIds
+                })
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                if (data.success) {
+                    // Sıra numaralarını güncelle (görsel geri bildirim için)
+                    const rows = activitiesTbody.querySelectorAll('.draggable-row');
+                    rows.forEach(function(row, index) {
+                        const orderCell = row.querySelector('td:nth-last-child(2)'); // Sıra sütunu
+                        if (orderCell) {
+                            orderCell.textContent = index + 1;
+                        }
+                    });
+                    
+                    // Başarı mesajı göster (isteğe bağlı)
+                    console.log('Sıralama güncellendi');
+                } else {
+                    console.error('Sıralama güncellenirken hata oluştu');
+                }
+            })
+            .catch(function(error) {
+                console.error('Hata:', error);
+                alert('Sıralama güncellenirken bir hata oluştu. Lütfen sayfayı yenileyin.');
+            });
+        }
+    }
 });

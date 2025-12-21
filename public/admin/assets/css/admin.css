@@ -51,6 +51,79 @@ body {
     color: var(--color-text-primary);
 }
 
+/* Custom Scrollbar - Estetik scrollbar tasarımı */
+/* Webkit tarayıcılar için (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-light-gray);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    border-radius: 10px;
+    border: 2px solid var(--color-light-gray);
+    transition: all 0.3s ease;
+    min-height: 30px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+    border-color: var(--color-gray);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--color-primary-dark);
+}
+
+/* Scrollbar ok butonlarını gizle */
+::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--color-light-gray);
+}
+
+/* Firefox için */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) var(--color-light-gray);
+}
+
+/* Smooth scroll davranışı */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Admin panel özel scrollbar alanları için */
+.table-container,
+.admin-content,
+.menu-sidebar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) var(--color-light-gray);
+}
+
+.table-container::-webkit-scrollbar,
+.admin-content::-webkit-scrollbar,
+.menu-sidebar::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb,
+.admin-content::-webkit-scrollbar-thumb,
+.menu-sidebar::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 4px;
+}
+
 /* Admin Layout - Mobile-first yaklaşımı */
 .admin-layout {
     display: block;
@@ -1285,4 +1358,182 @@ body {
     .settings-form {
         max-width: 100%;
     }
+}
+
+/* Activity Styles */
+.activity-thumb {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--border-radius-small);
+    object-fit: cover;
+}
+
+.activity-thumb-placeholder {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--border-radius-small);
+    background-color: var(--color-light-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+}
+
+.badge-author {
+    background-color: #17a2b8;
+    color: var(--color-white);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 4px 12px;
+    border-radius: var(--border-radius-small);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-category {
+    background-color: #6c757d;
+    color: var(--color-white);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 4px 12px;
+    border-radius: var(--border-radius-small);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Activities Management Section - Etkinlik yönetimi bölümü stilleri */
+.activities-management-section {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 2px solid var(--color-border);
+}
+
+.activities-management-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.activities-management-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.btn-primary-with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.activities-empty-state {
+    text-align: center;
+    padding: 40px;
+    background-color: var(--color-light-gray);
+    border-radius: var(--border-radius);
+}
+
+.activities-empty-state p {
+    color: var(--color-text-muted);
+}
+
+.activities-empty-state .btn-primary {
+    margin-top: 16px;
+}
+
+/* Quill Editor Container - Editor için minimum yükseklik */
+#bio-editor {
+    min-height: 200px;
+}
+
+#content-editor {
+    min-height: 300px;
+}
+
+/* Hidden Textarea - Form submit için gizli textarea */
+.form-textarea.hidden {
+    display: none;
+}
+
+/* Comments Page Styles */
+.comments-page-header {
+    display: flex;
+    gap: var(--spacing-medium);
+    align-items: center;
+}
+
+.comment-content-wrapper {
+    max-width: 300px;
+}
+
+.comment-content-text {
+    font-size: 11px;
+    color: var(--color-text-muted);
+}
+
+.comment-news-link {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.comment-news-link:hover {
+    text-decoration: underline;
+}
+
+.comment-news-link-icon {
+    font-size: 10px;
+    margin-left: 4px;
+}
+
+.btn-approve-remove {
+    background-color: #ffc107;
+}
+
+.btn-approve-remove:hover {
+    background-color: #e0a800;
+}
+
+.table-empty-center {
+    text-align: center;
+    padding: var(--spacing-xlarge);
+    color: var(--color-text-muted);
+}
+
+/* Activities Drag and Drop Styles - Etkinlik sıralaması için drag and drop stilleri */
+.draggable-tbody .draggable-row {
+    cursor: move;
+    transition: background-color 0.2s ease;
+}
+
+.draggable-tbody .draggable-row.dragging {
+    opacity: 0.5;
+    background-color: var(--color-background-light);
+}
+
+.draggable-tbody .draggable-row.drag-over {
+    border-top: 2px solid var(--color-primary);
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.draggable-row .drag-handle {
+    width: 40px;
+    text-align: center;
+    color: var(--color-text-muted);
+    cursor: grab;
+    user-select: none;
+}
+
+.draggable-row .drag-handle:active {
+    cursor: grabbing;
+}
+
+.draggable-row .drag-handle i {
+    font-size: 14px;
+}
+
+.draggable-row:hover .drag-handle {
+    color: var(--color-primary);
 }

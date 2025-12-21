@@ -17,6 +17,13 @@
     @include('front.partials.breadcrumb')
     <h1 class="title">{{ $category->name }}</h1>
     
+    <!-- Visual Section - Manuel olarak activities verisi gönderilirse görünür -->
+    @include('front.partials.visual-section', [
+        'title' => isset($visualSectionTitle) ? $visualSectionTitle : 'Etkinlikler',
+        'activities' => isset($activities) ? $activities : collect(),
+        'emptyMessage' => isset($visualSectionEmptyMessage) ? $visualSectionEmptyMessage : null
+    ])
+    
     <div class="news-grid">
         @forelse($news as $item)
         <article class="news-card">

@@ -9,7 +9,7 @@ Yorumlar
     <h1 class="title">Yorumlar</h1>
     
     <!-- Filtreleme -->
-    <div style="display: flex; gap: var(--spacing-medium); align-items: center;">
+    <div class="comments-page-header">
         <a href="{{ route('admin.comments.index') }}" class="btn-secondary {{ request('status') == null ? 'active' : '' }}">
             Tümü
         </a>
@@ -38,26 +38,26 @@ Yorumlar
             @forelse($comments as $comment)
             <tr>
                 <td>
-                    <div style="max-width: 300px;">
+                    <div class="comment-content-wrapper">
                         {{ Str::limit($comment->content, 100) }}
                     </div>
                 </td>
                 <td>
                     {{ $comment->author_name }}
                     @if($comment->user)
-                        <div style="font-size: 11px; color: var(--color-text-muted);">
+                        <div class="comment-content-text">
                             <i class="fas fa-user-check"></i> Üye
                         </div>
                     @else
-                        <div style="font-size: 11px; color: var(--color-text-muted);">
+                        <div class="comment-content-text">
                             <i class="fas fa-user-times"></i> Misafir
                         </div>
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('news.show', $comment->news->slug) }}" target="_blank" style="color: var(--color-primary); text-decoration: none;">
+                    <a href="{{ route('news.show', $comment->news->slug) }}" target="_blank" class="comment-news-link">
                         {{ Str::limit($comment->news->title, 40) }}
-                        <i class="fas fa-external-link-alt" style="font-size: 10px; margin-left: 4px;"></i>
+                        <i class="fas fa-external-link-alt comment-news-link-icon"></i>
                     </a>
                 </td>
                 <td>
@@ -82,13 +82,13 @@ Yorumlar
                         @else
                         <form action="{{ route('admin.comments.reject', $comment) }}" method="POST" class="inline-form">
                             @csrf
-                            <button type="submit" class="btn-edit" style="background-color: #ffc107;" title="Onayı Kaldır">
+                            <button type="submit" class="btn-edit btn-approve-remove" title="Onayı Kaldır">
                                 <i class="fas fa-times"></i>
                             </button>
                         </form>
                         @endif
                         
-                        <form action="{{ route('admin.comments.destroy', $comment) }}" method="POST" class="delete-form inline-form" onsubmit="return confirm('Bu yorumu silmek istediğinize emin misiniz?');">
+                        <form action="{{ route('admin.comments.destroy', $comment) }}" method="POST" class="delete-form inline-form comment-delete-form">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn-delete" title="Sil">
@@ -100,7 +100,7 @@ Yorumlar
             </tr>
             @empty
             <tr>
-                <td colspan="6" style="text-align: center; padding: var(--spacing-xlarge); color: var(--color-text-muted);">
+                <td colspan="6" class="table-empty-center">
                     Henüz yorum bulunmamaktadır.
                 </td>
             </tr>

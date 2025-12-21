@@ -43,6 +43,81 @@
     font-family: 'Montserrat', sans-serif;
   }
 
+/* Custom Scrollbar - Estetik scrollbar tasarımı */
+/* Webkit tarayıcılar için (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-off-white);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  border-radius: 10px;
+  border: 2px solid var(--color-off-white);
+  transition: all 0.3s ease;
+  min-height: 30px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+  border-color: var(--color-light-gray);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--color-primary-dark);
+}
+
+/* Scrollbar ok butonlarını gizle */
+::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--color-off-white);
+}
+
+/* Firefox için */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-off-white);
+}
+
+/* Smooth scroll davranışı */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Özel scrollbar alanları için */
+.table-container,
+.news-grid,
+.authors-grid,
+.visual-section-grid {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-off-white);
+}
+
+.table-container::-webkit-scrollbar,
+.news-grid::-webkit-scrollbar,
+.authors-grid::-webkit-scrollbar,
+.visual-section-grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb,
+.news-grid::-webkit-scrollbar-thumb,
+.authors-grid::-webkit-scrollbar-thumb,
+.visual-section-grid::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 4px;
+}
+
 
 
 /* Header Bölümü - Sticky (Yapışkan) */
@@ -3274,6 +3349,139 @@
   }
 
   .admin-bar-btn i {
+    font-size: 13px;
+  }
+}
+
+/* Visual Section - Reusable görsel bölüm (Yazarlar ve Kategoriler için) */
+.visual-section {
+  margin-top: var(--spacing-xlarge);
+  margin-bottom: var(--spacing-xlarge);
+}
+
+.visual-section .section-title {
+  margin-bottom: var(--spacing-large);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* Visual Section Grid - 12 kolonlu grid sistemi */
+.visual-section-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--spacing-large);
+}
+
+/* Visual Section Item - Her item 12 kolonun 4'ünü kaplar (3 sütun) */
+.visual-section-item {
+  grid-column: span 4;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px var(--color-shadow);
+}
+
+.visual-section-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px var(--color-shadow-hover);
+  border-color: var(--color-primary);
+}
+
+/* Visual Section Image */
+.visual-section-image-wrapper {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background-color: var(--color-off-white);
+  position: relative;
+}
+
+.visual-section-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.visual-section-item:hover .visual-section-image {
+  transform: scale(1.05);
+}
+
+.visual-section-image-placeholder {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-off-white);
+  color: var(--color-text-muted);
+  font-size: 48px;
+}
+
+/* Visual Section Content */
+.visual-section-content {
+  padding: var(--spacing-medium);
+}
+
+.visual-section-item-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-small);
+  line-height: 1.4;
+}
+
+.visual-section-item-description {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Visual Section Responsive - Tablet */
+@media (max-width: 992px) {
+  .visual-section-item {
+    grid-column: span 6; /* Tablet'te 2 sütun */
+  }
+}
+
+/* Visual Section Responsive - Mobil */
+@media (max-width: 768px) {
+  .visual-section {
+    margin-top: var(--spacing-large);
+    margin-bottom: var(--spacing-large);
+  }
+
+  .visual-section .section-title {
+    font-size: 20px;
+    margin-bottom: var(--spacing-medium);
+  }
+
+  .visual-section-grid {
+    gap: var(--spacing-medium);
+  }
+
+  .visual-section-item {
+    grid-column: span 12; /* Mobilde tam genişlik */
+  }
+
+  .visual-section-image-wrapper,
+  .visual-section-image-placeholder {
+    height: 180px;
+  }
+
+  .visual-section-content {
+    padding: var(--spacing-medium);
+  }
+
+  .visual-section-item-title {
+    font-size: 16px;
+  }
+
+  .visual-section-item-description {
     font-size: 13px;
   }
 }

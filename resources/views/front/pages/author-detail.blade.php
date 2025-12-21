@@ -56,6 +56,13 @@
         </div>
     </article>
 
+    <!-- Yazarın Etkinlikleri - Visual Section -->
+    @include('front.partials.visual-section', [
+        'title' => $author->name . '\'in Etkinlikleri',
+        'activities' => $activities ?? collect(),
+        'emptyMessage' => 'Bu yazara ait henüz etkinlik bulunmamaktadır.'
+    ])
+
     <!-- Yazarın Haberleri -->
     <section class="author-news-section">
         <div class="section-title">{{ $author->name }}'in Haberleri</div>

@@ -49,7 +49,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('admin.categories.edit', compact('category'));
+        // Kategorinin etkinliklerini yükle
+        $activities = $category->activities()->latest()->get();
+        return view('admin.categories.edit', compact('category', 'activities'));
     }
 
     /**

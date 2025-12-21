@@ -33,6 +33,9 @@ class AuthorController extends Controller
             ->latest()
             ->paginate(12);
         
-        return view('front.pages.author-detail', compact('author', 'news'));
+        // Yazarın etkinlikleri - order sırasına göre sıralı
+        $activities = $author->activities;
+        
+        return view('front.pages.author-detail', compact('author', 'news', 'activities'));
     }
 }

@@ -26,9 +26,9 @@ Yeni Yazar Ekle
         <div class="form-group">
             <label for="bio" class="form-label">Biyografi</label>
             <!-- Quill Editor Container -->
-            <div id="bio-editor" style="min-height: 200px;"></div>
+            <div id="bio-editor"></div>
             <!-- Gizli textarea - Form submit için -->
-            <textarea id="bio" name="bio" class="form-textarea" style="display: none;">{{ old('bio') }}</textarea>
+            <textarea id="bio" name="bio" class="form-textarea hidden">{{ old('bio') }}</textarea>
             @error('bio')
                 <span class="form-error">{{ $message }}</span>
             @enderror

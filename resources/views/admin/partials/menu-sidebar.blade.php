@@ -53,6 +53,13 @@
                 </a>
             </li>
             
+            <li class="nav-item">
+                <a href="{{ route('admin.activities.index') }}" class="nav-link {{ request()->routeIs('admin.activities.*') ? 'active' : '' }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Etkinlikler</span>
+                </a>
+            </li>
+            
             {{-- Yorumlar linki sadece admin kullanıcılar için görünür --}}
             @auth
                 @if(auth()->user()->isAdmin())

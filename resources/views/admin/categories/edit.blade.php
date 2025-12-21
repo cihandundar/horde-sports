@@ -30,5 +30,72 @@ Kategori Düzenle
             <button type="submit" class="btn-primary">Güncelle</button>
         </div>
     </form>
+
+    <!-- Etkinlik Yönetimi Bölümü -->
+    <div class="activities-management-section">
+        <div class="activities-management-header">
+            <h2 class="activities-management-title">Etkinlikler</h2>
+            <a href="{{ route('admin.activities.create', ['activityable_type' => 'App\Models\Category', 'activityable_id' => $category->id]) }}" class="btn-primary btn-primary-with-icon">
+                <i class="fas fa-plus"></i>
+                <span>Yeni Etkinlik Ekle</span>
+            </a>
+        </div>
+
+        @if($activities->count() > 0)
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Resim</th>
+                        <th>Başlık</th>
+                        <th>Açıklama</th>
+                        <th>Sıra</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($activities as $activity)
+                    <tr>
+                        <td>
+                            @if($activity->image)
+                                <img src="{{ asset('storage/' . $activity->image) }}" alt="{{ $activity->title }}" class="activity-thumb">
+                            @else
+                                <div class="activity-thumb-placeholder">
+                                    <i class="fas fa-image"></i>
+                                </div>
+                            @endif
+                        </td>
+                        <td>{{ $activity->title }}</td>
+                        <td>{{ Str::limit(strip_tags($activity->description ?? 'Açıklama yok'), 50) }}</td>
+                        <td>{{ $activity->order }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{{ route('admin.activities.edit', $activity) }}" class="btn-edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('admin.activities.destroy', $activity) }}" method="POST" class="delete-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-delete" onclick="return confirm('Bu etkinliği silmek istediğinize emin misiniz?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        @else
+        <div class="activities-empty-state">
+            <p>Bu kategoriye ait henüz etkinlik bulunmamaktadır.</p>
+            <a href="{{ route('admin.activities.create', ['activityable_type' => 'App\Models\Category', 'activityable_id' => $category->id]) }}" class="btn-primary btn-primary-with-icon">
+                <i class="fas fa-plus"></i>
+                <span>İlk Etkinliği Ekle</span>
+            </a>
+        </div>
+        @endif
+    </div>
 </div>
 @endsection
