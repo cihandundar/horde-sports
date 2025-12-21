@@ -33,17 +33,41 @@ Etkinlik Düzenle
         </div>
         
         <div class="form-group">
-            <label for="image" class="form-label">Resim</label>
-            @if($activity->image)
-                <div class="current-photo">
-                    <img src="{{ asset('storage/' . $activity->image) }}" alt="{{ $activity->title }}" class="preview-photo">
-                    <p class="photo-info">Mevcut resim</p>
+            <label for="images" class="form-label">Resimler (Maksimum 5 adet)</label>
+            
+            <!-- Mevcut resimler -->
+            @if($activity->images && count($activity->images) > 0)
+            <div class="existing-images-container">
+                <p class="form-hint">Mevcut resimler (sil için X butonuna tıklayın):</p>
+                <div class="existing-images-grid">
+                    @foreach($activity->images as $index => $image)
+                    <div class="existing-image-item" data-image-path="{{ $image }}">
+                        <img src="{{ asset('storage/' . $image) }}" alt="{{ $activity->title }} - Resim {{ $index + 1 }}" class="existing-image-preview">
+                        <button type="button" class="remove-image-btn" data-image-path="{{ $image }}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <input type="hidden" name="existing_images[]" value="{{ $image }}">
+                    </div>
+                    @endforeach
                 </div>
+            </div>
             @endif
-            <input type="file" id="image" name="image" class="form-input" accept="image/*">
-            @error('image')
+            
+            <!-- Yeni resim yükleme -->
+            <input type="file" id="images" name="images[]" class="form-input" accept="image/*" multiple>
+            <p class="form-hint">Yeni resimler ekleyebilirsiniz. Toplam maksimum 5 resim olabilir.</p>
+            @error('images')
                 <span class="form-error">{{ $message }}</span>
             @enderror
+            @error('images.*')
+                <span class="form-error">{{ $message }}</span>
+            @enderror
+            
+            <!-- Yeni resim önizleme alanı -->
+            <div id="images-preview" class="images-preview-container"></div>
+            
+            <!-- Silinecek resimler için hidden input -->
+            <div id="deleted-images-container"></div>
         </div>
         
         <div class="form-group">

@@ -1362,6 +1362,7 @@ html {
 
 /* Activity Styles */
 .activity-thumb {
+    position: relative;
     width: 50px;
     height: 50px;
     border-radius: var(--border-radius-small);
@@ -1536,4 +1537,125 @@ html {
 
 .draggable-row:hover .drag-handle {
     color: var(--color-primary);
+}
+
+/* Multi-Image Upload Styles - Çoklu resim yükleme stilleri */
+.images-preview-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.image-preview-item {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--color-background-light);
+}
+
+.image-preview-item .image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-preview-item .remove-preview-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(220, 53, 69, 0.9);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.image-preview-item .remove-preview-btn:hover {
+    background-color: rgba(220, 53, 69, 1);
+}
+
+.image-preview-item .remove-preview-btn i {
+    font-size: 14px;
+}
+
+/* Existing Images Styles - Mevcut resimler için stiller */
+.existing-images-container {
+    margin-bottom: 16px;
+}
+
+.existing-images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.existing-image-item {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--color-background-light);
+}
+
+.existing-image-item .existing-image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.existing-image-item .remove-image-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(220, 53, 69, 0.9);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.existing-image-item .remove-image-btn:hover {
+    background-color: rgba(220, 53, 69, 1);
+}
+
+.existing-image-item .remove-image-btn i {
+    font-size: 14px;
+}
+
+/* Activity Thumb Badge - Resim sayısı badge'i */
+.activity-thumb-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.activity-thumb-badge i {
+    font-size: 10px;
 }

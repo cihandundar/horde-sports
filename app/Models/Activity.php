@@ -12,11 +12,19 @@ class Activity extends Model
      */
     protected $fillable = [
         'title',
+        'slug',
         'description',
-        'image',
+        'images',
         'order',
         'activityable_id',
         'activityable_type',
+    ];
+
+    /**
+     * Cast edilecek alanlar
+     */
+    protected $casts = [
+        'images' => 'array',
     ];
 
     /**
@@ -25,5 +33,16 @@ class Activity extends Model
     public function activityable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    /**
+     * İlk resmi döndürür (geriye dönük uyumluluk için)
+     */
+    public function getFirstImageAttribute()
+    {
+        if ($this->images && is_array($this->images) && count($this->images) > 0) {
+            return $this->images[0];
+        }
+        return null;
     }
 }

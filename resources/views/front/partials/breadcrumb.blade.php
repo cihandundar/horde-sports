@@ -70,6 +70,50 @@
                 'active' => true
             ];
         }
+        // Etkinlik detay sayfası - $activity değişkeni varsa
+        elseif (isset($activity) && $activity && isset($activity->title)) {
+            // Activityable'a göre breadcrumb oluştur
+            if ($activity->activityable_type === 'App\Models\Author') {
+                // Yazarlar breadcrumb'ı
+                $breadcrumbItems[] = [
+                    'title' => 'Yazarlar',
+                    'url' => route('authors.index'),
+                    'active' => false
+                ];
+                
+                // Yazar breadcrumb'ı
+                if (isset($activity->activityable) && $activity->activityable) {
+                    $breadcrumbItems[] = [
+                        'title' => $activity->activityable->name,
+                        'url' => !empty($activity->activityable->slug) ? route('author.show', $activity->activityable->slug) : '#',
+                        'active' => false
+                    ];
+                }
+            } elseif ($activity->activityable_type === 'App\Models\Category') {
+                // Blog breadcrumb'ı
+                $breadcrumbItems[] = [
+                    'title' => 'Blog',
+                    'url' => route('blog.index'),
+                    'active' => false
+                ];
+                
+                // Kategori breadcrumb'ı
+                if (isset($activity->activityable) && $activity->activityable) {
+                    $breadcrumbItems[] = [
+                        'title' => $activity->activityable->name,
+                        'url' => !empty($activity->activityable->slug) ? route('category.show', $activity->activityable->slug) : '#',
+                        'active' => false
+                    ];
+                }
+            }
+            
+            // Etkinlik breadcrumb'ı
+            $breadcrumbItems[] = [
+                'title' => $activity->title,
+                'url' => !empty($activity->slug) ? route('activity.show', $activity->slug) : '#',
+                'active' => true
+            ];
+        }
         // Diğer sayfalar için route name'e göre
         else {
             try {

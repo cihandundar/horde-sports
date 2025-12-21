@@ -403,4 +403,126 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+
+    // Multi-Image Upload Preview - Çoklu resim yükleme önizleme ve yönetimi
+    const imagesInput = document.getElementById('images');
+    const imagesPreviewContainer = document.getElementById('images-preview');
+    
+    if (imagesInput && imagesPreviewContainer) {
+        const maxImages = 5;
+        let selectedFilesCount = 0;
+        
+        // Mevcut resim sayısını kontrol et (edit sayfası için)
+        const existingImagesContainer = document.querySelector('.existing-images-grid');
+        let existingImagesCount = existingImagesContainer ? existingImagesContainer.querySelectorAll('.existing-image-item').length : 0;
+        
+        // Mevcut resim sayısını güncelleyen fonksiyon
+        function updateExistingImagesCount() {
+            if (existingImagesContainer) {
+                existingImagesCount = existingImagesContainer.querySelectorAll('.existing-image-item').length;
+            }
+        }
+        
+        // Resim seçildiğinde
+        imagesInput.addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            const currentTotal = existingImagesCount + selectedFilesCount;
+            
+            // Maksimum resim kontrolü
+            if (currentTotal + files.length > maxImages) {
+                alert('Maksimum ' + maxImages + ' resim seçebilirsiniz. Mevcut ve yeni resimlerin toplamı ' + maxImages + '\'yi geçemez.');
+                // Fazla resimleri kaldır
+                const allowedCount = maxImages - currentTotal;
+                if (allowedCount > 0) {
+                    const allowedFiles = files.slice(0, allowedCount);
+                    e.target.files = createFileList(allowedFiles);
+                    processImages(allowedFiles);
+                } else {
+                    e.target.value = '';
+                    return;
+                }
+            } else {
+                processImages(files);
+            }
+        });
+        
+        // Resimleri işle ve önizle
+        function processImages(files) {
+            files.forEach(function(file) {
+                if (!file.type.startsWith('image/')) {
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'image-preview-item';
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview" class="image-preview">
+                        <button type="button" class="remove-preview-btn" data-file-name="${file.name}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    imagesPreviewContainer.appendChild(previewItem);
+                    selectedFilesCount++;
+                    
+                    // Sil butonuna event listener ekle
+                    const removeBtn = previewItem.querySelector('.remove-preview-btn');
+                    removeBtn.addEventListener('click', function() {
+                        previewItem.remove();
+                        selectedFilesCount--;
+                        // Input'tan dosyayı kaldır
+                        removeFileFromInput(file.name);
+                    });
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        // Input'tan dosyayı kaldır
+        function removeFileFromInput(fileName) {
+            const dt = new DataTransfer();
+            const files = Array.from(imagesInput.files);
+            
+            files.forEach(function(file) {
+                if (file.name !== fileName) {
+                    dt.items.add(file);
+                }
+            });
+            
+            imagesInput.files = dt.files;
+        }
+        
+        // FileList oluştur (browser compatibility için)
+        function createFileList(files) {
+            const dt = new DataTransfer();
+            files.forEach(function(file) {
+                dt.items.add(file);
+            });
+            return dt.files;
+        }
+    }
+    
+    // Mevcut Resim Silme - Edit sayfasında mevcut resimleri silme
+    const removeImageButtons = document.querySelectorAll('.remove-image-btn');
+    const deletedImagesContainer = document.getElementById('deleted-images-container');
+    
+    if (removeImageButtons.length > 0 && deletedImagesContainer) {
+        removeImageButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const imageItem = this.closest('.existing-image-item');
+                const imagePath = this.getAttribute('data-image-path');
+                
+                // Silinecek resimler listesine ekle
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'deleted_images[]';
+                hiddenInput.value = imagePath;
+                deletedImagesContainer.appendChild(hiddenInput);
+                
+                // Görsel olarak kaldır
+                imageItem.remove();
+            });
+        });
+    }
 });

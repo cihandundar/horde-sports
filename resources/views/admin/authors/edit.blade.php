@@ -85,8 +85,14 @@ Yazar Düzenle
                             <i class="fas fa-grip-vertical"></i>
                         </td>
                         <td>
-                            @if($activity->image)
-                                <img src="{{ asset('storage/' . $activity->image) }}" alt="{{ $activity->title }}" class="activity-thumb">
+                            @if($activity->images && count($activity->images) > 0)
+                                <img src="{{ asset('storage/' . $activity->images[0]) }}" alt="{{ $activity->title }}" class="activity-thumb">
+                                @if(count($activity->images) > 1)
+                                    <div class="activity-thumb-badge">
+                                        <i class="fas fa-images"></i>
+                                        <span>{{ count($activity->images) }}</span>
+                                    </div>
+                                @endif
                             @else
                                 <div class="activity-thumb-placeholder">
                                     <i class="fas fa-image"></i>

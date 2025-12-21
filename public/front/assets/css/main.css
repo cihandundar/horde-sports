@@ -3373,18 +3373,34 @@ html {
   gap: var(--spacing-large);
 }
 
+/* Visual Section Item Link - Etkinlik kartları için link */
+.visual-section-item-link {
+  grid-column: span 4;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.visual-section-item-link:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* Visual Section Item - Her item 12 kolonun 4'ünü kaplar (3 sütun) */
 .visual-section-item {
-  grid-column: span 4;
   background-color: var(--color-white);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   overflow: hidden;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px var(--color-shadow);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.visual-section-item:hover {
+.visual-section-item-link:hover .visual-section-item {
   transform: translateY(-4px);
   box-shadow: 0 4px 12px var(--color-shadow-hover);
   border-color: var(--color-primary);
@@ -3443,7 +3459,7 @@ html {
 
 /* Visual Section Responsive - Tablet */
 @media (max-width: 992px) {
-  .visual-section-item {
+  .visual-section-item-link {
     grid-column: span 6; /* Tablet'te 2 sütun */
   }
 }
@@ -3464,7 +3480,7 @@ html {
     gap: var(--spacing-medium);
   }
 
-  .visual-section-item {
+  .visual-section-item-link {
     grid-column: span 12; /* Mobilde tam genişlik */
   }
 
@@ -3483,6 +3499,265 @@ html {
 
   .visual-section-item-description {
     font-size: 13px;
+  }
+}
+
+/* Visual Section Gallery - Galeri gösterimi için stiller */
+.visual-section-gallery {
+  width: 100%;
+  position: relative;
+}
+
+.visual-section-gallery-main {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background-color: var(--color-off-white);
+  position: relative;
+}
+
+.visual-section-gallery-main .visual-section-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.visual-section-item:hover .visual-section-gallery-main .visual-section-image {
+  transform: scale(1.05);
+}
+
+.visual-section-gallery-count {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--color-white);
+  padding: 6px 12px;
+  border-radius: var(--border-radius-small);
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.visual-section-gallery-count i {
+  font-size: 12px;
+}
+
+.visual-section-gallery-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 4px;
+  background-color: var(--color-off-white);
+}
+
+.visual-section-gallery-thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background-color: var(--color-white);
+}
+
+.visual-section-gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Visual Section Gallery Responsive */
+@media (max-width: 768px) {
+  .visual-section-gallery-main {
+    height: 180px;
+  }
+
+  .visual-section-gallery-thumbnails {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .visual-section-item-link {
+    grid-column: span 12;
+  }
+}
+
+/* Visual Section Responsive - Tablet */
+@media (max-width: 992px) {
+  .visual-section-item-link {
+    grid-column: span 6;
+  }
+}
+
+/* Activity Detail Page - Etkinlik detay sayfası stilleri */
+.activity-detail-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-xlarge) var(--spacing-large);
+}
+
+.activity-detail {
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xlarge);
+  box-shadow: 0 2px 4px var(--color-shadow);
+  margin-bottom: var(--spacing-xlarge);
+}
+
+.activity-detail .title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-large);
+  line-height: 1.3;
+}
+
+/* Activity Meta Bilgileri */
+.activity-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-large);
+  margin-bottom: var(--spacing-large);
+  padding-bottom: var(--spacing-large);
+  border-bottom: 1px solid var(--color-border);
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.activity-detail-meta .meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.activity-detail-meta .meta-item i {
+  color: var(--color-primary);
+}
+
+.activity-detail-meta .meta-item a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.activity-detail-meta .meta-item a:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+/* Activity İçeriği */
+.activity-detail-content {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xlarge);
+}
+
+.activity-detail-content p {
+  margin-bottom: var(--spacing-medium);
+}
+
+.activity-detail-content h1,
+.activity-detail-content h2,
+.activity-detail-content h3,
+.activity-detail-content h4,
+.activity-detail-content h5,
+.activity-detail-content h6 {
+  margin-top: var(--spacing-large);
+  margin-bottom: var(--spacing-medium);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.activity-detail-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  margin: var(--spacing-large) 0;
+}
+
+.activity-detail-content a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.activity-detail-content a:hover {
+  color: var(--color-primary-dark);
+}
+
+/* Activity Gallery Section - Galeri bölümü */
+.activity-gallery-section {
+  margin-top: var(--spacing-xlarge);
+  padding-top: var(--spacing-xlarge);
+  border-top: 1px solid var(--color-border);
+}
+
+.activity-gallery-section .section-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-large);
+}
+
+.activity-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--spacing-medium);
+}
+
+.activity-gallery-item {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.activity-gallery-item:hover {
+  transform: scale(1.05);
+}
+
+.activity-gallery-item a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.activity-gallery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.activity-gallery-item:hover .activity-gallery-image {
+  transform: scale(1.1);
+}
+
+/* Activity Detail Responsive */
+@media (max-width: 768px) {
+  .activity-detail-page {
+    padding: var(--spacing-large) var(--spacing-medium);
+  }
+
+  .activity-detail {
+    padding: var(--spacing-large);
+  }
+
+  .activity-detail .title {
+    font-size: 24px;
+  }
+
+  .activity-detail-meta {
+    flex-direction: column;
+    gap: var(--spacing-small);
+  }
+
+  .activity-gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-small);
   }
 }
 

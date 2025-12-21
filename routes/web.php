@@ -18,6 +18,7 @@ use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\CommentController;
+use App\Http\Controllers\Frontend\ActivityController;
 
 // Ana sayfa route'u
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -48,6 +49,7 @@ Route::get('/yazarlar', [AuthorController::class, 'index'])->name('authors.index
 Route::get('/yazar/{slug}', [AuthorController::class, 'show'])->name('author.show');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/haber/{slug}', [NewsController::class, 'show'])->name('news.show');
+Route::get('/etkinlik/{slug}', [ActivityController::class, 'show'])->name('activity.show');
 Route::post('/yorum', [CommentController::class, 'store'])->name('comment.store');
 
 // Admin route'ları (auth middleware ile korumalı - tüm giriş yapmış kullanıcılar erişebilir)

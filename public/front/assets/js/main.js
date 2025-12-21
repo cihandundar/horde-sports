@@ -541,3 +541,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Fancybox Lightbox - Galeri için lightbox başlatma
+document.addEventListener('DOMContentLoaded', function() {
+    // Activity galeri için Fancybox başlat
+    if (typeof Fancybox !== 'undefined') {
+        Fancybox.bind('[data-fancybox="activity-gallery"]', {
+            Toolbar: {
+                display: {
+                    left: ['infobar'],
+                    middle: [],
+                    right: ['slideshow', 'thumbs', 'close'],
+                },
+            },
+            Thumbs: {
+                autoStart: false,
+            },
+        });
+    }
+});
+

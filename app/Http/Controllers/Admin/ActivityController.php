@@ -8,6 +8,7 @@ use App\Models\Author;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ActivityController extends Controller
 {
@@ -40,24 +41,39 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasyon
+        // Validasyon - maksimum 5 resim
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images' => 'nullable|array|max:5',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'order' => 'nullable|integer|min:0',
             'activityable_type' => 'required|in:App\Models\Author,App\Models\Category',
             'activityable_id' => 'required|integer',
         ]);
 
-        // Resim yükleme
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('activities', 'public');
+        // Resim yükleme - birden fazla resim
+        $images = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $images[] = $image->store('activities', 'public');
+            }
         }
 
         // Order varsayılan değeri
         if (!isset($validated['order'])) {
             $validated['order'] = 0;
+        }
+
+        // Slug oluştur - başlıktan otomatik slug oluştur
+        $baseSlug = Str::slug($validated['title']);
+        $slug = $baseSlug;
+        $counter = 1;
+        
+        // Aynı slug varsa sonuna sayı ekle (unique olması için)
+        while (Activity::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
         }
 
         // Polymorphic ilişki için activityable_type ve activityable_id ayarla
@@ -70,8 +86,9 @@ class ActivityController extends Controller
         // Activity oluştur
         Activity::create([
             'title' => $validated['title'],
+            'slug' => $slug,
             'description' => $validated['description'] ?? null,
-            'image' => $validated['image'] ?? null,
+            'images' => !empty($images) ? $images : null,
             'order' => $validated['order'],
             'activityable_type' => $activityableType,
             'activityable_id' => $activityableId,
@@ -96,27 +113,67 @@ class ActivityController extends Controller
      */
     public function update(Request $request, Activity $activity)
     {
-        // Validasyon
+        // Validasyon - maksimum 5 resim
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images' => 'nullable|array|max:5',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'deleted_images' => 'nullable|array',
+            'deleted_images.*' => 'string',
             'order' => 'nullable|integer|min:0',
             'activityable_type' => 'required|in:App\Models\Author,App\Models\Category',
             'activityable_id' => 'required|integer',
         ]);
 
-        // Yeni resim yüklendiyse eski resmi sil
-        if ($request->hasFile('image')) {
-            if ($activity->image) {
-                Storage::disk('public')->delete($activity->image);
+        // Mevcut resimleri al
+        $currentImages = $activity->images ?? [];
+        
+        // Silinecek resimleri işle
+        if ($request->has('deleted_images')) {
+            foreach ($request->deleted_images as $deletedImage) {
+                // Storage'dan sil
+                Storage::disk('public')->delete($deletedImage);
+                // Array'den kaldır
+                $currentImages = array_filter($currentImages, function($img) use ($deletedImage) {
+                    return $img !== $deletedImage;
+                });
             }
-            $validated['image'] = $request->file('image')->store('activities', 'public');
+            $currentImages = array_values($currentImages); // Index'leri düzenle
+        }
+
+        // Yeni resimleri yükle
+        $newImages = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $newImages[] = $image->store('activities', 'public');
+            }
+        }
+
+        // Mevcut ve yeni resimleri birleştir
+        $allImages = array_merge($currentImages, $newImages);
+        // Maksimum 5 resim kontrolü
+        if (count($allImages) > 5) {
+            $allImages = array_slice($allImages, 0, 5);
         }
 
         // Order varsayılan değeri
         if (!isset($validated['order'])) {
             $validated['order'] = 0;
+        }
+
+        // İsim değiştiyse slug'ı güncelle
+        $slug = $activity->slug;
+        if ($request->title !== $activity->title) {
+            $baseSlug = Str::slug($validated['title']);
+            $slug = $baseSlug;
+            $counter = 1;
+            
+            // Aynı slug varsa sonuna sayı ekle (mevcut activity hariç)
+            while (Activity::where('slug', $slug)->where('id', '!=', $activity->id)->exists()) {
+                $slug = $baseSlug . '-' . $counter;
+                $counter++;
+            }
         }
 
         // Polymorphic ilişki için activityable_type ve activityable_id ayarla
@@ -129,8 +186,9 @@ class ActivityController extends Controller
         // Activity güncelle
         $activity->update([
             'title' => $validated['title'],
+            'slug' => $slug,
             'description' => $validated['description'] ?? null,
-            'image' => $validated['image'] ?? $activity->image,
+            'images' => !empty($allImages) ? $allImages : null,
             'order' => $validated['order'],
             'activityable_type' => $activityableType,
             'activityable_id' => $activityableId,
@@ -145,9 +203,11 @@ class ActivityController extends Controller
      */
     public function destroy(Activity $activity)
     {
-        // Resmi sil
-        if ($activity->image) {
-            Storage::disk('public')->delete($activity->image);
+        // Tüm resimleri sil
+        if ($activity->images && is_array($activity->images)) {
+            foreach ($activity->images as $image) {
+                Storage::disk('public')->delete($image);
+            }
         }
 
         $activity->delete();

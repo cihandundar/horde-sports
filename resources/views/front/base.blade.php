@@ -32,6 +32,8 @@
     <link rel="stylesheet" href="{{ asset('front/assets/css/main.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <!-- Fancybox CSS - Lightbox galeri için -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body class="@auth logged-in @endauth">
     
@@ -44,6 +46,8 @@
 
 @include('front.partials.footer')
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- Fancybox JS - Lightbox galeri için -->
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 <script src="{{ asset('front/assets/js/main.js') }}"></script>
 </body>
 </html>

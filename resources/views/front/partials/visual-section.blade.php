@@ -42,10 +42,35 @@
     
     <div class="visual-section-grid">
         @foreach($activities as $activity)
+        <a href="{{ route('activity.show', $activity->slug) }}" class="visual-section-item-link">
         <div class="visual-section-item">
-            @if($activity->image)
-                <div class="visual-section-image-wrapper">
-                    <img src="{{ asset('storage/' . $activity->image) }}" alt="{{ $activity->title }}" class="visual-section-image">
+            @if($activity->images && count($activity->images) > 0)
+                {{-- Galeri gösterimi - Birden fazla resim varsa galeri olarak göster --}}
+                <div class="visual-section-gallery">
+                    @if(count($activity->images) === 1)
+                        {{-- Tek resim varsa normal göster --}}
+                        <div class="visual-section-image-wrapper">
+                            <img src="{{ asset('storage/' . $activity->images[0]) }}" alt="{{ $activity->title }}" class="visual-section-image">
+                        </div>
+                    @else
+                        {{-- Çoklu resim varsa galeri olarak göster --}}
+                        <div class="visual-section-gallery-main">
+                            <img src="{{ asset('storage/' . $activity->images[0]) }}" alt="{{ $activity->title }}" class="visual-section-image">
+                            <div class="visual-section-gallery-count">
+                                <i class="fas fa-images"></i>
+                                <span>{{ count($activity->images) }}</span>
+                            </div>
+                        </div>
+                        @if(count($activity->images) > 1)
+                        <div class="visual-section-gallery-thumbnails">
+                            @foreach(array_slice($activity->images, 1, 4) as $image)
+                            <div class="visual-section-gallery-thumb">
+                                <img src="{{ asset('storage/' . $image) }}" alt="{{ $activity->title }}">
+                            </div>
+                            @endforeach
+                        </div>
+                        @endif
+                    @endif
                 </div>
             @else
                 <div class="visual-section-image-placeholder">
@@ -60,6 +85,7 @@
                 @endif
             </div>
         </div>
+        </a>
         @endforeach
     </div>
 </section>

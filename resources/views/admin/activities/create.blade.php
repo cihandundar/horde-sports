@@ -32,11 +32,18 @@ Yeni Etkinlik Ekle
         </div>
         
         <div class="form-group">
-            <label for="image" class="form-label">Resim</label>
-            <input type="file" id="image" name="image" class="form-input" accept="image/*">
-            @error('image')
+            <label for="images" class="form-label">Resimler (Maksimum 5 adet)</label>
+            <input type="file" id="images" name="images[]" class="form-input" accept="image/*" multiple>
+            <p class="form-hint">Maksimum 5 resim seçebilirsiniz. Galeri görünümü için kullanılacaktır.</p>
+            @error('images')
                 <span class="form-error">{{ $message }}</span>
             @enderror
+            @error('images.*')
+                <span class="form-error">{{ $message }}</span>
+            @enderror
+            
+            <!-- Resim önizleme alanı -->
+            <div id="images-preview" class="images-preview-container"></div>
         </div>
         
         <div class="form-group">
